@@ -1,15 +1,18 @@
 import { Icon } from "@chakra-ui/react";
-import { RiVipCrownLine } from "react-icons/ri";
+import { RiVipCrownFill } from "react-icons/ri";
+import { FaCrown } from "react-icons/fa";
 
 interface Props {
   color?: string;
   w?: number;
   h?: number;
-  boxSize?: number;
+  bg?: string;
+
+  boxSize?: number | object;
 }
 
-export function LogoIcon({ color, w, h, boxSize }: Props) {
+export function LogoIcon({ color, w, h, boxSize, bg }: Props) {
   return (
-    <Icon as={RiVipCrownLine} color={color} w={w} h={h} boxSize={boxSize} />
+    <Icon as={FaCrown} color={color} w={w} h={h} boxSize={boxSize} bg={bg} />
   );
 }
