@@ -10,6 +10,8 @@
 
 html,
 body {
+  min-height: 100vh;
+  height: 100%;
   padding: 0;
   margin: 0;
   line-height: 1.6;
@@ -23,8 +25,197 @@ a {
   text-decoration: none;
 }
 
+ul,
+ol {
+  list-style-type: none;
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
 } */
+
+/* Jello */
+.jello-h {
+  -webkit-animation: jello-h 0.9s both;
+  animation: jello-h 0.9s both;
+  animation-delay: 1s;
+}
+.jello-h:hover {
+  -webkit-animation: jello 0.9s both;
+  animation: jello 0.9s both;
+}
+@-webkit-keyframes jello-h {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes jello-h {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@-webkit-keyframes jello {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes jello {
+  0% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.backdrop {
+  @apply bg-black bg-opacity-20 block fixed left-0 right-0 bottom-0;
+  z-index: 1;
+  top: 150px;
+}
+.categoryUL {
+  @apply flex flex-wrap justify-between text-sm font-semibold;
+}
+.categoryItem {
+  @apply relative py-2;
+}
+.categoryItem a {
+  @apply relative no-underline;
+}
+.categoryItem a::after {
+  @apply absolute hidden;
+  content: " ";
+  bottom: -2px;
+  height: 1px;
+  background-color: #000;
+  width: 100%;
+  z-index: 100;
+}
+.categoryItem a.activeLink::after {
+  @apply !block;
+}
+.categoryDropdown {
+  @apply absolute left-0 right-0;
+  top: "100%";
+  z-index: 4;
+  /*background-color: #F8F9FA !important;*/
+}
+.flyoutWrapper {
+  @apply relative;
+  z-index: 5;
+}
+.flyout-col {
+  @apply flex flex-col gap-5;
+}
+.flyout-inner-col {
+  @apply flex flex-col gap-2;
+}
+.categoryDropdown h5 {
+  @apply font-bold text-xs;
+}
+.categoryDropdown a {
+  @apply text-xs hover:underline decoration-1;
+  display: inline-block !important;
+}
+.flyout {
+}
