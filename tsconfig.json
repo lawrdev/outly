@@ -21,6 +21,13 @@
       "@components/*": ["./src/components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/recoil/atoms/index.js",
+    "src/recoil/atoms/index.js",
+    "src/recoil/atoms/outlyCart/index.js"
+  ],
   "exclude": ["node_modules"]
 }
