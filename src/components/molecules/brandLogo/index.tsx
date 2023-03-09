@@ -6,7 +6,7 @@ export function Logo() {
   return (
     <Box className="jello-h" position="relative" zIndex={3} cursor="pointer">
       <div className="absolute top-0 right-0 -translate-y-2 translate-x-1.5 rotate-12">
-        <LogoIcon boxSize={4} color="main.500" />
+        <LogoIcon boxSize={4} color="brand.600" />
       </div>
 
       <LogoText color="main.500" />
