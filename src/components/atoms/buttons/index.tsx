@@ -1,39 +1,41 @@
 import { IconButton } from "@chakra-ui/react";
-import { MutableRefObject, RefObject } from "react";
 import { CartIcon, MenuIcon } from "../icons";
 
 interface Props {
   onOpen?: () => void;
-  ref?: MutableRefObject<HTMLButtonElement | null>;
 }
 
-export function CartButton({ onOpen, ref }: Props) {
+export function CartButton({ onOpen }: Props) {
   return (
     <IconButton
-      colorScheme="main"
+      colorScheme="brand"
       variant="outline"
-      px={2}
-      py={2}
-      borderRadius="full"
-      borderWidth={2}
+      px={{ base: 2, md: 1 }}
+      py={{ base: 2, md: 1 }}
+      borderRadius={4}
+      _hover={{ bg: "sec.2" }}
+      borderWidth={1.5}
       aria-label="Cart"
-      icon={<CartIcon boxSize={7} />}
+      icon={<CartIcon color="brand.600" boxSize={{ base: 6, md: 7 }} />}
       onClick={onOpen}
+      boxShadow="lgb "
     />
   );
 }
 
-export function Hamburger({ onOpen, ref }: Props) {
+export function Hamburger({ onOpen }: Props) {
   return (
     <IconButton
+      display={{ base: "block", md: "none" }}
       colorScheme="main"
-      variant="unstyled"
+      variant="ghost"
       px={2}
       py={2}
+      _hover={{ bg: "sec.2" }}
       borderRadius="full"
       borderWidth={0}
       aria-label="Menu"
-      icon={<MenuIcon boxSize={8} />}
+      icon={<MenuIcon color="main.600" boxSize={7} />}
       onClick={onOpen}
     />
   );
