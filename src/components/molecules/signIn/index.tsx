@@ -11,7 +11,13 @@ export function SignIn() {
       <Text fontSize="sm" fontWeight="semibold">
         Hello, sign in
       </Text>
-      <Button size="sm">Account</Button>
+      <Button
+        size="sm"
+        colorScheme="brand"
+        bgGradient="linear(to-r, brand.800, brand.700)"
+      >
+        Account
+      </Button>
     </Box>
   );
 }
