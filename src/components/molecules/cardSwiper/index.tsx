@@ -24,7 +24,7 @@ export function CardSwiper({ images }: Props) {
       >
         {images?.map((img, index: number) => (
           <SwiperSlide key={index}>
-            <Box bg="white" py={5} borderRadius="lg">
+            <Box bg="white" pt={2} pb={6} borderRadius="lg">
               <Box
                 position="relative"
                 style={{ height: "150px", width: "100%" }}
@@ -35,6 +35,7 @@ export function CardSwiper({ images }: Props) {
                     objectFit: "contain",
                     objectPosition: "top",
                   }}
+                  sizes="(max-width: 1000px) 100vw, 100vw"
                   src={img}
                   fill
                 />
