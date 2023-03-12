@@ -8,17 +8,17 @@ interface Props {
 export function CartButton({ onOpen }: Props) {
   return (
     <IconButton
-      colorScheme="brand"
+      colorScheme="main"
       variant="outline"
       px={{ base: 2, md: 1 }}
       py={{ base: 2, md: 1 }}
       borderRadius={4}
-      _hover={{ bg: "sec.2" }}
+      _hover={{ bg: "gray.100" }}
       borderWidth={1.5}
       aria-label="Cart"
-      icon={<CartIcon color="brand.600" boxSize={{ base: 6, md: 7 }} />}
+      icon={<CartIcon color="main.400" boxSize={{ base: 6, md: 7 }} />}
       onClick={onOpen}
-      boxShadow="lgb "
+      boxShadow="md"
     />
   );
 }
