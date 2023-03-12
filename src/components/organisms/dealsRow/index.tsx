@@ -11,20 +11,9 @@ interface Props {
   products: ProductProp[];
 }
 export function DealsRow({ products }: Props) {
-  const [cartValue, setCartValue] = useRecoilState(cartState);
-  // setUId(7000);
-  console.log(cartValue);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "outlyCart",
-      JSON.stringify({ quantity: 3, items: ["43663", "25363"] })
-    );
-  }, []);
-
   return (
     <Box>
-      <Box display="flex" alignItems="center" gap={2} mb={4}>
+      <Box display="flex" alignItems="center" gap={2} mb={6}>
         <SubHeadText>Deals just for you</SubHeadText>
         <Box display="inline-block" userSelect="none">
           <Link href="/">
