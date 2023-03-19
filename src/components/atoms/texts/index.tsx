@@ -26,7 +26,7 @@ export function SubHeadText({ color, bg, children }: Props) {
   return (
     <Heading
       as="h3"
-      size="sm"
+      size="md"
       // color="main.600"
       // bg="main.600"
       fontWeight="bold"
