@@ -1,11 +1,45 @@
-import { Box, IconButton, Tooltip } from "@chakra-ui/react";
+import { Box, IconButton, Tooltip, useToast } from "@chakra-ui/react";
 import { CartIcon, CartAddIcon, MenuIcon } from "../icons";
 import { RiAddFill, RiSubtractFill } from "react-icons/ri";
 import { BsCartXFill } from "react-icons/bs";
 import Link from "next/link";
 import { CartBadge } from "../cartBadge";
+import { FiShare } from "react-icons/fi";
 interface Props {
   onOpen?: () => void;
+}
+
+export function ShareButton() {
+  const toast = useToast();
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast({
+      title: "Link copied!",
+      status: "success",
+      variant: "subtle",
+      duration: 2500,
+      isClosable: true,
+    });
+  };
+
+  return (
+    <Tooltip label="Share" placement="left">
+      <Box
+        borderRadius="lg"
+        p={1}
+        _hover={{
+          bgGradient: "linear(to-r, brand.800, brand.700)",
+          color: "white",
+        }}
+        color="brand.500"
+        cursor="pointer"
+        onClick={handleCopy}
+      >
+        <FiShare size={18} />
+      </Box>
+    </Tooltip>
+  );
 }
 
 export function CartButton({ onOpen }: Props) {
