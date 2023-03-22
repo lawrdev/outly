@@ -6,7 +6,7 @@ interface Props {
   onlyMobile?: boolean;
 }
 export function Container({ children, onlyMobile = false }: Props) {
-  const wxx = onlyMobile ? "100%" : "7vw";
+  const wxx = onlyMobile ? "100%" : "5vw";
   const wx = onlyMobile ? "100%" : "5vw";
 
   return (
