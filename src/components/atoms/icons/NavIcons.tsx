@@ -2,7 +2,7 @@ import { Icon } from "@chakra-ui/react";
 
 export const SearchIcon = (
   <Icon
-    viewBox="0 0 28 28"
+    viewBox="0 0 29 29"
     color="outly.black"
     width={7}
     height={7}
@@ -36,7 +36,7 @@ export const PersonIcon = (
 
 export const LoveIcon = (
   <Icon
-    viewBox="0 0 28 28"
+    viewBox="0 0 26 26"
     color="outly.black"
     width={7}
     height={7}
@@ -64,6 +64,23 @@ export const BagIcon = (
     <path
       fill="currentColor"
       d="M7 8V6C7 4.67392 7.52678 3.40215 8.46447 2.46447C9.40215 1.52678 10.6739 1 12 1C13.3261 1 14.5979 1.52678 15.5355 2.46447C16.4732 3.40215 17 4.67392 17 6V8H20C20.2652 8 20.5196 8.10536 20.7071 8.29289C20.8946 8.48043 21 8.73478 21 9V21C21 21.2652 20.8946 21.5196 20.7071 21.7071C20.5196 21.8946 20.2652 22 20 22H4C3.73478 22 3.48043 21.8946 3.29289 21.7071C3.10536 21.5196 3 21.2652 3 21V9C3 8.73478 3.10536 8.48043 3.29289 8.29289C3.48043 8.10536 3.73478 8 4 8H7ZM7 10H5V20H19V10H17V12H15V10H9V12H7V10ZM9 8H15V6C15 5.20435 14.6839 4.44129 14.1213 3.87868C13.5587 3.31607 12.7956 3 12 3C11.2044 3 10.4413 3.31607 9.87868 3.87868C9.31607 4.44129 9 5.20435 9 6V8Z"
+    />
+  </Icon>
+);
+
+export const CompareIcon = (
+  <Icon
+    viewBox="0 0 22 22"
+    color="outly.black"
+    width={7}
+    height={7}
+    cursor={"pointer"}
+    _hover={{ color: "outly.sec" }}
+    transition="all 0.25s cubic-bezier(0.645,0.045,0.355,1)"
+  >
+    <path
+      fill="currentColor"
+      d="M13.375 10.0416L17.5 14.1666L13.375 18.2916L12.1967 17.1133L14.31 14.9991L3.33333 15V13.3333H14.31L12.1967 11.22L13.375 10.0416ZM6.625 1.70831L7.80333 2.88665L5.69 4.99998H16.6667V6.66665H5.69L7.80333 8.77998L6.625 9.95831L2.5 5.83331L6.625 1.70831V1.70831Z"
     />
   </Icon>
 );

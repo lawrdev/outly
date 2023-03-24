@@ -10,7 +10,7 @@ export function LogoText({ color, bg }: Props) {
   return (
     <Heading
       as="h1"
-      size="lg"
+      size="xl"
       // fontWeight="semibold"
       letterSpacing="wider"
       color={color}
