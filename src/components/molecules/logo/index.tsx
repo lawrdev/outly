@@ -3,7 +3,7 @@ import { LogoText } from "@/components/atoms";
 import { Box } from "@chakra-ui/react";
 import Link from "next/link";
 
-export function Logo() {
+export function Logo({ color = "outly.black" }: { color?: string }) {
   return (
     <Box width={"fit-content"}>
       <Link href="/">
@@ -17,7 +17,7 @@ export function Logo() {
             <LogoIcon boxSize={4} color="brand.600" />
           </div>
 
-          <LogoText color="outly.black" />
+          <LogoText color={color} />
         </Box>
       </Link>
     </Box>
