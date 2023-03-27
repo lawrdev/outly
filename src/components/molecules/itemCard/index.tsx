@@ -93,6 +93,9 @@ export function ItemCard({ item }: Props) {
               width={270}
               height={350}
               quality={100}
+              style={{
+                minWidth: "100%",
+              }}
             />
           </Box>
 
