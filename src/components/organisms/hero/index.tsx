@@ -39,7 +39,7 @@ export function Hero({ heroImages }: Props) {
             speed={1000}
             modules={[EffectFade, Autoplay]}
             autoplay={{
-              delay: 6000,
+              delay: 8000,
               disableOnInteraction: false,
               pauseOnMouseEnter: false,
             }}
