@@ -1,89 +1,86 @@
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
-import { EffectFade, Navigation, Pagination, Autoplay } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { HeaderImagesProp } from "@/utils";
+import { Navbar } from "../navbar";
+import { Container } from "@/components/atoms";
+import { LocationNav } from "./locationNav";
 
-interface Props {
-  headerImages: HeaderImagesProp[];
-}
+export function Header() {
+  const [scrollDirection, setScrollDirectione] = useState("top");
+  const [hide, setHide] = useState(false);
 
-export function Header({ headerImages }: Props) {
+  useEffect(() => {
+    let lastVal = 0;
+    window.onscroll = function () {
+      let y = window.scrollY;
+      if (y > lastVal) {
+        setScrollDirectione("down");
+      }
+      if (y < lastVal) {
+        setScrollDirectione("up");
+      }
+      if (y === 0 || y < 420) {
+        setScrollDirectione("top");
+      }
+      if (y === 310 || y < 570) {
+        setHide(true);
+      }
+      if (y < 210 || y > 570) {
+        setHide(false);
+      }
+      lastVal = y;
+    };
+  }, []);
+
   return (
-    <Box maxWidth="1480px" mx="auto">
-      <Swiper
-        effect={"fade"}
-        modules={[EffectFade, Autoplay]}
-        autoplay={{
-          delay: 2000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: false,
-        }}
-        // onSlideChange={(): void => console.log('slide change')}
-        // onSwiper={(swiper) => console.log(swiper)}
+    <Box position={"relative"}>
+      <Box bg="outly.black" color={"gray.200"}>
+        <Container>
+          <LocationNav />
+        </Container>
+      </Box>
+
+      <Box
+        display={"flex"}
+        alignItems={"center"}
+        minHeight={"100px"}
+        width={"100%"}
+        opacity={hide ? 0 : 1}
+        position={scrollDirection === "top" ? "absolute" : "fixed"}
+        zIndex={9}
+        bg={
+          scrollDirection === "top"
+            ? "none"
+            : scrollDirection === "down"
+            ? "white"
+            : scrollDirection === "up"
+            ? "white"
+            : "outly.main"
+        }
+        top={
+          scrollDirection === "top"
+            ? "34px"
+            : scrollDirection === "down"
+            ? "-100px"
+            : scrollDirection === "up"
+            ? "0px"
+            : 0
+        }
+        userSelect="none"
+        boxShadow={
+          scrollDirection === "top"
+            ? "none"
+            : scrollDirection === "down"
+            ? "0px 0px 5px #0D253F50"
+            : scrollDirection === "up"
+            ? "0px 0px 5px #0D253F50"
+            : "none"
+        }
+        transition="all 0.35s cubic-bezier(0.645,0.045,0.355,1) 0s"
       >
-        {headerImages.map((item, index: number) => (
-          <SwiperSlide key={index}>
-            {/* <picture>
-              <source
-                srcSet="https://firebasestorage.googleapis.com/v0/b/outly-ecommerce.appspot.com/o/header%2Fshop_toys_games2.jpg?alt=media&token=08093ef2-2741-4f69-9128-e65689912f37"
-                media="(min-width: 800px)"
-              />
-              <img src="/media/cc0-images/painted-hand-298-332.jpg" alt="" />
-            </picture> */}
-            <Box
-              width="100%"
-              height={{ base: "130px", sm: "220px", md: "300px", xl: "260px" }}
-              mx="auto"
-              sx={{
-                position: "relative",
-                overflow: "hidden",
-              }}
-              visibility={{ base: "hidden", sm: "visible" }}
-              display={{ base: "none", sm: "block" }}
-            >
-              <Image
-                src={item.desktop}
-                alt="deals outly"
-                sizes="(max-width: 1200px) 100vw,
-                100vw"
-                priority
-                fill
-                style={{
-                  objectFit: "cover",
-                  objectPosition: "top center",
-                }}
-                quality={100}
-              />
-            </Box>
-            <Box
-              width="100%"
-              height={{ base: "200px" }}
-              overflow="none"
-              mx="auto"
-              sx={{
-                position: "relative",
-                overflow: "hidden",
-              }}
-              visibility={{ base: "visible", sm: "hidden" }}
-              display={{ base: "block", sm: "none" }}
-            >
-              <Image
-                src={item.mobile}
-                alt="deals outly"
-                priority
-                height={934}
-                width={1617}
-                quality={100}
-              />
-            </Box>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+        <Container>
+          <Navbar />
+        </Container>
+      </Box>
     </Box>
   );
 }
