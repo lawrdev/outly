@@ -27,7 +27,7 @@
     "**/*.tsx",
     "src/recoil/atoms/index.js",
     "src/recoil/atoms/index.js",
-    "src/recoil/atoms/outlyCart/index.js"
+    "src/recoil/atoms/cart/index.ts"
   ],
   "exclude": ["node_modules"]
 }
