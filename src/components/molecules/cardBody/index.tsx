@@ -1,4 +1,4 @@
-import { FCProductObjectProp, formatPrice } from "@/utils";
+import { FCProductObjectProp, FormatPrice } from "@/utils";
 import {
   Box,
   Button,
@@ -11,10 +11,11 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import { Cart } from "./cart";
-import { BsCartXFill } from "react-icons/bs";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { cartState } from "@/recoil";
 import { removeItem } from "@/functions";
+import { CartItemRemoveButton, Rating, Reviews } from "@/components/atoms";
+import { OutlyPrime } from "@/components/molecules";
 
 export function CardBody({ product }: FCProductObjectProp) {
   const [addToCart, setAddToCart] = useState(false);
@@ -27,7 +28,7 @@ export function CardBody({ product }: FCProductObjectProp) {
   };
 
   return (
-    <Box role="group" className="transition duration-300 ease-in-out ">
+    <Box role="group">
       <Heading
         as="h3"
         pt={1}
@@ -35,25 +36,22 @@ export function CardBody({ product }: FCProductObjectProp) {
         size="xs"
         letterSpacing="wide"
         fontWeight="bold"
-        className="duration-500 ease-in-out"
-        // _groupHover={{ transitionDuration: "3s" }}
       >
         {product.brand?.toUpperCase()}
       </Heading>
-      <Link href="/">
-        <Text
-          mb={2}
-          fontSize="sm"
-          fontWeight="medium"
-          width="fit-content"
-          className="hover:underline decoration-1 underline-offset-4"
-          noOfLines={1}
-        >
-          {product.description}
-        </Text>
-      </Link>
 
-      <Box mb={3}>
+      <Text
+        mb={1}
+        fontSize="sm"
+        fontWeight="medium"
+        width="fit-content"
+        className="hover:underline decoration-1 underline-offset-4"
+        noOfLines={1}
+      >
+        <Link href={`/item/${product._id}`}>{product.description}</Link>
+      </Text>
+
+      <Box mb={2}>
         <Cart
           itemID={product._id}
           addToCart={addToCart}
@@ -71,19 +69,7 @@ export function CardBody({ product }: FCProductObjectProp) {
         borderRadius="md"
         fontSize="lg"
       >
-        {formatPrice(product.price as number)}
-      </Text>
-      <Text fontSize="sm" mb={1}>
-        Get 13% off with{" "}
-        <Text
-          fontSize="sm"
-          as="span"
-          cursor="pointer"
-          color="main.600"
-          className="underline underline-offset-4 decoration-1"
-        >
-          Outly Prime
-        </Text>
+        {<FormatPrice price={product.price!} />}
       </Text>
       {product.isFreeShipping ? (
         <Text fontSize="sm" fontWeight="light" letterSpacing="widest">
@@ -91,11 +77,25 @@ export function CardBody({ product }: FCProductObjectProp) {
         </Text>
       ) : (
         <Text fontSize="sm" fontWeight="light">
-          {formatPrice(2999)} shipping fee
+          <FormatPrice price={2999} />` shipping fee`
         </Text>
       )}
+      <Box fontSize="sm" mb={1} display="flex" gap={1} alignItems={"center"}>
+        <Text>Get 13% off with</Text> {<OutlyPrime />}
+      </Box>
 
       {/* rating and reviews */}
+      <HStack mt={1}>
+        <Text fontSize={"sm"} fontFamily={"heading"} fontWeight={"normal"}>
+          {product.rating! % 1 != 0
+            ? product.rating
+            : product.rating?.toFixed(1)}
+        </Text>
+        <Rating value={product.rating!} maxWidth={80} />
+        <Link href={`/item/${product._id}`}>
+          <Reviews count={product.reviews?.length!} />
+        </Link>
+      </HStack>
 
       {addToCart && isInCart ? (
         <HStack spacing={2} mt={3}>
@@ -109,20 +109,7 @@ export function CardBody({ product }: FCProductObjectProp) {
           >
             Checkout
           </Button>
-          <Tooltip label="remove">
-            <IconButton
-              variant="unstyled"
-              color="main.500"
-              minHeight="10px"
-              height="30px"
-              maxWidth="fit-content"
-              width="60px"
-              px={1}
-              aria-label="remove from cart"
-              icon={<BsCartXFill size={24} />}
-              onClick={() => handleItemRemove(product._id)}
-            />
-          </Tooltip>
+          <CartItemRemoveButton onClick={() => handleItemRemove(product._id)} />
         </HStack>
       ) : null}
     </Box>
