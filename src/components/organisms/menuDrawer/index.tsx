@@ -9,7 +9,7 @@ import {
   useDisclosure,
   Text,
 } from "@chakra-ui/react";
-import { Hamburger } from "@/components/atoms/buttons";
+import { Hamburger } from "@/components/atoms";
 
 export function MenuDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -17,7 +17,7 @@ export function MenuDrawer() {
   return (
     <>
       <Hamburger onOpen={onOpen} />
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement="bottom" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
