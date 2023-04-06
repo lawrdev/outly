@@ -1,57 +1,95 @@
-import { Container } from "@/components/atoms";
+import {
+  BagIcon,
+  CartBadge,
+  CartButton,
+  Container,
+  LoveIcon,
+  PersonIcon,
+  SearchIcon,
+} from "@/components/atoms";
 import { Logo, SignIn } from "@/components/molecules";
-import { Box } from "@chakra-ui/react";
-import { CartDrawer } from "../cartDrawer";
-import { Categories } from "./categories";
-import { LocationNav } from "./locationNav";
-import { MenuDrawer } from "../menuDrawer";
+import { Box, chakra, HStack, Text, IconButton } from "@chakra-ui/react";
+import { HiMenuAlt2 } from "react-icons/hi";
+
+const navs = ["Home", "Shop", "Pages", "Blog", "Features"];
 
 export function Navbar() {
   return (
     <Box
-      bg="backgrounds.4"
-      position="relative"
-      zIndex={3}
-      pb={{ base: 2, md: 0 }}
+      width={"100%"}
+      display={"flex"}
+      alignItems={"center"}
+      justifyContent={"space-between"}
     >
-      <Box borderBottomWidth={1} borderBottomColor="gray.200">
-        <Container>
-          <LocationNav />
-        </Container>
+      {/* hamburger */}
+      <Box display={{ base: "block", xl: "none" }}>
+        <IconButton
+          variant={"unstyled"}
+          aria-label="menu"
+          icon={<HiMenuAlt2 size={38} />}
+        />
       </Box>
-      <Container>
-        <Box
-          // height="60px"
-          py={{ base: 3, md: 2 }}
-          width="100%"
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Box display="flex" gap={{ base: 1, sm: 2 }} alignItems="center">
-            <Box mt={2} ml={-3}>
-              <MenuDrawer />
-            </Box>
 
-            <Logo />
-          </Box>
+      <HStack spacing={10} display={{ base: "none", xl: "flex" }}>
+        <Logo />
 
-          <Box display="flex" gap={5} alignItems="end">
-            <Box>
-              <SignIn />
-            </Box>
-
-            <CartDrawer />
-          </Box>
+        <Box>
+          <nav>
+            <chakra.ul display={"flex"} alignItems={"center"} gap={5}>
+              {navs.map((item, index) => (
+                <chakra.li key={index}>
+                  <Text
+                    cursor={"pointer"}
+                    listStyleType={"none"}
+                    fontSize={"lg"}
+                    fontWeight={"medium"}
+                    position="relative"
+                    _before={{
+                      content: "' '",
+                      position: "absolute",
+                      bottom: "0px",
+                      left: "0px",
+                      height: "2px",
+                      width: "0%",
+                      backgroundColor: "outly.sec",
+                      transition: "all 0.25s cubic-bezier(0.645,0.045,0.355,1)",
+                    }}
+                    _hover={{
+                      _before: { width: "100%" },
+                    }}
+                    // onMouseOver={onToggle}
+                    // onMouseLeave={onClose}
+                  >
+                    {item}
+                  </Text>
+                </chakra.li>
+              ))}
+            </chakra.ul>
+          </nav>
         </Box>
-      </Container>
-      <Box
-        borderBottomWidth={1}
-        borderBottomColor="gray.300"
-        display={{ base: "none", md: "block" }}
-      >
-        <Categories />
+      </HStack>
+
+      <Box display={{ base: "block", xl: "none" }}>
+        <Logo />
       </Box>
+
+      <HStack spacing={5} alignItems={"center"}>
+        <Box>{SearchIcon}</Box>
+        <Box display={{ base: "none", md: "block" }}>{PersonIcon}</Box>
+        <Box display={{ base: "none", md: "block" }}>{LoveIcon}</Box>
+
+        <Box position={"relative"}>
+          <Box
+            position={"absolute"}
+            top={0}
+            className="-translate-y-3/4 translate-x-1/3"
+          >
+            <CartBadge />
+          </Box>
+
+          {BagIcon}
+        </Box>
+      </HStack>
     </Box>
   );
 }
