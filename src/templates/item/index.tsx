@@ -1,62 +1,54 @@
-import { Container } from "@/components/atoms";
-import { Breadcrumbs } from "@/components/molecules";
+import { useState } from "react";
+import { Container } from "@/components/General/atoms";
+import { Breadcrumbs } from "@/components/General/molecules";
 import {
   ItemPageInfo,
   ItemPageImages,
   ItemPageOrder,
   Footer,
   ItemPageReview,
-} from "@/components/organisms";
-import { Navbar } from "@/components/organisms";
-import { ProductProp } from "@/utils";
+  Header,
+} from "@/components/General/organisms";
+import { Navbar } from "@/components/General/organisms";
+import { getSingleItem } from "@/functions/firebase/item";
+import { ItemProp, ProductProp } from "@/utils";
 import { Box, Grid, GridItem, SimpleGrid, VStack } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/router";
+import { ItemPageBreadcrumbs } from "@/components/ItemPage/itemBreadcrumbs";
 
-interface Props {
-  product: ProductProp;
-}
+export function ItemTemplate() {
+  const [currItem, setCurrItem] = useState<ItemProp>();
 
-export function ItemTemplate({ product }: Props) {
-  const crumbsArr = [
-    { title: "Home", href: "/", isCurrent: false },
-    {
-      title: product.description!,
+  const router = useRouter();
+  const { id } = router.query;
 
-      href: `/item/${product._id}`,
-      isCurrent: true,
+  const getItemQuery = useQuery(
+    ["get_single_item"],
+    () => {
+      return getSingleItem(id as string);
     },
-  ];
+    {
+      enabled: !!id,
 
-  if (!product) return <p>Loading....</p>;
+      onSuccess: (data) => {
+        setCurrItem(data);
+      },
+    }
+  );
+
   return (
-    <Box display={"flex"} flexDirection={"column"} minHeight={"100vh"}>
-      <nav>
-        <Navbar />
-      </nav>
-      <Container>
-        <Box mt={5} mb={7}>
-          <Breadcrumbs crumbs={crumbsArr} />
-        </Box>
+    <Box
+      display={"flex"}
+      flexDirection={"column"}
+      minHeight={"100vh"}
+      // bg={"white"}
+    >
+      <header>
+        <Header inActive />
+      </header>
 
-        <main>
-          <Grid
-            templateColumns="repeat(12, 1fr)"
-            gap={{ base: 0, md: 10 }}
-            rowGap={{ base: 8, md: 6 }}
-            mb={{ base: 12, xl: 2 }}
-          >
-            <GridItem colSpan={{ base: 12, md: 6, xl: 5 }}>
-              <ItemPageImages imgArr={product.images!} />
-            </GridItem>
-            <GridItem colSpan={{ base: 12, md: 6, xl: 4 }}>
-              <ItemPageInfo product={product} />
-            </GridItem>
-            <GridItem colSpan={{ base: 12, md: 12, xl: 3 }}>
-              <ItemPageOrder product={product} />
-            </GridItem>
-          </Grid>
-          <ItemPageReview product={product} />
-        </main>
-      </Container>
+      <ItemPageBreadcrumbs item={currItem} />
 
       <Footer />
     </Box>
