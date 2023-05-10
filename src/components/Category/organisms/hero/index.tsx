@@ -1,17 +1,41 @@
 import React from "react";
 import { Container } from "@/components/General/atoms";
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  Skeleton,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoryHero } from "@/functions/firebase/category";
 import { useSetRecoilState } from "recoil";
 import { appLoader } from "@/recoil";
+import { useRouter } from "next/router";
+import { Breadcrumbs } from "@/components/General/molecules";
 
-export function CategoryHero() {
+export function CategoryHero({
+  isShop,
+  isCart,
+}: {
+  isShop?: boolean;
+  isCart?: boolean;
+}) {
+  const router = useRouter();
+  const { name: queryName, filter: queryFilter } = router.query;
+
   const [heroImage, setHeroImage] = React.useState("");
-  const setAppLoader = useSetRecoilState(appLoader);
+  const [crumbs, setCrumbs] = React.useState([
+    { title: "Home", href: "/" },
+    { title: queryName as string, href: `/category/${queryName}` },
+  ]);
 
-  const { isLoading, data } = useQuery(
+  const setAppLoader = useSetRecoilState(appLoader);
+  const toast = useToast();
+
+  const { isLoading } = useQuery(
     ["get_category_hero"],
     () => {
       return getCategoryHero();
@@ -26,30 +50,52 @@ export function CategoryHero() {
     }
   );
 
+  // app loader
+  // React.useEffect(() => {
+  //   if (isLoading) {
+  //     setAppLoader((prev) => ({ ...prev, category: true }));
+  //   } else {
+  //     setAppLoader((prev) => ({ ...prev, category: false }));
+  //   }
+  // }, [isLoading, setAppLoader]);
+
+  // filter crumbs
   React.useEffect(() => {
-    if (isLoading) {
-      setAppLoader((prev) => ({ ...prev, category: true }));
-    } else {
-      setAppLoader((prev) => ({ ...prev, category: false }));
+    if (isShop) {
+      setCrumbs(() => [
+        { title: "Home", href: "/" },
+        {
+          title: "Shop",
+          href: `/shop`,
+          isCurrent: true,
+        },
+      ]);
+    } else if (queryFilter && queryName) {
+      setCrumbs(() => [
+        { title: "Home", href: "/" },
+        {
+          title: queryName as string,
+          href: `/category/${queryName}`,
+        },
+        {
+          title: queryFilter as string,
+          href: `/category/${queryName}?filter=${queryFilter}`,
+          isCurrent: true,
+        },
+      ]);
     }
-  }, [isLoading, setAppLoader]);
+  }, [queryName, queryFilter, isShop]);
 
   return (
     <Box position={"relative"}>
-      <Box minHeight={{ base: "60vh", md: "100vh" }}>
-        <Box
-          width="100%"
-          height={"100%"}
-          minHeight={{ base: "60vh", md: "100vh" }}
-          paddingBlock={"300px"}
-          mx="auto"
-          position={"relative"}
-          overflow={"hidden"}
-        >
-          {/*  set image, size at base and xl */}
+      <Box position={"relative"} py={{ base: "100px", xl: "160px" }}>
+        {!isLoading ? (
           <Image
-            src={heroImage}
-            alt="outly"
+            src={
+              heroImage ||
+              "https://firebasestorage.googleapis.com/v0/b/outly-ecommerce.appspot.com/o/categories%2FcategoryHero.jpg?alt=media&token=819664e6-0c47-4882-928f-1576dd806157"
+            }
+            alt="category"
             sizes="(max-width: 1200px) 100vw,
             100vw"
             priority
@@ -60,41 +106,52 @@ export function CategoryHero() {
             }}
             quality={100}
           />
+        ) : null}
 
-          <Box
-            position={"absolute"}
-            top={0}
-            left={0}
-            bottom={0}
-            maxWidth={"600px"}
-            display={"flex"}
-            alignItems="center"
-          >
+        <Container>
+          <Box position={"relative"} zIndex={2} maxWidth={"600px"}>
             <Box py={3}>
-              <Container>
-                <Text fontSize={"xl"} fontWeight={"medium"}>
-                  ffg
-                </Text>
+              <Heading
+                as="h1"
+                mb={4}
+                fontSize={{ base: "36px", xl: "42px" }}
+                color={"outly.black"}
+                fontWeight={500}
+                lineHeight={"1.1"}
+              >
+                {isShop
+                  ? "Shop"
+                  : isCart
+                  ? "Cart"
+                  : `Category: ${queryFilter ? queryFilter : queryName}`}
+              </Heading>
 
-                <Heading
-                  as="h2"
-                  mb={3}
-                  size={"3xl"}
-                  fontWeight={"semibold"}
-                  lineHeight={"1.1"}
-                >
-                  item.heading
-                </Heading>
-
-                <Text fontSize={"xl"} fontWeight={"medium"} pt={2} mb={10}>
-                  Explore new-in products and future bestsellers.
-                </Text>
-
-                <Button size={"lg"}>View Collection</Button>
-              </Container>
+              <Box>
+                {isCart ? (
+                  <Breadcrumbs
+                    crumbs={[
+                      { title: "Home", href: "/" },
+                      { title: "Cart", href: `/cart`, isCurrent: true },
+                    ]}
+                  />
+                ) : (
+                  <Breadcrumbs crumbs={crumbs} />
+                )}
+              </Box>
             </Box>
           </Box>
-        </Box>
+        </Container>
+
+        {isLoading ? (
+          <Skeleton
+            position={"absolute"}
+            height={"100%"}
+            top={0}
+            bottom={0}
+            left={0}
+            right={0}
+          />
+        ) : null}
       </Box>
     </Box>
   );
