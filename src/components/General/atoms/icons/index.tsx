@@ -3,3 +3,7 @@ export * from "./CartIcon";
 export * from "./MenuIcon";
 export * from "./ArrowRIcon";
 export * from "./NavIcons";
+export * from "./Shipping";
+export * from "./Delivery";
+export * from "./Hot";
+export * from "./Bag";
