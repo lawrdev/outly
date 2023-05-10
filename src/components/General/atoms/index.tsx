@@ -5,4 +5,6 @@ export * from "./buttons";
 export * from "./rating";
 export * from "./reviews";
 export * from "./cartBadge";
-export * from "./progressLoader";
+export * from "./loader";
+export * from "./checkbox";
+export * from "./animations";
