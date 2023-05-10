@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Rating as Rater, Star } from "@smastrom/react-rating";
 
 interface RatingProps {
-  value: number;
+  value?: number;
   readOnly?: boolean;
   height?: string;
   maxWidth?: number;
   black?: boolean;
+  isEditable?: boolean;
+  onChange?: (value: number) => void;
 }
 
 const myStyles = {
@@ -15,19 +18,25 @@ const myStyles = {
 };
 
 export function Rating({
-  value,
+  value = 0,
   readOnly = true,
-  maxWidth = 150,
-  height = "26px",
+  maxWidth = 120,
+  height = "22px",
   black = false,
+  isEditable,
+  onChange,
 }: RatingProps) {
-  if (black) {
+  const [rating, setRating] = useState(0);
+
+  if (isEditable) {
     return (
       <Rater
         style={{ maxWidth, fontSize: "12px", height }}
-        value={value}
-        readOnly={readOnly}
-        itemStyles={myStyles}
+        value={rating}
+        onChange={(val: number) => {
+          setRating(val);
+          onChange && onChange(val);
+        }}
       />
     );
   } else {
@@ -36,6 +45,7 @@ export function Rating({
         style={{ maxWidth, fontSize: "12px", height }}
         value={value}
         readOnly={readOnly}
+        itemStyles={myStyles}
       />
     );
   }
