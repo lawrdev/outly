@@ -1,19 +1,40 @@
 import { useState, useEffect } from "react";
-import { cartState } from "@/recoil";
+import { cartAtom } from "@/recoil";
 import { Box, Text } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 
 export function CartBadge() {
   const [count, setCount] = useState(0);
-  const cart = useRecoilValue(cartState);
+  const cartAtomValue = useRecoilValue(cartAtom);
 
   useEffect(() => {
-    setCount(cart.length);
-  }, [cart]);
+    const getTotalQuantity = (): number => {
+      let total = 0;
+      if (cartAtomValue && cartAtomValue.length > 0) {
+        let res = [...cartAtomValue].reduce((acc, curr) => {
+          acc = acc + curr.quantity;
+          return acc;
+        }, 0);
+
+        total = res;
+      }
+
+      return total;
+    };
+    let tots = getTotalQuantity();
+    setCount(tots);
+  }, [cartAtomValue]);
 
   return (
-    <Box bg="outly.black" borderRadius="50%" px={2} pb={1}>
-      <Text fontSize="sm" fontWeight="semibold" color="white" lineHeight="4">
+    <Box bg="outly.black" borderRadius="50%" px={2} py={1}>
+      <Text
+        fontSize="sm"
+        fontWeight="semibold"
+        color="white"
+        lineHeight="4"
+        minWidth={"18px"}
+        textAlign={"center"}
+      >
         {count}
       </Text>
     </Box>
