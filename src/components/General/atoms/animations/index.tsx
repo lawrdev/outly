@@ -1,7 +1,13 @@
 import React from "react";
 import { useSpring, animated, config } from "@react-spring/web";
 
-export function Appear({ children }: { children: React.ReactNode }) {
+export function Appear({
+  children,
+  fullWidth,
+}: {
+  children: React.ReactNode;
+  fullWidth?: boolean;
+}) {
   const springStyles = useSpring({
     from: { opacity: 0, scale: 0.85 },
     to: { opacity: 1, scale: 1 },
@@ -11,5 +17,11 @@ export function Appear({ children }: { children: React.ReactNode }) {
     config: config.slow,
   });
 
-  return <animated.div style={{ ...springStyles }}>{children}</animated.div>;
+  return (
+    <animated.div
+      style={{ minWidth: fullWidth ? "100%" : "fit-content", ...springStyles }}
+    >
+      {children}
+    </animated.div>
+  );
 }
