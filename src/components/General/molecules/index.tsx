@@ -6,3 +6,4 @@ export * from "./cardSwiper";
 export * from "./outlyPrime";
 export * from "./itemCard";
 export * from "./toast";
+export * from "./cart";
