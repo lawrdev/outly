@@ -19,9 +19,11 @@ import { Breadcrumbs } from "@/components/General/molecules";
 export function CategoryHero({
   isShop,
   isCart,
+  isCheckout,
 }: {
   isShop?: boolean;
   isCart?: boolean;
+  isCheckout?: boolean;
 }) {
   const router = useRouter();
   const { name: queryName, filter: queryFilter } = router.query;
@@ -123,20 +125,33 @@ export function CategoryHero({
                   ? "Shop"
                   : isCart
                   ? "Cart"
-                  : `Category: ${queryFilter ? queryFilter : queryName}`}
+                  : isCheckout
+                  ? "Checkout"
+                  : `Category: ${
+                      queryFilter ? queryFilter : queryName ? queryName : ""
+                    }`}
               </Heading>
 
               <Box>
-                {isCart ? (
-                  <Breadcrumbs
-                    crumbs={[
-                      { title: "Home", href: "/" },
-                      { title: "Cart", href: `/cart`, isCurrent: true },
-                    ]}
-                  />
-                ) : (
-                  <Breadcrumbs crumbs={crumbs} />
-                )}
+                <Breadcrumbs
+                  crumbs={
+                    isCart
+                      ? [
+                          { title: "Home", href: "/" },
+                          { title: "Cart", href: `/cart`, isCurrent: true },
+                        ]
+                      : isCheckout
+                      ? [
+                          { title: "Home", href: "/" },
+                          {
+                            title: "Checkout",
+                            href: `/checkout`,
+                            isCurrent: true,
+                          },
+                        ]
+                      : crumbs
+                  }
+                />
               </Box>
             </Box>
           </Box>
