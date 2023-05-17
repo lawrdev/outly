@@ -9,11 +9,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { MdLocalCarWash } from "react-icons/md";
 
 const freeShippingValue = 30000;
 
 export function OrderSummary({ subTotal }: { subTotal: number }) {
+  const router = useRouter();
+
   return (
     <section>
       <Box pb={6}>
@@ -109,7 +112,9 @@ export function OrderSummary({ subTotal }: { subTotal: number }) {
             Total
           </Heading>
           <Text fontSize={"xl"} fontWeight={500} color={"outly.black500"}>
-            {currencyFormatter(subTotal + 5000)}
+            {subTotal > freeShippingValue
+              ? currencyFormatter(subTotal)
+              : currencyFormatter(subTotal + 5000)}
           </Text>
         </HStack>
 
@@ -118,6 +123,9 @@ export function OrderSummary({ subTotal }: { subTotal: number }) {
           width={"full"}
           _hover={{ bg: "outly.main900" }}
           _active={{ bg: "outly.main900" }}
+          onClick={() => {
+            router.push(`/checkout`);
+          }}
         >
           Proceed To Checkout
         </Button>
