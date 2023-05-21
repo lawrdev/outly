@@ -1,4 +1,4 @@
-import { currencyFormatter } from "@/utils";
+import { currencyFormatter, maxFreeShipping, shippingFee } from "@/utils";
 import {
   Box,
   Button,
@@ -11,8 +11,6 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { MdLocalCarWash } from "react-icons/md";
-
-const freeShippingValue = 30000;
 
 export function OrderSummary({ subTotal }: { subTotal: number }) {
   const router = useRouter();
@@ -66,10 +64,10 @@ export function OrderSummary({ subTotal }: { subTotal: number }) {
             <Text
               as={"span"}
               textDecoration={
-                subTotal > freeShippingValue ? "line-through" : "none"
+                subTotal > maxFreeShipping ? "line-through" : "none"
               }
             >
-              {currencyFormatter(5000)}
+              {currencyFormatter(shippingFee)}
             </Text>
           </Text>
 
@@ -95,9 +93,9 @@ export function OrderSummary({ subTotal }: { subTotal: number }) {
             width={"full"}
             textAlign={"center"}
             fontWeight={500}
-            color={subTotal > freeShippingValue ? "teal.400" : "outly.black100"}
+            color={subTotal > maxFreeShipping ? "teal.400" : "outly.black100"}
           >
-            FREE shipping on orders over {currencyFormatter(freeShippingValue)}
+            FREE shipping on orders over {currencyFormatter(maxFreeShipping)}
           </Text>
         </Box>
 
@@ -112,9 +110,9 @@ export function OrderSummary({ subTotal }: { subTotal: number }) {
             Total
           </Heading>
           <Text fontSize={"xl"} fontWeight={500} color={"outly.black500"}>
-            {subTotal > freeShippingValue
+            {subTotal > maxFreeShipping
               ? currencyFormatter(subTotal)
-              : currencyFormatter(subTotal + 5000)}
+              : currencyFormatter(subTotal + shippingFee)}
           </Text>
         </HStack>
 
