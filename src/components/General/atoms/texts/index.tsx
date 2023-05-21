@@ -42,3 +42,11 @@ export function SubHeadText({ color, bg, children }: Props) {
     </Heading>
   );
 }
+
+export function AppHeader2({ title }: { title: string }) {
+  return (
+    <Heading as={"h2"} fontSize={"2xl"} fontWeight={500}>
+      {title}
+    </Heading>
+  );
+}
