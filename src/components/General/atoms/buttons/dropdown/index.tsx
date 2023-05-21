@@ -36,7 +36,7 @@ export function ButtonDropdown(props: Props) {
       >
         {newTitle}
       </MenuButton>
-      <MenuList>
+      <MenuList zIndex={10} boxShadow={"md"}>
         {props.list.map((item, index) => (
           <MenuItem
             key={index}
