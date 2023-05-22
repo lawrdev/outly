@@ -8,6 +8,7 @@ import {
   Skeleton,
   Text,
   Tooltip,
+  useToast,
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
@@ -17,6 +18,9 @@ import { HiArrowsRightLeft } from "react-icons/hi2";
 import { useSpring, animated, config } from "@react-spring/web";
 import { Appear } from "../../atoms";
 import { useRouter } from "next/router";
+import { useSetRecoilState } from "recoil";
+import { cartAtom } from "@/recoil";
+import { increaseItemQuantity } from "@/functions";
 
 interface Props {
   item: ItemProp;
@@ -24,7 +28,9 @@ interface Props {
 export function ItemCard({ item }: Props) {
   const [currColorImage, setCurrColorImage] = useState<string | null>(null);
 
+  const setCartAtomValue = useSetRecoilState(cartAtom);
   const router = useRouter();
+  const toast = useToast();
 
   const handleColorChange = (clr: string) => {
     setCurrColorImage(clr);
@@ -183,46 +189,64 @@ export function ItemCard({ item }: Props) {
             }}
             transition={"all 0.5s cubic-bezier(0.645,0.045,0.355,1) 0s"}
           >
-            <Button
-              width={"100%"}
-              borderRadius={"none"}
-              _hover={{ bg: "outly.sec" }}
-              onClick={() => {
-                router.push(`/item/${item._id}`);
-              }}
-            >
-              {item.colors ? "Pick an Option" : "Quick Add"}
-            </Button>
+            {item.colors ? (
+              <Button
+                width={"100%"}
+                borderRadius={"none"}
+                _hover={{ bg: "outly.main900" }}
+                onClick={() => {
+                  router.push(`/item/${item._id}`);
+                }}
+              >
+                Pick an Option
+              </Button>
+            ) : (
+              <Button
+                width={"100%"}
+                borderRadius={"none"}
+                _hover={{ bg: "outly.main900" }}
+                onClick={() => {
+                  setCartAtomValue(increaseItemQuantity(item._id));
+                  toast({
+                    title: `${item?.title}`,
+                    description: "has been added to your cart",
+                    status: "success",
+                    variant: "product",
+                    icon: item?.images[0],
+                  });
+                }}
+              >
+                Quick Add
+              </Button>
+            )}
           </Box>
 
-          {item.discount ? (
-            <Box
+          {item.discount || item.hot ? (
+            <VStack
+              spacing={"6px"}
+              alignItems={"flex-start"}
               position={"absolute"}
               zIndex={3}
               top={0}
               left={0}
-              mt={1}
-              // ml={3}
+              mt={3}
             >
-              <Text color="white" bg="outly.main900" px={4} fontSize={"md"}>
-                {`-${item.discount}%`}
-              </Text>
-            </Box>
-          ) : null}
+              {item.discount ? (
+                <Box>
+                  <Text color="white" bg="outly.main900" px={4} fontSize={"md"}>
+                    {`-${item.discount}%`}
+                  </Text>
+                </Box>
+              ) : null}
 
-          {item.hot ? (
-            <Box
-              position={"absolute"}
-              zIndex={3}
-              top={0}
-              left={0}
-              mt={8}
-              // ml={3}
-            >
-              <Text color="white" bg="outly.red" px={4} fontSize={"md"}>
-                Hot
-              </Text>
-            </Box>
+              {item.hot ? (
+                <Box>
+                  <Text color="white" bg="outly.red" px={4} fontSize={"md"}>
+                    Hot
+                  </Text>
+                </Box>
+              ) : null}
+            </VStack>
           ) : null}
         </Box>
       </Box>
@@ -238,19 +262,8 @@ export function ItemCard({ item }: Props) {
           display={"inline-block"}
           position={"relative"}
           cursor={"pointer"}
-          _before={{
-            content: "' '",
-            position: "absolute",
-            bottom: "0px",
-            left: "0px",
-            height: "2px",
-            width: "0%",
-            backgroundColor: "outly.black500",
-            transition: "all 0.5s cubic-bezier(0.645,0.045,0.355,1)",
-          }}
-          _hover={{
-            _before: { width: "100%" },
-          }}
+          _hover={{ color: "outly.main900" }}
+          transition={"all 0.5s cubic-bezier(0.645,0.045,0.355,1)"}
         >
           {item.title}
         </Text>
