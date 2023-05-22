@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Box, Checkbox, HStack, Text } from "@chakra-ui/react";
 import { BiCheckDouble } from "react-icons/bi";
-import { color } from "framer-motion";
 
 interface Props {
   label: string;
