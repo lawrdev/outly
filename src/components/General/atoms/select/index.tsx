@@ -1,5 +1,5 @@
 import Select, { StylesConfig } from "react-select";
-
+import { useId } from "react";
 interface OptionsType {
   label: string;
   value: string;
@@ -51,6 +51,7 @@ export function CustomSelect({
       options={options}
       styles={customStyles}
       onChange={onChange}
+      instanceId={useId()}
       required
     />
   );
