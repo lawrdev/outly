@@ -1,5 +1,5 @@
-import { Box } from "@chakra-ui/react";
-import { useState } from "react";
+import { Box, Tooltip } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
 interface Props {
   children?: React.ReactNode;
   isLight?: boolean;
@@ -7,9 +7,17 @@ interface Props {
   onClick?: (str: string) => void;
   value?: string;
   isColor?: string;
+  tooltip?: string;
+  itemQuantity?: number;
 }
 export function ButtonBox(props: Props) {
   const [toggle, setToggle] = useState(false);
+
+  useEffect(() => {
+    if (props.itemQuantity === 0) {
+      setToggle(false);
+    }
+  }, [props.itemQuantity]);
 
   return (
     <>
@@ -43,7 +51,9 @@ export function ButtonBox(props: Props) {
           }}
           _active={{ transform: "scale(0.95)" }}
         >
-          {props.children}
+          <Tooltip label={props.tooltip ? props.tooltip : ""}>
+            {props.children}
+          </Tooltip>
         </Box>
       ) : (
         <Box
