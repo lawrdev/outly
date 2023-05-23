@@ -1,3 +1,4 @@
+import Item from "@/pages/item/[id]";
 import {
   Box,
   Button,
@@ -10,17 +11,17 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { BiError } from "react-icons/bi";
+import { BsBagCheck, BsCheck2Circle } from "react-icons/bs";
 import { FcInfo } from "react-icons/fc";
-import { IoCheckmarkDoneCircleOutline, IoClose } from "react-icons/io5";
 
 export const CustomToastComponent = ({
   title,
   description,
   status = "info",
   variant = "alert",
-  image,
   onClose,
 }: {
   title: React.ReactNode;
@@ -28,24 +29,25 @@ export const CustomToastComponent = ({
   status?: "loading" | "info" | "success" | "error" | "warning" | undefined;
   onClose?: () => void;
   variant?: "product" | "alert" | any;
-  image: React.ReactNode | string;
 }) => {
   return (
     <Box
-      bg="white"
-      borderWidth={"1px"}
-      borderRadius={"6px"}
-      px={"20px"}
-      py={"12px"}
-      borderColor={status === "error" ? "outly.red" : "outly.black"}
+      mt={"10vh"}
+      boxShadow={"md"}
+      bg={status === "success" ? "#C1F8D1" : "white"}
+      borderRadius={"md"}
+      p={"12px"}
     >
       {variant === "alert" ? (
-        <HStack width={"100%"} justifyContent={"space-between"}>
-          <Text
-            fontSize={"sm"}
+        <HStack gap={"32px"} width={"100%"} justifyContent={"space-between"}>
+          <Box
+            px={2}
+            fontWeight={600}
+            fontSize={"16px"}
+            noOfLines={1}
             display={"flex"}
             alignItems={"center"}
-            gap={"12px"}
+            gap={"21px"}
             color={
               status === "info"
                 ? "outly.black500"
@@ -53,45 +55,79 @@ export const CustomToastComponent = ({
                 ? "outly.red"
                 : "outly.black"
             }
-            fontWeight={600}
           >
-            {status === "info" ? (
-              <FcInfo fontSize={"24px"} />
-            ) : status === "error" ? (
-              <BiError fontSize={"24px"} />
-            ) : (
-              <IoCheckmarkDoneCircleOutline fontSize={"24px"} color={"green"} />
-            )}
-            {title}
-          </Text>
-          <CloseButton color={"outly.black500"} onClick={onClose} />
+            <Box>
+              {status === "info" ? (
+                <FcInfo fontSize={"24px"} />
+              ) : status === "error" ? (
+                <BiError fontSize={"24px"} />
+              ) : (
+                <BsCheck2Circle fontSize={"24px"} color={"green"} />
+              )}
+            </Box>
+            <Box>
+              <Text
+                mb={1}
+                fontWeight={600}
+                fontSize={"16px"}
+                noOfLines={1}
+                color={
+                  status === "info"
+                    ? "outly.black500"
+                    : status === "error"
+                    ? "outly.red"
+                    : "outly.black"
+                }
+              >
+                {title}
+              </Text>
+
+              {description ? (
+                <Text
+                  mb={3}
+                  fontWeight={400}
+                  fontSize={"14px"}
+                  color={"outly.black500"}
+                  noOfLines={2}
+                >
+                  {description}
+                </Text>
+              ) : null}
+            </Box>
+          </Box>
+          <CloseButton color={"outly.black100"} onClick={onClose} />
         </HStack>
       ) : (
-        <HStack spacing={"30px"} alignItems={"flex-start"}>
-          <HStack spacing={"16px"} alignItems={"flex-start"}>
-            <Box position={"relative"} py={"50px"} px={"50px"}>
-              <Image
-                src={image as string}
-                alt="product"
-                fill
-                style={{
-                  objectFit: "cover",
-                  objectPosition: "center",
-                }}
-                quality={100}
-                sizes="(max-width: 1200px) 100vw,
-          100vw"
-              />
+        <HStack spacing={"24px"} alignItems={"flex-start"}>
+          <HStack spacing={"12px"} alignItems={"center"}>
+            <Box px={3} fontSize={"32px"} overflow={"hidden"}>
+              <BsBagCheck />
             </Box>
 
-            <VStack alignItems={"flex-start"}>
-              <Heading as={"h4"} fontSize={"20px"} px={0} noOfLines={1}>
+            <Box>
+              <Text fontWeight={600} fontSize={"16px"} noOfLines={1}>
                 {title}
-              </Heading>
-              <Text fontSize={"md"} color={"outly.black500"} noOfLines={3}>
+              </Text>
+              <Text
+                mb={3}
+                fontWeight={400}
+                fontSize={"14px"}
+                color={"outly.black500"}
+                noOfLines={2}
+              >
                 {description}
               </Text>
-            </VStack>
+              <Text
+                width={"fit-content"}
+                fontWeight={400}
+                textDecoration={"underline"}
+                color={"outly.black500"}
+                fontSize={"14px"}
+                _hover={{ color: "outly.main900" }}
+              >
+                <Link href={"/cart"}>View Cart</Link>
+              </Text>
+            </Box>
           </HStack>
 
           <CloseButton onClick={onClose} />
