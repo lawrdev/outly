@@ -43,9 +43,20 @@ export function SubHeadText({ color, bg, children }: Props) {
   );
 }
 
-export function AppHeader2({ title }: { title: string }) {
+export function AppHeader2({
+  title,
+  isCentered,
+}: {
+  title: string;
+  isCentered?: boolean;
+}) {
   return (
-    <Heading as={"h2"} fontSize={"2xl"} fontWeight={500}>
+    <Heading
+      as={"h2"}
+      fontSize={{ base: "xl", sm: "2xl" }}
+      fontWeight={500}
+      textAlign={isCentered ? "center" : "start"}
+    >
       {title}
     </Heading>
   );
