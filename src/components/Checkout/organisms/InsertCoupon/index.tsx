@@ -1,9 +1,16 @@
-import { useState } from "react";
-import { Box, Button, HStack, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Collapse,
+  HStack,
+  Input,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { ImGift } from "react-icons/im";
 
 export function InsertCoupon() {
-  const [toggle, setToggle] = useState(false);
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
     <Box>
@@ -23,18 +30,14 @@ export function InsertCoupon() {
             fontWeight={500}
             userSelect={"none"}
             cursor={"pointer"}
-            onClick={() => setToggle(!toggle)}
+            onClick={onToggle}
           >
             Click here to enter your code
           </Text>
         </Text>
       </HStack>
 
-      <Box
-        maxH={toggle ? "200px" : "0"}
-        overflow={"hidden"}
-        transition={"max-height 0.7s cubic-bezier(0.645,0.045,0.355,1) 0.1s"}
-      >
+      <Collapse in={isOpen} animateOpacity>
         <Box border={`1px solid #ddd`} p={"24px"} mb={"32px"} width={"full"}>
           <Text mb={4}>If you have a coupon code, please apply it below.</Text>
 
@@ -53,7 +56,7 @@ export function InsertCoupon() {
             </Button>
           </HStack>
         </Box>
-      </Box>
+      </Collapse>
     </Box>
   );
 }
