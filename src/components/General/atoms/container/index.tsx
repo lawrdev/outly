@@ -20,3 +20,17 @@ export function Container({ children, onlyMobile = false }: Props) {
     </Box>
   );
 }
+
+export const PageWrapper = ({
+  bg = "white",
+  children,
+}: {
+  bg?: string;
+  children: ReactNode;
+}) => {
+  return (
+    <Box display={"flex"} flexDirection={"column"} minHeight={"100vh"} bg={bg}>
+      {children}
+    </Box>
+  );
+};
