@@ -110,7 +110,7 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
           </Box>
         </GridItem>
 
-        <GridItem colSpan={8} pl={6}>
+        <GridItem colSpan={8} pl={10}>
           <HStack justifyContent={"space-between"}>
             <Text>{`Showing all results`}</Text>
 
