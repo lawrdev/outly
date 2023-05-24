@@ -12,7 +12,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { MdLocalCarWash } from "react-icons/md";
 
-export function OrderSummary({ subTotal }: { subTotal: number }) {
+export function OrderSummary({
+  subTotal,
+  show,
+}: {
+  subTotal: number;
+  show: boolean;
+}) {
   const router = useRouter();
 
   return (
@@ -116,17 +122,19 @@ export function OrderSummary({ subTotal }: { subTotal: number }) {
           </Text>
         </HStack>
 
-        <Button
-          my={7}
-          width={"full"}
-          _hover={{ bg: "outly.main900" }}
-          _active={{ bg: "outly.main900" }}
-          onClick={() => {
-            router.push(`/checkout`);
-          }}
-        >
-          Proceed To Checkout
-        </Button>
+        {show ? (
+          <Button
+            my={7}
+            width={"full"}
+            _hover={{ bg: "outly.main900" }}
+            _active={{ bg: "outly.main900" }}
+            onClick={() => {
+              router.push(`/checkout`);
+            }}
+          >
+            Proceed To Checkout
+          </Button>
+        ) : null}
 
         <Text
           width={"fit-content"}
