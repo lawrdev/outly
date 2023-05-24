@@ -18,13 +18,16 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { GiShoppingCart } from "react-icons/gi";
 
 export function CartItemList({
+  loading,
   items,
   getItemPrice,
   refetch,
   removeItem,
 }: {
+  loading: boolean;
   items: ItemProp[];
   removeItem: (id: string) => void;
   getItemPrice: (id: string) => number;
@@ -109,9 +112,31 @@ export function CartItemList({
             </Box>
           ))}
         </VStack>
-      ) : (
-        <YourCartSkeleton />
-      )}
+      ) : null}
+
+      {items.length === 0 && !loading ? (
+        <VStack
+          mt={"28px"}
+          pb={"32px"}
+          width={"full"}
+          alignItems={"center"}
+          spacing={"32px"}
+        >
+          <HStack>
+            <Text color={"outly.black100"}>
+              You currently have no item in your cart{" "}
+            </Text>
+
+            <Box className={"rotate-xd"} fontSize={"28px"}>
+              {<GiShoppingCart />}
+            </Box>
+          </HStack>
+
+          <Button>Explore Items</Button>
+        </VStack>
+      ) : null}
+
+      {loading && items.length === 0 ? <YourCartSkeleton /> : null}
 
       <HStack my={10} width={"full"} justifyContent={"space-between"}>
         <FormControl width={"fit-content"}>
@@ -150,25 +175,27 @@ export function CartItemList({
         </Button>
       </HStack>
 
-      <section>
-        <Box
-          mt={"50px"}
-          pb={6}
-          border={"1px solid transparent"}
-          borderBlockEndColor={"outly.gray100"}
-        >
-          <Heading as={"h2"} fontSize={"2xl"} fontWeight={500}>
-            You May Also Like
-          </Heading>
-        </Box>
+      {items.length > 0 ? (
+        <section>
+          <Box
+            mt={"50px"}
+            pb={6}
+            border={"1px solid transparent"}
+            borderBlockEndColor={"outly.gray100"}
+          >
+            <Heading as={"h2"} fontSize={"2xl"} fontWeight={500}>
+              You May Also Like
+            </Heading>
+          </Box>
 
-        {items && items.length > 0 ? (
-          <CartPageYouMayAlsoLike
-            itemCategory={items[0]?.category}
-            idArray={items.map((item) => item._id)}
-          />
-        ) : null}
-      </section>
+          {items && items.length > 0 ? (
+            <CartPageYouMayAlsoLike
+              itemCategory={items[0]?.category}
+              idArray={items.map((item) => item._id)}
+            />
+          ) : null}
+        </section>
+      ) : null}
     </Box>
   );
 }
