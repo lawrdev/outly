@@ -5,3 +5,4 @@ export * from "./itemCard";
 export * from "./toast";
 export * from "./cart";
 export * from "./modal";
+export * from "./navMenu";
