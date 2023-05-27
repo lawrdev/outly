@@ -18,6 +18,7 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { useSetRecoilState } from "recoil";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { GiCheckMark } from "react-icons/gi";
+import Link from "next/link";
 // import { useRouter } from "next/router";
 
 export function CartButtons({
@@ -118,7 +119,7 @@ export function CartButtons({
           </Button>
           {!showWishlist ? (
             <Button fontSize={"sm"} px={"26px"} colorScheme={"appMain"}>
-              Buy Now
+              <Link href={"/checkout"}>Buy Now</Link>
             </Button>
           ) : null}
 
