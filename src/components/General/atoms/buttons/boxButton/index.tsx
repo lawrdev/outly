@@ -9,33 +9,45 @@ interface Props {
   isColor?: string;
   tooltip?: string;
   itemQuantity?: number;
+  // external control
+  isClicked?: boolean;
 }
-export function ButtonBox(props: Props) {
+export function ButtonBox({
+  children,
+  isClicked = true,
+  isColor,
+  isLight,
+  isSize,
+  onClick,
+  value,
+  tooltip,
+  itemQuantity,
+}: Props) {
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
-    if (props.itemQuantity === 0) {
+    if (itemQuantity === 0) {
       setToggle(false);
     }
-  }, [props.itemQuantity]);
+  }, [itemQuantity]);
 
   return (
     <>
-      {!props.isColor ? (
+      {!isColor ? (
         <Box
           color={
-            props.isSize && toggle
+            isSize && toggle && isClicked
               ? "white"
-              : props.isSize
+              : isSize
               ? "outly.black500"
-              : props.isLight
+              : isLight
               ? "#ddd"
               : toggle
               ? "#F8F9FA"
               : "#111"
           }
-          border={!props.isLight ? `1px solid #111` : "1px solid #ddd"}
-          bg={toggle ? "#111" : "inherit"}
+          border={!isLight ? `1px solid #111` : "1px solid #ddd"}
+          bg={toggle && isClicked ? "#111" : "inherit"}
           borderRadius={"4px"}
           display={"flex"}
           alignItems={"center"}
@@ -44,16 +56,14 @@ export function ButtonBox(props: Props) {
           px={"8px"}
           py={"4px"}
           onClick={() => {
-            if (props.value) {
+            if (value) {
               setToggle(!toggle);
             }
-            props.onClick && props.onClick(props.value!);
+            onClick && onClick(value!);
           }}
           _active={{ transform: "scale(0.95)" }}
         >
-          <Tooltip label={props.tooltip ? props.tooltip : ""}>
-            {props.children}
-          </Tooltip>
+          <Tooltip label={tooltip ? tooltip : ""}>{children}</Tooltip>
         </Box>
       ) : (
         <Box
@@ -64,15 +74,15 @@ export function ButtonBox(props: Props) {
           display={"flex"}
           justifyContent={"center"}
           alignItems={"center"}
-          borderColor={toggle ? "outly.black" : "gray.300"}
+          borderColor={isClicked && toggle ? "outly.black" : "gray.300"}
           onClick={() => {
-            if (props.value) {
+            if (value) {
               setToggle(!toggle);
             }
-            props.onClick && props.onClick(props.value!);
+            onClick && onClick(value!);
           }}
         >
-          <Box p={3} bg={props.isColor} borderRadius={"50%"} />
+          <Box p={3} bg={isColor} borderRadius={"50%"} />
         </Box>
       )}
     </>
