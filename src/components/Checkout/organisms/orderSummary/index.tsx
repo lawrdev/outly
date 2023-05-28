@@ -122,12 +122,12 @@ export function Summary({
                         </Text>
                         {op.cart.size ? (
                           <Text color={"outly.black500"}>
-                            Size: {op.cart.size?.join(" ")}
+                            Size: {op.cart.size}
                           </Text>
                         ) : null}
                         {op.cart.color ? (
                           <Text my={0.5} color={"outly.black500"}>
-                            Color: {op.cart.color?.join(" ")}
+                            Color: {op.cart.color}
                           </Text>
                         ) : null}
                       </Box>
@@ -178,6 +178,7 @@ export function Summary({
             </Text>
             <HStack
               pt={"16px"}
+              pb={"16px"}
               justifyContent={"center"}
               width={"full"}
               color={"outly.black500"}
