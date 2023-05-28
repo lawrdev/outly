@@ -8,7 +8,7 @@ export const ProgressLoader = () => {
       boxShadow={"lg"}
       // p={"8px"}
       borderRadius={"12px"}
-      mt={"24px"}
+      mt={"10px"}
       ml={"10px"}
       position={"fixed"}
       zIndex={1000}
@@ -19,8 +19,8 @@ export const ProgressLoader = () => {
       {/* @ts-ignore */}
       <CircularProgress
         isIndeterminate
-        size={"26px"}
-        color="outly.black"
+        size={"20px"}
+        color="outly.black500"
         trackColor={"outly.main900"}
       />
     </Box>
