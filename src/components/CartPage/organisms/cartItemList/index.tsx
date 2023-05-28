@@ -1,11 +1,10 @@
 import { CartButtons } from "@/components/General/molecules";
 import { getSuggestions } from "@/functions";
-import { currencyFormatter, ItemProp } from "@/utils";
+import { currencyFormatter, ItemProp, LocalStorageItemProp } from "@/utils";
 import {
   Box,
   Button,
   CloseButton,
-  Divider,
   FormControl,
   Heading,
   HStack,
@@ -26,11 +25,13 @@ export function CartItemList({
   getItemPrice,
   refetch,
   removeItem,
+  itemInCartFn,
 }: {
   loading: boolean;
   items: ItemProp[];
   removeItem: (id: string) => void;
   getItemPrice: (id: string) => number;
+  itemInCartFn: (id: string) => LocalStorageItemProp | undefined;
   refetch: any;
 }) {
   const toast = useToast();
@@ -52,69 +53,76 @@ export function CartItemList({
 
       {items.length > 0 ? (
         <VStack width={"100%"}>
-          {items.map((item, index) => (
-            <Box key={index} width={"full"}>
-              <HStack
-                py={6}
-                border={"1px solid transparent"}
-                borderBlockEndColor={"outly.gray100"}
-                alignItems={"center"}
-                spacing={8}
-              >
-                <Box>
-                  <Image
-                    alt={item.title}
-                    src={item.images[0]}
-                    width={120}
-                    height={150}
-                    quality={100}
-                  />
+          {loading ? (
+            <YourCartSkeleton />
+          ) : (
+            <>
+              {items.map((item, index) => (
+                <Box key={index} width={"full"}>
+                  <HStack
+                    py={6}
+                    border={"1px solid transparent"}
+                    borderBlockEndColor={"outly.gray100"}
+                    alignItems={"center"}
+                    spacing={8}
+                  >
+                    <Box>
+                      <Image
+                        alt={item.title}
+                        src={item.images[0]}
+                        width={120}
+                        height={150}
+                        quality={100}
+                      />
+                    </Box>
+
+                    <Box width={"full"}>
+                      <HStack width={"full"} justifyContent={"space-between"}>
+                        <Text
+                          fontWeight={500}
+                          fontSize={"lg"}
+                          _hover={{ color: "outly.main900" }}
+                        >
+                          <Link href={`/item/${item._id}`}>{item.title}</Link>
+                        </Text>
+                        <CloseButton
+                          onClick={() => {
+                            removeItem(item._id);
+                          }}
+                        />
+                      </HStack>
+
+                      <HStack mt={1} mb={5} spacing={6}>
+                        {itemInCartFn(item._id)?.size ? (
+                          <Text color={"outly.black500"} fontWeight={400}>
+                            Size: {itemInCartFn(item._id)?.size}
+                          </Text>
+                        ) : null}
+
+                        {itemInCartFn(item._id)?.color ? (
+                          <Text color={"outly.black500"} fontWeight={400}>
+                            Color: {itemInCartFn(item._id)?.color}
+                          </Text>
+                        ) : null}
+                      </HStack>
+
+                      <HStack justifyContent={"space-between"}>
+                        <CartButtons item={item} />
+
+                        <Text color={"outly.black500"} fontSize={"lg"}>
+                          {currencyFormatter(getItemPrice(item._id))}
+                        </Text>
+                      </HStack>
+                    </Box>
+                  </HStack>
                 </Box>
-
-                <Box width={"full"}>
-                  <HStack width={"full"} justifyContent={"space-between"}>
-                    <Text
-                      fontWeight={500}
-                      fontSize={"lg"}
-                      _hover={{ color: "outly.main900" }}
-                    >
-                      <Link href={`/item/${item._id}`}>{item.title}</Link>
-                    </Text>
-                    <CloseButton
-                      onClick={() => {
-                        removeItem(item._id);
-                      }}
-                    />
-                  </HStack>
-
-                  <HStack mt={1} mb={5} spacing={6}>
-                    {item.sizes && item.sizes.length > 0 ? (
-                      <Text color={"outly.black500"} fontWeight={400}>
-                        Size: {item.sizes?.join(", ")}
-                      </Text>
-                    ) : null}
-                    {item.colors && item.colors?.length > 0 ? (
-                      <Text color={"outly.black500"} fontWeight={400}>
-                        Color: {item.colors.map((clr) => clr.color).join(", ")}
-                      </Text>
-                    ) : null}
-                  </HStack>
-
-                  <HStack justifyContent={"space-between"}>
-                    <CartButtons item={item} />
-
-                    <Text color={"outly.black500"} fontSize={"lg"}>
-                      {currencyFormatter(getItemPrice(item._id))}
-                    </Text>
-                  </HStack>
-                </Box>
-              </HStack>
-            </Box>
-          ))}
+              ))}
+            </>
+          )}
         </VStack>
       ) : null}
 
-      {items.length === 0 && !loading ? (
+      {items.length === 0 ? (
         <VStack
           mt={"28px"}
           pb={"32px"}
@@ -135,8 +143,6 @@ export function CartItemList({
           <Button>Explore Items</Button>
         </VStack>
       ) : null}
-
-      {loading && items.length === 0 ? <YourCartSkeleton /> : null}
 
       <HStack my={10} width={"full"} justifyContent={"space-between"}>
         <FormControl width={"fit-content"}>
@@ -202,7 +208,7 @@ export function CartItemList({
 
 const YourCartSkeleton = () => {
   return (
-    <Box>
+    <Box width={"100%"}>
       <HStack
         width={"100%"}
         height={"100%"}
