@@ -5,16 +5,21 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactNode } from "react";
 
 export const CustomNavMenu = ({
   title,
+  path,
   children,
 }: {
   title: string;
   children: ReactNode;
+  path?: string;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
 
   return (
     <Menu isOpen={isOpen} onClose={onClose} gutter={0} isLazy>
@@ -35,6 +40,9 @@ export const CustomNavMenu = ({
               width: isOpen ? "100%" : "0%",
               backgroundColor: "outly.main900",
               transition: "all 0.5s cubic-bezier(0.645,0.045,0.355,1)",
+            }}
+            onClick={() => {
+              if (path) router.push(path);
             }}
           >
             <Text
