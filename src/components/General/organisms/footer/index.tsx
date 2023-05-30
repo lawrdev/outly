@@ -52,7 +52,7 @@ const SocialButton = ({
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
-    <Text fontWeight={"600"} fontSize={"md"} mb={2}>
+    <Text fontWeight={"600"} fontSize={"lg"} mb={2}>
       {children}
     </Text>
   );
@@ -66,22 +66,33 @@ export function Footer() {
           <SimpleGrid
             templateColumns={{ sm: "1fr 1fr", md: "2fr 1fr 1fr 2fr" }}
             spacing={8}
-            fontSize="sm"
+            fontSize="md"
           >
             <Stack spacing={6}>
               <Box>
                 <Logo color="gray.200" />
               </Box>
-              <Text fontSize={"sm"}>
-                © {dayjs().format("YYYY")} Created by{" "}
-                <a
-                  href="https://lawrdev.vercel.app/"
-                  target={"_blank"}
-                  style={{ textDecoration: "underline" }}
-                >
-                  Lawrdev
-                </a>
-              </Text>
+              <Box>
+                <Text mb={1} fontSize={"md"}>
+                  © {dayjs().format("YYYY")} Created by{" "}
+                  <a
+                    href="https://lawrdev.vercel.app/"
+                    target={"_blank"}
+                    style={{ textDecoration: "underline" }}
+                  >
+                    Lawrdev
+                  </a>
+                </Text>
+                <Text fontSize={"md"}>
+                  Email:{" "}
+                  <a
+                    href="mailto:lawrence.tsx@gmail.com"
+                    style={{ textDecoration: "underline" }}
+                  >
+                    lawrence.tsx@gmail.com
+                  </a>
+                </Text>
+              </Box>
               <Stack direction={"row"} spacing={6}>
                 <SocialButton label={"Twitter"} href={"#"}>
                   <FaTwitter />
@@ -94,12 +105,14 @@ export function Footer() {
                 </SocialButton>
               </Stack>
             </Stack>
+
             <Stack align={"flex-start"}>
               <ListHeader>Company</ListHeader>
               <Link href={"#"}>About us</Link>
               <Link href={"#"}>Outly Prime</Link>
               <Link href={"#"}>Contact us</Link>
             </Stack>
+
             <Stack align={"flex-start"}>
               <ListHeader>Support</ListHeader>
               <Link href={"#"}>Help Center</Link>
@@ -107,22 +120,27 @@ export function Footer() {
               <Link href={"#"}>Legal</Link>
               <Link href={"#"}>Privacy Policy</Link>
             </Stack>
+
             <Stack align={"flex-start"}>
               <ListHeader>Get daily deals</ListHeader>
-              <Stack direction={"row"}>
+              <Stack direction={"row"} width={"full"}>
                 <Input
+                  width={"full"}
                   placeholder={"Your email address"}
                   bg={"gray.700"}
                   border={0}
                   _focus={{
                     bg: "whiteAlpha.300",
                   }}
+                  color={"white"}
+                  focusBorderColor={"#ddd"}
                 />
                 <IconButton
+                  px={6}
                   bg={"gray.100"}
                   color={"outly.black"}
                   aria-label="Subscribe"
-                  icon={<BiMailSend />}
+                  icon={<BiMailSend fontSize={"30px"} />}
                 />
               </Stack>
             </Stack>
