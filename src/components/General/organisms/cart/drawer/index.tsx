@@ -24,11 +24,11 @@ import Link from "next/link";
 
 import { getMultipleItems } from "@/functions/firebase/item";
 import { cartAtom } from "@/recoil";
-import { currencyFormatter, ItemProp } from "@/utils";
+import { currencyFormatter, ItemProp, maxFreeShipping } from "@/utils";
 import { CartButtons } from "@/components/General/molecules";
 import { calDiscount, getCart, removeItemFromCart } from "@/functions";
 import { useRouter } from "next/router";
-import { Appear, BagIcon, CartBagIcon } from "@/components/General/atoms";
+import { CartBagIcon, SlideIn } from "@/components/General/atoms";
 
 interface Props {
   cartDrawerDisclosure: {
@@ -44,10 +44,9 @@ interface Props {
 const tg = (x: any): x is ItemProp[] => true;
 
 export function CartDrawer({ cartDrawerDisclosure }: Props) {
-  const freeShippingValue = 30000;
   const [subTotal, setSubTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [cartItems, setCartItems] = useState<ItemProp[]>();
+  const [cartItems, setCartItems] = useState<ItemProp[]>([]);
 
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -160,21 +159,21 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader pt={7} pb={5}>
-            <Heading mb={"20px"} as={"h2"} size={"md"} fontWeight={500}>
+          <DrawerHeader pt={5} pb={4}>
+            <Heading mb={"12px"} as={"h2"} size={"md"} fontWeight={500}>
               Your Cart {`(${getTotalQuantity()})`}
             </Heading>
 
             {/* FREE SHIPPING */}
             <VStack spacing={"2px"} alignItems={"flex-start"}>
-              {subTotal > freeShippingValue ? (
+              {subTotal > maxFreeShipping ? (
                 <Box width={"100%"}>
                   <Text
-                    className={subTotal > freeShippingValue ? "track-in" : ""}
+                    className={subTotal > maxFreeShipping ? "track-in" : ""}
                     fontWeight={400}
                     color={"outly.black500"}
                     fontSize={"sm"}
-                    mb={"16px"}
+                    mb={"6px"}
                   >
                     Congratulations! You have got
                     <Text as={"span"} fontWeight={500} color={"outly.black"}>
@@ -184,22 +183,22 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
                   </Text>
                 </Box>
               ) : (
-                <Text fontWeight={500} fontSize={"sm"} mb={"16px"}>
+                <Text fontWeight={500} fontSize={"sm"} mb={"6px"}>
                   Free Shipping
                   <Text as={"span"} fontWeight={400} color={"outly.black500"}>
                     {" "}
                     on orders over{" "}
                   </Text>
-                  {currencyFormatter(freeShippingValue)}
+                  {currencyFormatter(maxFreeShipping)}
                 </Text>
               )}
 
               <Box width={"100%"}>
                 <Progress
-                  max={freeShippingValue}
+                  max={maxFreeShipping}
                   value={subTotal}
                   colorScheme={
-                    subTotal > freeShippingValue ? "appSuccess" : "appMain"
+                    subTotal > maxFreeShipping ? "appSuccess" : "appMain"
                   }
                   borderRadius={"sm"}
                   height={"6px"}
@@ -211,22 +210,20 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
           <DrawerBody className="thinSB" px={0} py={0}>
             {/* ITEMS */}
             <VStack alignContent={"flex-start"} width={"100%"} spacing={"0px"}>
-              {!fetchItems.isRefetching &&
-              !isLoading &&
-              cartItems &&
-              cartItems.length > 0 ? (
+              {/* ITEMS */}
+              {!fetchItems.isLoading && !isLoading && cartItems.length > 0 ? (
                 <>
                   {cartItems.map((item, index) => (
-                    <Appear key={index} fullWidth>
+                    <SlideIn key={index} fullWidth>
                       <Box
-                        // key={index}
+                        mb={2}
                         bg={"outly.bg"}
                         px={"24px"}
-                        py={"16px"}
+                        py={"10px"}
                         width={"100%"}
                         position={"relative"}
                       >
-                        <HStack width={"100%"} spacing={"32px"}>
+                        <HStack width={"100%"} spacing={"28px"}>
                           <Box>
                             <Image
                               alt={"cart item"}
@@ -257,7 +254,7 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
                               justifyContent={"space-between"}
                             >
                               <CartButtons
-                                itemID={item?._id!}
+                                item={item}
                                 onClick={() => {
                                   getItemPrice(item?._id);
                                   getTotalQuantity();
@@ -280,13 +277,14 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
                           }}
                         />
                       </Box>
-                    </Appear>
+                    </SlideIn>
                   ))}
                 </>
               ) : null}
 
-              {cartItems && cartItems.length === 0 ? (
-                <Appear fullWidth>
+              {/* EMPTY */}
+              {cartAtomValue.length === 0 ? (
+                <SlideIn fullWidth>
                   <Box
                     width={"100%"}
                     bg={"outly.bg"}
@@ -329,10 +327,12 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
                       </Text>
                     </VStack>
                   </Box>
-                </Appear>
+                </SlideIn>
               ) : null}
 
-              {fetchItems.isLoading || fetchItems.isRefetching || isLoading ? (
+              {/* LOADING */}
+              {(cartAtomValue.length > 0 && fetchItems.isLoading) ||
+              isLoading ? (
                 <HStack
                   width={"100%"}
                   height={"100%"}
@@ -362,7 +362,7 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
 
           <DrawerFooter>
             {!cartItems || cartItems?.length !== 0 ? (
-              <Box width={"100%"} pt={"34px"}>
+              <Box width={"100%"} pt={"1px"}>
                 <HStack
                   mb={"34px"}
                   justifyContent={"space-between"}
@@ -378,7 +378,7 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
                   width={"100%"}
                 >
                   <Button
-                    size={"lg"}
+                    // size={"lg"}
                     variant={"outline"}
                     width={"100%"}
                     onClick={() => {
@@ -387,7 +387,14 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
                   >
                     View Cart
                   </Button>
-                  <Button size={"lg"} variant={"solid"} width={"100%"}>
+                  <Button
+                    // size={"lg"}
+                    variant={"solid"}
+                    width={"100%"}
+                    onClick={() => {
+                      router.push(`/checkout`);
+                    }}
+                  >
                     Checkout
                   </Button>
                 </HStack>
