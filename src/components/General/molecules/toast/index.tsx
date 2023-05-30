@@ -1,17 +1,13 @@
 import Item from "@/pages/item/[id]";
 import {
   Box,
-  Button,
   CloseButton,
-  Heading,
   HStack,
-  IconButton,
   Text,
-  useToast,
-  VStack,
+  Link as ChakraLink,
+  LinkProps,
 } from "@chakra-ui/react";
-import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { BiError } from "react-icons/bi";
 import { BsBagCheck, BsCheck2Circle } from "react-icons/bs";
@@ -32,7 +28,7 @@ export const CustomToastComponent = ({
 }) => {
   return (
     <Box
-      mt={"10vh"}
+      mt={"5vh"}
       boxShadow={"md"}
       bg={status === "success" ? "#C1F8D1" : "white"}
       borderRadius={"md"}
@@ -134,5 +130,22 @@ export const CustomToastComponent = ({
         </HStack>
       )}
     </Box>
+  );
+};
+
+const Link = ({ href, ...rest }: LinkProps) => {
+  const router = useRouter();
+  const onClick = (e: any) => {
+    e.preventDefault();
+    router.push(href!);
+  };
+
+  return (
+    <ChakraLink
+      textDecoration="underline"
+      href={href}
+      onClick={onClick}
+      {...rest}
+    />
   );
 };
