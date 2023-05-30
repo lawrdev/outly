@@ -10,6 +10,9 @@ export function LocationNav() {
       .then((response) => response.json())
       .then((data) => {
         setUserCountry(data.country);
+      })
+      .catch((error) => {
+        console.warn(error);
       });
   }, []);
   return (
