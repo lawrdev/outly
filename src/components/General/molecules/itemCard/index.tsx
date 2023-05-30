@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 import { cartAtom } from "@/recoil";
 import { increaseItemQuantity } from "@/functions";
+import { addItemToWishlist } from "@/functions/wishlist";
 
 interface Props {
   item: ItemProp;
@@ -148,10 +149,17 @@ export function ItemCard({ item }: Props) {
                 <IconButton
                   bg="white"
                   color={"black"}
-                  aria-label="Search"
+                  aria-label="Wishlist"
                   p={1}
                   borderRadius={"50%"}
                   icon={<FaRegHeart size={20} />}
+                  onClick={() => {
+                    addItemToWishlist(item._id);
+                    toast({
+                      title: item.title,
+                      description: "has been added to your wishlist!",
+                    });
+                  }}
                 />
               </Tooltip>
 
@@ -206,14 +214,18 @@ export function ItemCard({ item }: Props) {
                 borderRadius={"none"}
                 _hover={{ bg: "outly.main900" }}
                 onClick={() => {
-                  setCartAtomValue(increaseItemQuantity(item._id));
-                  toast({
-                    title: `${item?.title}`,
-                    description: "has been added to your cart",
-                    status: "success",
-                    variant: "product",
-                    icon: item?.images[0],
-                  });
+                  if (item.outOfStock) {
+                    router.push(`/item/${item._id}`);
+                  } else {
+                    setCartAtomValue(increaseItemQuantity(item._id));
+                    toast({
+                      title: `${item?.title}`,
+                      description: "has been added to your cart",
+                      status: "success",
+                      variant: "product",
+                      icon: item?.images[0],
+                    });
+                  }
                 }}
               >
                 Quick Add
