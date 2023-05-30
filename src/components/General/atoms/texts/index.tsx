@@ -46,9 +46,11 @@ export function SubHeadText({ color, bg, children }: Props) {
 export function AppHeader2({
   title,
   isCentered,
+  uppercase,
 }: {
   title: string;
   isCentered?: boolean;
+  uppercase?: boolean;
 }) {
   return (
     <Heading
@@ -56,6 +58,29 @@ export function AppHeader2({
       fontSize={{ base: "xl", sm: "2xl" }}
       fontWeight={500}
       textAlign={isCentered ? "center" : "start"}
+      textTransform={uppercase ? "uppercase" : "none"}
+    >
+      {title}
+    </Heading>
+  );
+}
+
+export function AppHeader4({
+  title,
+  isCentered,
+  uppercase,
+}: {
+  title: string;
+  isCentered?: boolean;
+  uppercase?: boolean;
+}) {
+  return (
+    <Heading
+      as={"h3"}
+      fontSize={"md"}
+      fontWeight={500}
+      textAlign={isCentered ? "center" : "start"}
+      textTransform={uppercase ? "uppercase" : "none"}
     >
       {title}
     </Heading>
