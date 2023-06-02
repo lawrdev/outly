@@ -61,8 +61,6 @@ export function Summary({
   const setCheckoutInfo = useSetRecoilState(checkoutInfoAtom);
   const cart = getCart();
 
-  const accdDisclosure = useDisclosure();
-
   useEffect(() => {
     let newArr = [];
 
