@@ -1,21 +1,24 @@
 import Select, { StylesConfig } from "react-select";
 import { useId } from "react";
-interface OptionsType {
-  label: string;
-  value: string;
-}
+import { SelectOptionsType } from "@/utils";
+
 type IsMulti = false;
 
 export function CustomSelect({
   options,
   onChange,
+  placeholder,
+  defaultValue,
 }: {
-  options: OptionsType[];
+  options: SelectOptionsType[];
   onChange: (value: any) => void;
+  placeholder?: string;
+  defaultValue?: SelectOptionsType;
 }) {
-  const customStyles: StylesConfig<OptionsType, IsMulti> = {
+  const customStyles: StylesConfig<SelectOptionsType, IsMulti> = {
     option: (defaultStyles, state) => ({
       ...defaultStyles,
+      // width: "100%",
       cursor: "pointer",
       color: state.isSelected ? "#fff" : "#555",
       backgroundColor: state.isSelected ? "#C8815F" : "none",
@@ -34,6 +37,7 @@ export function CustomSelect({
       ...defaultStyles,
       backgroundColor: "inherit",
       padding: "8px",
+      // width: "100%",
 
       border: state.isFocused ? "1px solid #C8815F" : "1px solid #eee",
       boxShadow: "none",
@@ -43,11 +47,17 @@ export function CustomSelect({
       },
     }),
     singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#555" }),
+    // menu: (base) => ({
+    //   ...base,
+    //   width: "max-content",
+    //   minWidth: "100%",
+    // }),
   };
 
   return (
     <Select
-      placeholder={"Select Country *"}
+      placeholder={placeholder ? placeholder : "Select Country *"}
+      defaultValue={defaultValue}
       options={options}
       styles={customStyles}
       onChange={onChange}
