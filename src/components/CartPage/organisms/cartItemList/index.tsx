@@ -1,3 +1,5 @@
+import { useRef, useEffect } from "react";
+import { BoxLoader } from "@/components/General/atoms";
 import { CartButtons } from "@/components/General/molecules";
 import { getSuggestions } from "@/functions";
 import { currencyFormatter, ItemProp, LocalStorageItemProp } from "@/utils";
@@ -13,6 +15,7 @@ import {
   Text,
   useToast,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -34,7 +37,15 @@ export function CartItemList({
   itemInCartFn: (id: string) => LocalStorageItemProp | undefined;
   refetch: any;
 }) {
+  const timerRef = useRef<any | null>(null);
   const toast = useToast();
+  const disclosure = useDisclosure();
+
+  // clear timeout Unmount
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
+
   return (
     <Box>
       <HStack
@@ -57,66 +68,68 @@ export function CartItemList({
             <YourCartSkeleton />
           ) : (
             <>
-              {items.map((item, index) => (
-                <Box key={index} width={"full"}>
-                  <HStack
-                    py={6}
-                    border={"1px solid transparent"}
-                    borderBlockEndColor={"outly.gray100"}
-                    alignItems={"center"}
-                    spacing={8}
-                  >
-                    <Box>
-                      <Image
-                        alt={item.title}
-                        src={item.images[0]}
-                        width={120}
-                        height={150}
-                        quality={100}
-                      />
-                    </Box>
-
-                    <Box width={"full"}>
-                      <HStack width={"full"} justifyContent={"space-between"}>
-                        <Text
-                          fontWeight={500}
-                          fontSize={"lg"}
-                          _hover={{ color: "outly.main900" }}
-                        >
-                          <Link href={`/item/${item._id}`}>{item.title}</Link>
-                        </Text>
-                        <CloseButton
-                          onClick={() => {
-                            removeItem(item._id);
-                          }}
+              <BoxLoader disclosure={disclosure} rest={{ width: "full" }}>
+                {items.map((item, index) => (
+                  <Box key={index} width={"full"}>
+                    <HStack
+                      py={6}
+                      border={"1px solid transparent"}
+                      borderBlockEndColor={"outly.gray100"}
+                      alignItems={"center"}
+                      spacing={8}
+                    >
+                      <Box>
+                        <Image
+                          alt={item.title}
+                          src={item.images[0]}
+                          width={120}
+                          height={150}
+                          quality={100}
                         />
-                      </HStack>
+                      </Box>
 
-                      <HStack mt={1} mb={5} spacing={6}>
-                        {itemInCartFn(item._id)?.size ? (
-                          <Text color={"outly.black500"} fontWeight={400}>
-                            Size: {itemInCartFn(item._id)?.size}
+                      <Box width={"full"}>
+                        <HStack width={"full"} justifyContent={"space-between"}>
+                          <Text
+                            fontWeight={500}
+                            fontSize={"lg"}
+                            _hover={{ color: "outly.main900" }}
+                          >
+                            <Link href={`/item/${item._id}`}>{item.title}</Link>
                           </Text>
-                        ) : null}
+                          <CloseButton
+                            onClick={() => {
+                              removeItem(item._id);
+                            }}
+                          />
+                        </HStack>
 
-                        {itemInCartFn(item._id)?.color ? (
-                          <Text color={"outly.black500"} fontWeight={400}>
-                            Color: {itemInCartFn(item._id)?.color}
+                        <HStack mt={1} mb={5} spacing={6}>
+                          {itemInCartFn(item._id)?.size ? (
+                            <Text color={"outly.black500"} fontWeight={400}>
+                              Size: {itemInCartFn(item._id)?.size}
+                            </Text>
+                          ) : null}
+
+                          {itemInCartFn(item._id)?.color ? (
+                            <Text color={"outly.black500"} fontWeight={400}>
+                              Color: {itemInCartFn(item._id)?.color}
+                            </Text>
+                          ) : null}
+                        </HStack>
+
+                        <HStack justifyContent={"space-between"}>
+                          <CartButtons item={item} />
+
+                          <Text color={"outly.black500"} fontSize={"lg"}>
+                            {currencyFormatter(getItemPrice(item._id))}
                           </Text>
-                        ) : null}
-                      </HStack>
-
-                      <HStack justifyContent={"space-between"}>
-                        <CartButtons item={item} />
-
-                        <Text color={"outly.black500"} fontSize={"lg"}>
-                          {currencyFormatter(getItemPrice(item._id))}
-                        </Text>
-                      </HStack>
-                    </Box>
-                  </HStack>
-                </Box>
-              ))}
+                        </HStack>
+                      </Box>
+                    </HStack>
+                  </Box>
+                ))}{" "}
+              </BoxLoader>
             </>
           )}
         </VStack>
@@ -170,11 +183,15 @@ export function CartItemList({
           px={8}
           color={"outly.black500"}
           onClick={() => {
-            refetch();
-            toast({
-              status: "success",
-              title: "Cart Updated",
-            });
+            disclosure.onOpen();
+            timerRef.current = setTimeout(() => {
+              disclosure.onClose();
+              refetch();
+              toast({
+                status: "success",
+                title: "Cart Updated",
+              });
+            }, 2000);
           }}
         >
           Update Cart
