@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Box, CircularProgress, HStack } from "@chakra-ui/react";
+import { Box, BoxProps, CircularProgress, HStack } from "@chakra-ui/react";
 import Image from "next/image";
 import Gif from "./loader2.gif";
 
@@ -55,7 +55,7 @@ export const Loader = () => {
 export const BoxLoader = ({
   disclosure,
   children,
-  ...rest
+  rest,
 }: {
   disclosure: {
     isOpen: boolean;
@@ -67,6 +67,7 @@ export const BoxLoader = ({
     getDisclosureProps: (props?: any) => any;
   };
   children: ReactNode;
+  rest?: BoxProps;
 }) => {
   return (
     <Box position={"relative"} {...rest}>
