@@ -18,7 +18,7 @@ export function CustomSelect({
   const customStyles: StylesConfig<SelectOptionsType, IsMulti> = {
     option: (defaultStyles, state) => ({
       ...defaultStyles,
-      // width: "100%",
+      zIndex: 500,
       cursor: "pointer",
       color: state.isSelected ? "#fff" : "#555",
       backgroundColor: state.isSelected ? "#C8815F" : "none",
@@ -37,7 +37,7 @@ export function CustomSelect({
       ...defaultStyles,
       backgroundColor: "inherit",
       padding: "8px",
-      // width: "100%",
+      zIndex: 500,
 
       border: state.isFocused ? "1px solid #C8815F" : "1px solid #eee",
       boxShadow: "none",
@@ -47,11 +47,12 @@ export function CustomSelect({
       },
     }),
     singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#555" }),
-    // menu: (base) => ({
-    //   ...base,
-    //   width: "max-content",
-    //   minWidth: "100%",
-    // }),
+    menu: (base) => ({
+      ...base,
+      // width: "max-content",
+      // minWidth: "100%",
+      zIndex: 9999,
+    }),
   };
 
   return (
