@@ -15,19 +15,17 @@ export function InsertCoupon() {
   return (
     <Box>
       <HStack
-        fontSize={"24px"}
         color={"outly.main900"}
         spacing={3}
-        alignItems={"flex-end"}
+        alignItems={"flex-start"}
         mb={"32px"}
       >
-        <ImGift />
-        <Text fontSize={"16px"} color={"outly.black500"}>
-          Do you have a coupon?
+        <ImGift fontSize={"24px"} />
+        <Text color={"outly.black500"}>
+          Do you have a coupon?{" "}
           <Text
             as={"span"}
-            pl={"6px"}
-            fontWeight={500}
+            fontWeight={600}
             userSelect={"none"}
             cursor={"pointer"}
             onClick={onToggle}
@@ -41,7 +39,12 @@ export function InsertCoupon() {
         <Box border={`1px solid #ddd`} p={"24px"} mb={"32px"} width={"full"}>
           <Text mb={4}>If you have a coupon code, please apply it below.</Text>
 
-          <HStack spacing={2}>
+          <HStack
+            flexWrap={"wrap"}
+            spacing={"0px"}
+            columnGap={"6px"}
+            rowGap={"10px"}
+          >
             <Input
               placeholder="Coupon code"
               focusBorderColor={"transparent"}
