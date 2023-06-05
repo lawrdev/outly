@@ -80,7 +80,12 @@ export function Summary({
     <Box>
       <AppHeader2 title={"Your Order"} />
 
-      <Box mt={"32px"} bg={"outly.bg"} p={"24px"}>
+      <Box
+        mt={{ base: "24px", lg: "32px" }}
+        bg={"outly.bg"}
+        py={"24px"}
+        px={{ base: "18px", sm: "24px" }}
+      >
         <Box width={"full"}>
           {/* ITEMS */}
           <Box width={"full"}>
