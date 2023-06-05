@@ -43,7 +43,7 @@ export function SubHeadText({ color, bg, children }: Props) {
   );
 }
 
-export function AppHeader2({
+export function AppHeader({
   title,
   isCentered,
   uppercase,
@@ -55,6 +55,28 @@ export function AppHeader2({
   return (
     <Heading
       as={"h2"}
+      size={"lg"}
+      fontWeight={500}
+      textAlign={isCentered ? "center" : "start"}
+      textTransform={uppercase ? "uppercase" : "none"}
+    >
+      {title}
+    </Heading>
+  );
+}
+
+export function AppHeader2({
+  title,
+  isCentered,
+  uppercase,
+}: {
+  title: string;
+  isCentered?: boolean;
+  uppercase?: boolean;
+}) {
+  return (
+    <Heading
+      as={"h3"}
       fontSize={{ base: "xl", sm: "2xl" }}
       fontWeight={500}
       textAlign={isCentered ? "center" : "start"}
@@ -76,7 +98,7 @@ export function AppHeader4({
 }) {
   return (
     <Heading
-      as={"h3"}
+      as={"h5"}
       fontSize={"md"}
       fontWeight={500}
       textAlign={isCentered ? "center" : "start"}
