@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Box, Checkbox, HStack, Input, Textarea } from "@chakra-ui/react";
+import { Box, Checkbox, HStack, Input, Text, Textarea } from "@chakra-ui/react";
 import countries from "i18n-iso-countries";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import { AppHeader2 } from "@/components/General/atoms";
@@ -29,11 +29,11 @@ export function Billings() {
 
   return (
     <Box pb={"42px"}>
-      <Box mb={"32px"}>
+      <Box mb={{ base: "24px", lg: "32px" }}>
         <AppHeader2 title="Billing details" />
       </Box>
 
-      <HStack mb={6} spacing={8}>
+      <HStack mb={6} spacing={{ base: 2, md: 8 }}>
         <Input
           size={"lg"}
           focusBorderColor={"outly.main900"}
