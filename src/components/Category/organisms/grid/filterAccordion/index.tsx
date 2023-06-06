@@ -1,4 +1,4 @@
-import React from "react";
+import { Dispatch, SetStateAction } from "react";
 import { ButtonBox, CustomCheckbox } from "@/components/General/atoms";
 import {
   Accordion,
@@ -13,12 +13,120 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { currencyFormatter, FilterObjectProps } from "@/utils";
+import { FilterValueProp } from "..";
 
+interface HandleFilterFnProps {
+  filterClass: "category" | "brand" | "color" | "size" | "price";
+  value: string;
+  isChecked: boolean;
+}
 export function FilterAccordion({
   filterObject,
+  setFilterValues,
+  handleFilterItems,
 }: {
   filterObject: FilterObjectProps[];
+  setFilterValues: Dispatch<SetStateAction<FilterValueProp>>;
+  handleFilterItems: () => void;
 }) {
+  const handleFilter = ({
+    filterClass,
+    value,
+    isChecked,
+  }: HandleFilterFnProps) => {
+    switch (filterClass) {
+      case "category":
+        if (isChecked) {
+          setFilterValues((prev) => ({
+            ...prev,
+            categories: prev.categories.includes(value)
+              ? [...prev.categories]
+              : [...prev.categories, value],
+          }));
+        } else {
+          setFilterValues((prev) => ({
+            ...prev,
+            categories: prev.categories.includes(value)
+              ? [...prev.categories].filter((x) => x !== value)
+              : [...prev.categories],
+          }));
+        }
+        break;
+      case "brand":
+        if (isChecked) {
+          setFilterValues((prev) => ({
+            ...prev,
+            brand: prev.brand.includes(value)
+              ? [...prev.brand]
+              : [...prev.brand, value],
+          }));
+        } else {
+          setFilterValues((prev) => ({
+            ...prev,
+            brand: prev.brand.includes(value)
+              ? [...prev.brand].filter((x) => x !== value)
+              : [...prev.brand],
+          }));
+        }
+        break;
+      case "color":
+        if (isChecked) {
+          setFilterValues((prev) => ({
+            ...prev,
+            color: prev.color.includes(value)
+              ? [...prev.color]
+              : [...prev.color, value],
+          }));
+        } else {
+          setFilterValues((prev) => ({
+            ...prev,
+            color: prev.color.includes(value)
+              ? [...prev.color].filter((x) => x !== value)
+              : [...prev.color],
+          }));
+        }
+        break;
+      case "size":
+        if (isChecked) {
+          setFilterValues((prev) => ({
+            ...prev,
+            size: prev.size.includes(value)
+              ? [...prev.size]
+              : [...prev.size, value],
+          }));
+        } else {
+          setFilterValues((prev) => ({
+            ...prev,
+            size: prev.size.includes(value)
+              ? [...prev.size].filter((x) => x !== value)
+              : [...prev.size],
+          }));
+        }
+        break;
+      case "price":
+        if (isChecked) {
+          setFilterValues((prev) => ({
+            ...prev,
+            price: prev.price.includes(value)
+              ? [...prev.price]
+              : [...prev.price, value],
+          }));
+        } else {
+          setFilterValues((prev) => ({
+            ...prev,
+            price: prev.price.includes(value)
+              ? [...prev.price].filter((x) => x !== value)
+              : [...prev.price],
+          }));
+        }
+        break;
+
+      default:
+        console.warn("No matches here");
+    }
+    handleFilterItems();
+  };
+
   return (
     <Box userSelect={"none"}>
       <Accordion defaultIndex={[0]} allowMultiple>
@@ -59,8 +167,12 @@ export function FilterAccordion({
                         key={ind}
                         value={option?.category}
                         label={option?.category!}
-                        onChange={(e) => {
-                          console.log("yoooo", e.target.value);
+                        onChange={(isChecked) => {
+                          handleFilter({
+                            filterClass: "brand",
+                            value: option?.category!,
+                            isChecked,
+                          });
                         }}
                       />
                     );
@@ -78,6 +190,13 @@ export function FilterAccordion({
                                 <Box color={"outly.black500"}>
                                   <CustomCheckbox
                                     label={`${option.category} (${option.noOfItems})`}
+                                    onChange={(isChecked) => {
+                                      handleFilter({
+                                        filterClass: "category",
+                                        value: option.category!,
+                                        isChecked,
+                                      });
+                                    }}
                                   />
                                 </Box>
                                 <AccordionIcon />
@@ -90,6 +209,13 @@ export function FilterAccordion({
                                   <CustomCheckbox
                                     key={i}
                                     label={`${sub.category} (${sub.noOfItems})`}
+                                    onChange={(isChecked) => {
+                                      handleFilter({
+                                        filterClass: "category",
+                                        value: sub.category!,
+                                        isChecked,
+                                      });
+                                    }}
                                   />
                                 ))}
                               </VStack>
@@ -101,9 +227,13 @@ export function FilterAccordion({
                       <CustomCheckbox
                         key={ind}
                         value={option?.category}
-                        label={option?.category!}
-                        onChange={(e) => {
-                          console.log("yoooo", e.target.value);
+                        label={`${option.category} (${option.noOfItems})`}
+                        onChange={(isChecked) => {
+                          handleFilter({
+                            filterClass: "category",
+                            value: option.category!,
+                            isChecked,
+                          });
                         }}
                       />
                     );
@@ -113,8 +243,12 @@ export function FilterAccordion({
                         key={ind}
                         label={option.category!}
                         color={option.color}
-                        onClick={(color) => {
-                          console.log("yoooo", color);
+                        onClick={(color, isSelected) => {
+                          handleFilter({
+                            filterClass: "color",
+                            value: color,
+                            isChecked: isSelected,
+                          });
                         }}
                       />
                     );
@@ -123,10 +257,13 @@ export function FilterAccordion({
                       <Box key={ind}>
                         <ButtonBox
                           value={option.category}
-                          onClick={(size) => {
-                            console.log("yoooo", size);
+                          onClick={(size, isSelected) => {
+                            handleFilter({
+                              filterClass: "size",
+                              value: size,
+                              isChecked: isSelected!,
+                            });
                           }}
-                          // ml={"20px"}
                         >
                           {option.category}
                         </ButtonBox>
@@ -142,8 +279,12 @@ export function FilterAccordion({
                             ? currencyFormatter(option.price?.to!)
                             : "Above"
                         }`}
-                        onChange={(e) => {
-                          console.log("yoooo", e.target.value);
+                        onChange={(isChecked) => {
+                          handleFilter({
+                            filterClass: "price",
+                            value: option?.price?.category!,
+                            isChecked,
+                          });
                         }}
                       />
                     );
