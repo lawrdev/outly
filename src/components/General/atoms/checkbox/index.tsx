@@ -5,24 +5,26 @@ import { BiCheckDouble } from "react-icons/bi";
 interface Props {
   label: string;
   value?: string;
-  onChange?: (e: any) => void;
-  onClick?: (color: string) => void;
+  onChange?: (isChecked: boolean) => void;
+  onClick?: (color: string, isSelected: boolean) => void;
   color?: string;
 }
 export function CustomCheckbox(props: Props) {
   const [toggle, setToggle] = useState(false);
   return !props.color ? (
     <Checkbox
-      // icon={<BiCheckDouble />}
       value={props.value}
-      onChange={props.onChange}
+      onChange={(e) => {
+        props.onChange && props.onChange(e.target.checked);
+      }}
     >
       {props.label}
     </Checkbox>
   ) : (
     <HStack
       onClick={() => {
-        props.onClick && props.onClick(props.label!);
+        setToggle(!toggle);
+        props.onClick && props.onClick(props.label!, !toggle);
       }}
     >
       <Box
@@ -34,7 +36,7 @@ export function CustomCheckbox(props: Props) {
         justifyContent={"center"}
         alignItems={"center"}
         borderColor={toggle ? "outly.black" : "gray.300"}
-        onClick={() => setToggle(!toggle)}
+        // onClick={() => setToggle(!toggle)}
       >
         <Box p={3} bg={props.color} borderRadius={"50%"} />
       </Box>
