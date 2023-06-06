@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ButtonBox, ButtonDropdown } from "@/components/General/atoms";
 import {
   Box,
+  Button,
   Grid,
   GridItem,
   Heading,
@@ -16,12 +17,34 @@ import { useQuery } from "@tanstack/react-query";
 import { getFilterOptions } from "@/functions/firebase/category";
 import { CardsGrid } from "./cardGrid";
 import { getAllItems } from "@/functions";
+import { GiSettingsKnobs } from "react-icons/gi";
+import { useRecoilState } from "recoil";
+import { shopItemsAtom } from "@/recoil";
+
+export interface FilterValueProp {
+  categories: string[];
+  brand: string[];
+  color: string[];
+  size: string[];
+  price: string[];
+}
+export type CategoryTypes =
+  | "Mens"
+  | "Accessories"
+  | "Coats and Jackets"
+  | "Kids"
+  | "Pants & Chinos"
+  | "Pants & Leggings"
+  | "Shirts"
+  | "Shorts"
+  | "Skirts"
+  | "Womens"
+  | "Footwear";
 
 export function CategoryGrid({ isShop }: { isShop?: boolean }) {
   const [loading, setLoading] = useState(false);
   const [view2Mode, setView2Mode] = useState(false);
   const [hasFilter, setHasFilter] = useState(false);
-  const [allProducts, setAllProducts] = useState<ItemProp[]>([]);
   const [filterObject, setFilterObject] = useState<FilterObjectProps[]>([
     {
       name: "Category",
@@ -49,11 +72,16 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
       options: [{ price: { category: "low", from: 0, to: 10000 } }],
     },
   ]);
-  const [filterValues, setFilterValues] = useState([]);
-
-  // write func that MAP THRPUGH CURR FILTER OPTIONS AND CREATE VALUES
+  const [filterValues, setFilterValues] = useState<FilterValueProp>({
+    categories: [],
+    brand: [],
+    color: [],
+    size: [],
+    price: [],
+  });
 
   const toast = useToast();
+  const [shopItemsValue, setShopItemsValue] = useRecoilState(shopItemsAtom);
 
   const filterOptionsQuery = useQuery(
     ["get_filter_options"],
@@ -73,6 +101,7 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
     }
   );
 
+  // get all items
   const getProductsQuery = useQuery(
     ["get_all_items"],
     () => {
@@ -80,7 +109,7 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
     },
     {
       onSuccess: (data) => {
-        setAllProducts(data);
+        setShopItemsValue(data);
       },
     }
   );
@@ -93,10 +122,40 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
     }
   }, [getProductsQuery.isLoading]);
 
+  const handleFilterItems = () => {
+    if (getProductsQuery.data) {
+      let newItems: ItemProp[] = [...getProductsQuery.data];
+
+      for (let i = 0; i < filterValues.categories.length; i++) {
+        newItems = [...newItems].filter((item) =>
+          item.category.includes(filterValues.categories[i] as CategoryTypes)
+        );
+      }
+      if (filterValues.brand.length > 0) {
+        newItems = [...newItems].filter((item) => {
+          if (filterValues.brand.includes(item.brand)) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      }
+
+      if (filterValues.color.length > 0) {
+        let op = [...newItems];
+        let result: ItemProp[] = [];
+
+        op.forEach((item) => {});
+      }
+
+      setShopItemsValue(newItems);
+    }
+  };
+
   return (
     <Box>
       <Grid templateColumns="repeat(12, 1fr)">
-        <GridItem colSpan={4}>
+        <GridItem colSpan={3} display={{ base: "none", lg: "block" }}>
           <Box>
             <Heading as={"h5"} fontWeight={500} fontSize={"22px"} mb={"18px"}>
               Filter
@@ -105,14 +164,37 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
             {filterOptionsQuery.isLoading ? (
               <FilterAccordionSkeleton />
             ) : (
-              <FilterAccordion filterObject={[...filterObject]} />
+              <FilterAccordion
+                setFilterValues={setFilterValues}
+                handleFilterItems={handleFilterItems}
+                filterObject={[...filterObject]}
+              />
             )}
           </Box>
         </GridItem>
 
-        <GridItem colSpan={8} pl={10}>
+        <GridItem colSpan={{ base: 12, lg: 9 }} pl={{ base: 0, lg: "52px" }}>
           <HStack justifyContent={"space-between"}>
-            <Text>{`Showing all results`}</Text>
+            <Button
+              display={{ base: "block", lg: "none" }}
+              variant={"unstyled"}
+            >
+              <HStack>
+                <GiSettingsKnobs fontSize={"22px"} />
+                <Heading
+                  as={"h5"}
+                  fontWeight={500}
+                  fontSize={"22px"}
+                  mb={"18px"}
+                >
+                  Filter
+                </Heading>
+              </HStack>
+            </Button>
+
+            <Text
+              display={{ base: "none", md: "block" }}
+            >{`Showing all results`}</Text>
 
             <HStack>
               <ButtonDropdown
@@ -130,7 +212,7 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
                 buttonProps={{ fontWeight: 400 }}
               />
 
-              <HStack>
+              <HStack display={{ base: "none", lg: "flex" }}>
                 <ButtonBox
                   isLight={!view2Mode}
                   onClick={() => {
@@ -243,7 +325,7 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
 
           <Box pt={4}>
             <CardsGrid
-              products={allProducts}
+              // products={allProducts}
               isLoading={loading}
               view2Mode={view2Mode}
             />
