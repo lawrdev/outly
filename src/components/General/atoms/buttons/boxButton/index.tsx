@@ -4,7 +4,7 @@ interface Props {
   children?: React.ReactNode;
   isLight?: boolean;
   isSize?: boolean;
-  onClick?: (str: string) => void;
+  onClick?: (str: string, isSelected?: boolean) => void;
   value?: string;
   isColor?: string;
   tooltip?: string;
@@ -59,7 +59,7 @@ export function ButtonBox({
             if (value) {
               setToggle(!toggle);
             }
-            onClick && onClick(value!);
+            onClick && onClick(value!, !toggle);
           }}
           _active={{ transform: "scale(0.95)" }}
         >
@@ -79,7 +79,8 @@ export function ButtonBox({
             if (value) {
               setToggle(!toggle);
             }
-            onClick && onClick(value!);
+
+            onClick && onClick(value!, toggle);
           }}
         >
           <Box p={3} bg={isColor} borderRadius={"50%"} />
