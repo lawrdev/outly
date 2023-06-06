@@ -85,14 +85,15 @@ export const BoxLoader = ({
         borderRadius={"sm"}
       >
         <HStack justifyContent={"center"} height={"100%"}>
-          <Image
+          {/* <Image
             alt={"loading"}
             src={Gif}
             quality={100}
             width={70}
             height={70}
             // style={{ minWidth: "auto" }}
-          />
+          /> */}
+          <div className="_boxloader"></div>
         </HStack>
       </Box>
       {children}
