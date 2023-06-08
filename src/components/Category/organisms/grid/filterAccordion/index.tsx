@@ -12,119 +12,143 @@ import {
   Skeleton,
   Stack,
 } from "@chakra-ui/react";
-import { currencyFormatter, FilterObjectProps } from "@/utils";
-import { FilterValueProp } from "..";
+import {
+  BrandTypes,
+  CategoryTypes,
+  ColorTypes,
+  currencyFormatter,
+  FilterObjectProps,
+  PriceTypes,
+  SizeTypes,
+} from "@/utils";
+import { FilterMethodProps, FilterValueProp } from "..";
 
 interface HandleFilterFnProps {
   filterClass: "category" | "brand" | "color" | "size" | "price";
-  value: string;
+  value: CategoryTypes | BrandTypes | ColorTypes | SizeTypes | PriceTypes;
   isChecked: boolean;
 }
+
+let filter: FilterValueProp = {
+  categories: [],
+  brand: [],
+  color: [],
+  size: [],
+  price: [],
+};
+
 export function FilterAccordion({
   filterObject,
-  setFilterValues,
   handleFilterItems,
+  setIsLoading,
 }: {
   filterObject: FilterObjectProps[];
-  setFilterValues: Dispatch<SetStateAction<FilterValueProp>>;
-  handleFilterItems: () => void;
+  handleFilterItems: (obj: {
+    filValues?: FilterValueProp;
+    method?: FilterMethodProps;
+  }) => void;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }) {
   const handleFilter = ({
     filterClass,
     value,
     isChecked,
   }: HandleFilterFnProps) => {
+    setIsLoading(true);
+
     switch (filterClass) {
       case "category":
         if (isChecked) {
-          setFilterValues((prev) => ({
-            ...prev,
-            categories: prev.categories.includes(value)
-              ? [...prev.categories]
-              : [...prev.categories, value],
-          }));
+          filter = {
+            ...filter,
+            categories: filter.categories.includes(value as CategoryTypes)
+              ? [...filter.categories]
+              : [...filter.categories, value as CategoryTypes],
+          };
         } else {
-          setFilterValues((prev) => ({
-            ...prev,
-            categories: prev.categories.includes(value)
-              ? [...prev.categories].filter((x) => x !== value)
-              : [...prev.categories],
-          }));
+          filter = {
+            ...filter,
+            categories: filter.categories.includes(value as CategoryTypes)
+              ? [...filter.categories].filter((x) => x !== value)
+              : [...filter.categories],
+          };
         }
         break;
       case "brand":
         if (isChecked) {
-          setFilterValues((prev) => ({
-            ...prev,
-            brand: prev.brand.includes(value)
-              ? [...prev.brand]
-              : [...prev.brand, value],
-          }));
+          filter = {
+            ...filter,
+            brand: filter.brand.includes(value as BrandTypes)
+              ? [...filter.brand]
+              : [...filter.brand, value as BrandTypes],
+          };
         } else {
-          setFilterValues((prev) => ({
-            ...prev,
-            brand: prev.brand.includes(value)
-              ? [...prev.brand].filter((x) => x !== value)
-              : [...prev.brand],
-          }));
+          filter = {
+            ...filter,
+            brand: filter.brand.includes(value as BrandTypes)
+              ? [...filter.brand].filter((x) => x !== value)
+              : [...filter.brand],
+          };
         }
         break;
       case "color":
         if (isChecked) {
-          setFilterValues((prev) => ({
-            ...prev,
-            color: prev.color.includes(value)
-              ? [...prev.color]
-              : [...prev.color, value],
-          }));
+          filter = {
+            ...filter,
+            color: filter.color.includes(value as ColorTypes)
+              ? [...filter.color]
+              : [...filter.color, value as ColorTypes],
+          };
         } else {
-          setFilterValues((prev) => ({
-            ...prev,
-            color: prev.color.includes(value)
-              ? [...prev.color].filter((x) => x !== value)
-              : [...prev.color],
-          }));
+          filter = {
+            ...filter,
+            color: filter.color.includes(value as ColorTypes)
+              ? [...filter.color].filter((x) => x !== value)
+              : [...filter.color],
+          };
         }
         break;
       case "size":
         if (isChecked) {
-          setFilterValues((prev) => ({
-            ...prev,
-            size: prev.size.includes(value)
-              ? [...prev.size]
-              : [...prev.size, value],
-          }));
+          filter = {
+            ...filter,
+            size: filter.size.includes(value as SizeTypes)
+              ? [...filter.size]
+              : [...filter.size, value as SizeTypes],
+          };
         } else {
-          setFilterValues((prev) => ({
-            ...prev,
-            size: prev.size.includes(value)
-              ? [...prev.size].filter((x) => x !== value)
-              : [...prev.size],
-          }));
+          filter = {
+            ...filter,
+            size: filter.size.includes(value as SizeTypes)
+              ? [...filter.size].filter((x) => x !== value)
+              : [...filter.size],
+          };
         }
         break;
       case "price":
         if (isChecked) {
-          setFilterValues((prev) => ({
-            ...prev,
-            price: prev.price.includes(value)
-              ? [...prev.price]
-              : [...prev.price, value],
-          }));
+          filter = {
+            ...filter,
+            price: filter.price.includes(value as PriceTypes)
+              ? [...filter.price]
+              : [...filter.price, value as PriceTypes],
+          };
         } else {
-          setFilterValues((prev) => ({
-            ...prev,
-            price: prev.price.includes(value)
-              ? [...prev.price].filter((x) => x !== value)
-              : [...prev.price],
-          }));
+          filter = {
+            ...filter,
+            price: filter.price.includes(value as PriceTypes)
+              ? [...filter.price].filter((x) => x !== value)
+              : [...filter.price],
+          };
         }
         break;
 
       default:
         console.warn("No matches here");
     }
-    handleFilterItems();
+    handleFilterItems({
+      filValues: filter,
+    });
   };
 
   return (
@@ -260,7 +284,7 @@ export function FilterAccordion({
                           onClick={(size, isSelected) => {
                             handleFilter({
                               filterClass: "size",
-                              value: size,
+                              value: size as SizeTypes,
                               isChecked: isSelected!,
                             });
                           }}
