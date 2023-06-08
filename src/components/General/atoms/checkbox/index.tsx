@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Box, Checkbox, HStack, Text } from "@chakra-ui/react";
 import { BiCheckDouble } from "react-icons/bi";
+import { ColorTypes } from "@/utils";
 
 interface Props {
   label: string;
   value?: string;
   onChange?: (isChecked: boolean) => void;
-  onClick?: (color: string, isSelected: boolean) => void;
+  onClick?: (color: ColorTypes, isSelected: boolean) => void;
   color?: string;
 }
 export function CustomCheckbox(props: Props) {
@@ -24,7 +25,7 @@ export function CustomCheckbox(props: Props) {
     <HStack
       onClick={() => {
         setToggle(!toggle);
-        props.onClick && props.onClick(props.label!, !toggle);
+        props.onClick && props.onClick(props.label as ColorTypes, !toggle);
       }}
     >
       <Box
