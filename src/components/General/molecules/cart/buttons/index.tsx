@@ -6,7 +6,7 @@ import {
   increaseItemQuantity,
   removeItemFromWishlist,
 } from "@/functions";
-import { cartAtom } from "@/recoil";
+import { cartAtom, wishlistAtom } from "@/recoil";
 import { ItemProp } from "@/utils";
 import {
   Box,
@@ -14,13 +14,12 @@ import {
   HStack,
   IconButton,
   Text,
+  Tooltip,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineHeart } from "react-icons/ai";
-import { useSetRecoilState } from "recoil";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-import { GiCheckMark } from "react-icons/gi";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import Link from "next/link";
 import { BoxLoader } from "@/components/General/atoms";
 import { TfiCheck } from "react-icons/tfi";
@@ -31,14 +30,15 @@ export function CartButtons({
   showWishlist,
   item,
   size = "md",
+  showBuynow,
 }: {
   item: ItemProp;
   size?: "sm" | "md";
   showButtons?: boolean;
   showWishlist?: boolean;
+  showBuynow?: boolean;
   onClick?: () => void;
 }) {
-  const [toggle, setToggle] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const timerRef = useRef<any | null>(null);
 
@@ -47,12 +47,22 @@ export function CartButtons({
   const cart = getCart();
   const toast = useToast();
 
+  const wishListValue = useRecoilValue(wishlistAtom);
+
   const getItemQuantity = useMemo((): number => {
     let itemAvaliable = [...cart].filter((x) => x.id === item._id);
 
     if (itemAvaliable.length > 0) return itemAvaliable[0].quantity;
     return 0;
   }, [cart, item._id]);
+
+  useEffect(() => {
+    if (wishListValue.length > 0) {
+      let isPresent = [...wishListValue].find((x) => x.id === item._id);
+
+      setIsInWishlist(!!isPresent);
+    }
+  }, [wishListValue, item]);
 
   // clear timeout Unmount
   useEffect(() => {
@@ -125,7 +135,7 @@ export function CartButtons({
                 Add to cart
               </Button>
             ) : null}
-            {!showWishlist ? (
+            {showBuynow ? (
               <Button
                 size={size}
                 fontSize={"sm"}
@@ -137,42 +147,50 @@ export function CartButtons({
             ) : null}
 
             {showWishlist ? (
-              <IconButton
-                variant={"ghost"}
-                px={0}
-                aria-label={"wishlist"}
-                fontSize={size === "sm" ? "20px" : "26px"}
-                onClick={() => {
-                  boxloaderDisclosure.onOpen();
-                  timerRef.current = setTimeout(() => {
-                    boxloaderDisclosure.onClose();
-
-                    if (!isInWishlist) {
-                      addItemToWishlist(item._id);
-                      setIsInWishlist(true);
-                      toast({
-                        title: item.title,
-                        status: "success",
-                        description: "has been added to your wishlist!",
-                      });
-                    } else {
-                      removeItemFromWishlist(item._id);
-                      setIsInWishlist(false);
-                      toast({
-                        title: item.title,
-                        description: "has been removed from your wishlist!",
-                      });
-                    }
-                  }, 2000);
-                }}
-                icon={
-                  isInWishlist ? (
-                    <TfiCheck fontSize={"16px"} />
-                  ) : (
-                    <AiOutlineHeart fontSize={"16px"} />
-                  )
+              <Tooltip
+                label={
+                  isInWishlist ? "Remove from wishlist" : "Add to Wishlist"
                 }
-              />
+                placement="right"
+                hasArrow
+              >
+                <IconButton
+                  variant={"ghost"}
+                  px={0}
+                  aria-label={"wishlist"}
+                  fontSize={size === "sm" ? "20px" : "26px"}
+                  onClick={() => {
+                    boxloaderDisclosure.onOpen();
+                    timerRef.current = setTimeout(() => {
+                      boxloaderDisclosure.onClose();
+
+                      if (!isInWishlist) {
+                        addItemToWishlist(item._id);
+                        setIsInWishlist(true);
+                        toast({
+                          title: item.title,
+                          status: "success",
+                          description: "has been added to your wishlist!",
+                        });
+                      } else {
+                        removeItemFromWishlist(item._id);
+                        setIsInWishlist(false);
+                        toast({
+                          title: item.title,
+                          description: "has been removed from your wishlist!",
+                        });
+                      }
+                    }, 2000);
+                  }}
+                  icon={
+                    isInWishlist ? (
+                      <TfiCheck fontSize={"22px"} />
+                    ) : (
+                      <AiOutlineHeart fontSize={"22px"} />
+                    )
+                  }
+                />
+              </Tooltip>
             ) : null}
           </HStack>
         ) : null}
