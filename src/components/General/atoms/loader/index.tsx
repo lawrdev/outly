@@ -82,7 +82,7 @@ export const BoxLoader = ({
         left={0}
         zIndex={10}
         bg={"#00000030"}
-        borderRadius={"sm"}
+        borderRadius={"md"}
       >
         <HStack justifyContent={"center"} height={"100%"}>
           {/* <Image
