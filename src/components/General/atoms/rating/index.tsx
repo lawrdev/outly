@@ -13,8 +13,8 @@ interface RatingProps {
 
 const myStyles = {
   itemShapes: Star,
-  activeFillColor: "#000",
-  inactiveFillColor: "#c7c7c7",
+  activeFillColor: "#C8815F",
+  inactiveFillColor: "#c7c7c780",
 };
 
 export function Rating({
@@ -22,7 +22,6 @@ export function Rating({
   readOnly = true,
   maxWidth = 120,
   height = "22px",
-  black = false,
   isEditable,
   onChange,
 }: RatingProps) {
