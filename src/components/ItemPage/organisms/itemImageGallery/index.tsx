@@ -53,7 +53,11 @@ export function ItemImageGallery(props: Props) {
     >
       {/* PREVIEW SWIPER */}
       {!props.hidePreview ? (
-        <Box flexBasis={"100px"} maxWidth={"100px"}>
+        <Box
+          flexBasis={"100px"}
+          maxWidth={"100px"}
+          display={{ base: "none", md: "block" }}
+        >
           <Box
             width={"100%"}
             height={"full"}
@@ -90,10 +94,11 @@ export function ItemImageGallery(props: Props) {
                   if (swiperRef.current) {
                     setAtStart(swiperRef.current?.isBeginning);
                     setAtEnd(swiperRef.current?.isEnd);
+                    swiperRef2.current?.slideTo(swiperRef.current.activeIndex);
                   }
                 }}
                 style={{
-                  maxHeight: "690px",
+                  height: "690px",
                   width: "100%",
                   overflow: "hidden",
                   paddingBlockEnd: "4px",
@@ -181,9 +186,16 @@ export function ItemImageGallery(props: Props) {
 
       {/* MAIN SWIPER */}
       <Box
-        flexBasis={props.hidePreview ? "100%" : "calc(100% - 110px)"}
-        maxWidth={props.hidePreview ? "100%" : "calc(100% - 110px)"}
+        flexBasis={{
+          base: "100%",
+          md: props.hidePreview ? "100%" : "calc(100% - 110px)",
+        }}
+        maxWidth={{
+          base: "100%",
+          md: props.hidePreview ? "100%" : "calc(100% - 110px)",
+        }}
         position={"relative"}
+        // height={{ base: "calc(100vh - 7.0rem)", md: "auto" }}
       >
         <Box
           position={"relative"}
@@ -192,6 +204,7 @@ export function ItemImageGallery(props: Props) {
           overflow={"hidden"}
         >
           <Box
+            display={{ base: "none", md: "block" }}
             position={"absolute"}
             zIndex={2}
             top={"50%"}
@@ -216,7 +229,7 @@ export function ItemImageGallery(props: Props) {
             }}
             modules={[Navigation]}
             slidesPerView={1}
-            spaceBetween={0}
+            spaceBetween={20}
             speed={1050}
             rewind={true}
             onSlideChange={() => {
@@ -230,15 +243,47 @@ export function ItemImageGallery(props: Props) {
               width: "100%",
               overflow: "hidden",
               paddingBlockEnd: "2px",
+              // backgroundColor: "#F6F6F6",
             }}
           >
             {imgArr.map((img, index) => (
               <SwiperSlide key={index}>
                 <Box
+                  display={{ base: "none", md: "block" }}
                   position="relative"
                   overflow="hidden"
                   width="100%"
-                  height={props.hidePreview ? "calc(100vh - 7.5rem)" : "100%"}
+                  height={{
+                    base: "auto",
+                    md: props.hidePreview ? "calc(100vh - 7.5rem)" : "100%",
+                  }}
+                  borderRadius="lg"
+                  bg={props.hidePreview ? "outly.bg" : "inherit"}
+                >
+                  <Image
+                    src={img}
+                    alt="item"
+                    style={{
+                      objectFit: props.hidePreview ? "contain" : "cover",
+                      objectPosition: "top",
+                      minWidth: "100%",
+                    }}
+                    sizes={
+                      "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33100vw"
+                    }
+                    quality={100}
+                    fill
+                    priority
+                  />
+                </Box>
+
+                {/* mobile */}
+                <Box
+                  display={{ base: "block", md: "none" }}
+                  position="relative"
+                  overflow="hidden"
+                  width="100%"
+                  height={"auto"}
                   borderRadius="lg"
                 >
                   <Image
@@ -249,11 +294,9 @@ export function ItemImageGallery(props: Props) {
                       objectPosition: "top",
                       minWidth: "100%",
                     }}
-                    sizes={"(max-width: 1000px) 100vw, 100vw"}
                     quality={100}
-                    // width={270}
-                    // height={350}
-                    fill
+                    width={570}
+                    height={752}
                     priority
                   />
                 </Box>
@@ -262,6 +305,7 @@ export function ItemImageGallery(props: Props) {
           </Swiper>
 
           <Box
+            display={{ base: "none", md: "block" }}
             position={"absolute"}
             zIndex={2}
             top={"50%"}
@@ -299,18 +343,20 @@ export function ItemImageGallerySkeleton() {
   return (
     <HStack
       alignItems={"flex-start"}
-      spacing={"14px"}
+      spacing={{ base: "0px", md: "18px" }}
       width={"100%"}
       pt={"20px"}
     >
-      <VStack spacing={3} width={"100px"}>
-        <Skeleton borderRadius={"md"} height={"124px"} />
-        <Skeleton borderRadius={"md"} height={"124px"} />
+      <VStack
+        spacing={3}
+        width={"110px"}
+        display={{ base: "none", md: "flex" }}
+      >
         <Skeleton borderRadius={"md"} height={"124px"} />
         <Skeleton borderRadius={"md"} height={"124px"} />
       </VStack>
 
-      <Skeleton borderRadius={"md"} height={"620px"} />
+      <Skeleton borderRadius={"md"} height={"420px"} />
     </HStack>
   );
 }

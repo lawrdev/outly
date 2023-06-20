@@ -7,3 +7,4 @@ export * from "./cart";
 export * from "./modal";
 export * from "./navMenu";
 export * from "./draggable";
+export * from "./drawer";

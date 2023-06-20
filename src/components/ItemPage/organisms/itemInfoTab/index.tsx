@@ -77,7 +77,7 @@ export function ItemInfoTab({
           color={"outly.black100"}
           fontWeight={500}
           fontSize={"lg"}
-          gap={10}
+          gap={{ base: 1, md: 10 }}
         >
           <Tab
             _hover={{ color: "outly.black400" }}
@@ -116,7 +116,7 @@ export function ItemInfoTab({
 
         <TabPanels>
           {/* Reviews */}
-          <TabPanel textAlign={"start"}>
+          <TabPanel textAlign={"start"} px={0}>
             <Box id={"reviews"} maxWidth={"770px"} mx={"auto"}>
               {item.reviews ? (
                 <>
@@ -146,7 +146,6 @@ export function ItemInfoTab({
                           width={"100%"}
                         >
                           <Text
-                            fontWeight={600}
                             width={"100%"}
                             display={"flex"}
                             justifyContent={"space-between"}
@@ -154,6 +153,7 @@ export function ItemInfoTab({
                           >
                             <Text
                               as={"span"}
+                              fontWeight={500}
                               display={"flex"}
                               gap={"8px"}
                               alignItems={"center"}
@@ -163,6 +163,7 @@ export function ItemInfoTab({
                                 <Rating
                                   maxWidth={70}
                                   value={option.rating || 4}
+                                  black
                                 />
                               }
                             </Text>
@@ -175,7 +176,12 @@ export function ItemInfoTab({
                               option.reviewDate || "2023-05-14"
                             ).format("MMM D, YYYY")}`}</Text>
                           </Text>
-                          <Text color={"outly.black500"}>{option.comment}</Text>
+                          <Text
+                            color={"outly.black100"}
+                            fontSize={{ base: "sm", md: "md" }}
+                          >
+                            {option.comment}
+                          </Text>
                         </VStack>
                       </HStack>
                     ))}
@@ -230,7 +236,12 @@ export function ItemInfoTab({
                     });
                   }}
                 >
-                  <HStack mb={4} spacing={{ base: "12px", md: "30px" }}>
+                  <HStack
+                    mb={4}
+                    spacing={{ base: "0px", sm: "20px", md: "30px" }}
+                    flexWrap={{ base: "wrap", sm: "nowrap" }}
+                    gap={{ base: "16px", sm: "0px" }}
+                  >
                     <FormControl>
                       <FormLabel color={"outly.black500"} fontWeight={400}>
                         Name
@@ -374,7 +385,7 @@ export function ItemInfoTab({
                         Brand
                       </Th>
                       <Td textAlign={"center"} color={"outly.black500"}>
-                        {item.brand}
+                        {item.brand || "Local"}
                       </Td>
                     </Tr>
                     <Tr bg={"outly.bg"}>
@@ -386,7 +397,7 @@ export function ItemInfoTab({
                         Size
                       </Th>
                       <Td textAlign={"center"} color={"outly.black500"}>
-                        {item.sizes?.join(", ")}
+                        {item.sizes?.join(", ") || "default"}
                       </Td>
                     </Tr>
                     <Tr>

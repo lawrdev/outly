@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { ButtonBox, CustomCheckbox } from "@/components/General/atoms";
 import {
   Accordion,
@@ -12,149 +11,22 @@ import {
   Skeleton,
   Stack,
 } from "@chakra-ui/react";
-import {
-  BrandTypes,
-  CategoryTypes,
-  ColorTypes,
-  currencyFormatter,
-  FilterObjectProps,
-  PriceTypes,
-  SizeTypes,
-} from "@/utils";
-import { FilterMethodProps, FilterValueProp } from "..";
-
-interface HandleFilterFnProps {
-  filterClass: "category" | "brand" | "color" | "size" | "price";
-  value: CategoryTypes | BrandTypes | ColorTypes | SizeTypes | PriceTypes;
-  isChecked: boolean;
-}
-
-let filter: FilterValueProp = {
-  categories: [],
-  brand: [],
-  color: [],
-  size: [],
-  price: [],
-};
+import { currencyFormatter, SizeTypes } from "@/utils";
+import { onFilterChangeFnProps } from "..";
+import { useRecoilValue } from "recoil";
+import { shopFiltersAtom } from "@/recoil";
 
 export function FilterAccordion({
-  filterObject,
-  handleFilterItems,
-  setIsLoading,
+  onFilterChange,
 }: {
-  filterObject: FilterObjectProps[];
-  handleFilterItems: (obj: {
-    filValues?: FilterValueProp;
-    method?: FilterMethodProps;
-  }) => void;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  onFilterChange: (props: onFilterChangeFnProps) => void;
 }) {
-  const handleFilter = ({
-    filterClass,
-    value,
-    isChecked,
-  }: HandleFilterFnProps) => {
-    setIsLoading(true);
-
-    switch (filterClass) {
-      case "category":
-        if (isChecked) {
-          filter = {
-            ...filter,
-            categories: filter.categories.includes(value as CategoryTypes)
-              ? [...filter.categories]
-              : [...filter.categories, value as CategoryTypes],
-          };
-        } else {
-          filter = {
-            ...filter,
-            categories: filter.categories.includes(value as CategoryTypes)
-              ? [...filter.categories].filter((x) => x !== value)
-              : [...filter.categories],
-          };
-        }
-        break;
-      case "brand":
-        if (isChecked) {
-          filter = {
-            ...filter,
-            brand: filter.brand.includes(value as BrandTypes)
-              ? [...filter.brand]
-              : [...filter.brand, value as BrandTypes],
-          };
-        } else {
-          filter = {
-            ...filter,
-            brand: filter.brand.includes(value as BrandTypes)
-              ? [...filter.brand].filter((x) => x !== value)
-              : [...filter.brand],
-          };
-        }
-        break;
-      case "color":
-        if (isChecked) {
-          filter = {
-            ...filter,
-            color: filter.color.includes(value as ColorTypes)
-              ? [...filter.color]
-              : [...filter.color, value as ColorTypes],
-          };
-        } else {
-          filter = {
-            ...filter,
-            color: filter.color.includes(value as ColorTypes)
-              ? [...filter.color].filter((x) => x !== value)
-              : [...filter.color],
-          };
-        }
-        break;
-      case "size":
-        if (isChecked) {
-          filter = {
-            ...filter,
-            size: filter.size.includes(value as SizeTypes)
-              ? [...filter.size]
-              : [...filter.size, value as SizeTypes],
-          };
-        } else {
-          filter = {
-            ...filter,
-            size: filter.size.includes(value as SizeTypes)
-              ? [...filter.size].filter((x) => x !== value)
-              : [...filter.size],
-          };
-        }
-        break;
-      case "price":
-        if (isChecked) {
-          filter = {
-            ...filter,
-            price: filter.price.includes(value as PriceTypes)
-              ? [...filter.price]
-              : [...filter.price, value as PriceTypes],
-          };
-        } else {
-          filter = {
-            ...filter,
-            price: filter.price.includes(value as PriceTypes)
-              ? [...filter.price].filter((x) => x !== value)
-              : [...filter.price],
-          };
-        }
-        break;
-
-      default:
-        console.warn("No matches here");
-    }
-    handleFilterItems({
-      filValues: filter,
-    });
-  };
+  const shopFilter = useRecoilValue(shopFiltersAtom);
 
   return (
     <Box userSelect={"none"}>
-      <Accordion defaultIndex={[0]} allowMultiple>
-        {filterObject.map((item, index) => (
+      <Accordion defaultIndex={[0, 1, 2, 3, 4]} allowMultiple>
+        {shopFilter.map((item, index) => (
           <AccordionItem key={index}>
             <Heading as={"h5"}>
               <AccordionButton
@@ -172,8 +44,10 @@ export function FilterAccordion({
               </AccordionButton>
             </Heading>
 
-            <AccordionPanel pb={4} px={0}>
+            <AccordionPanel pt={0} pb={5} mb={0} px={0}>
               <Stack
+                pt={0}
+                mt={0}
                 flexDirection={item.name === "Size" ? "row" : "column"}
                 alignItems={item.name === "Size" ? "flex-end" : "flex-start"}
                 fontSize={"sm"}
@@ -183,6 +57,7 @@ export function FilterAccordion({
                 }
                 maxWidth={item.name === "Size" ? "270px" : "100%"}
                 mb={"10px"}
+                pl={"6px"}
               >
                 {item.options.map((option, ind) => {
                   if (item.name === "Brand") {
@@ -192,11 +67,14 @@ export function FilterAccordion({
                         value={option?.category}
                         label={option?.category!}
                         onChange={(isChecked) => {
-                          handleFilter({
-                            filterClass: "brand",
+                          onFilterChange({
+                            filterClass: "Brand",
                             value: option?.category!,
                             isChecked,
                           });
+                        }}
+                        checkboxProps={{
+                          isChecked: option.isSelected,
                         }}
                       />
                     );
@@ -209,14 +87,15 @@ export function FilterAccordion({
                               <AccordionButton
                                 gap={"12px"}
                                 px={0}
+                                py={0}
                                 _hover={{ bg: "none" }}
                               >
                                 <Box color={"outly.black500"}>
                                   <CustomCheckbox
                                     label={`${option.category} (${option.noOfItems})`}
                                     onChange={(isChecked) => {
-                                      handleFilter({
-                                        filterClass: "category",
+                                      onFilterChange({
+                                        filterClass: "Category",
                                         value: option.category!,
                                         isChecked,
                                       });
@@ -227,18 +106,21 @@ export function FilterAccordion({
                               </AccordionButton>
                             </Heading>
 
-                            <AccordionPanel pb={4}>
+                            <AccordionPanel pt={3} pb={1}>
                               <VStack alignItems={"flex-start"}>
                                 {option.subCategory?.map((sub, i) => (
                                   <CustomCheckbox
                                     key={i}
                                     label={`${sub.category} (${sub.noOfItems})`}
                                     onChange={(isChecked) => {
-                                      handleFilter({
-                                        filterClass: "category",
+                                      onFilterChange({
+                                        filterClass: "Category",
                                         value: sub.category!,
                                         isChecked,
                                       });
+                                    }}
+                                    checkboxProps={{
+                                      isChecked: sub.isSelected,
                                     }}
                                   />
                                 ))}
@@ -253,11 +135,14 @@ export function FilterAccordion({
                         value={option?.category}
                         label={`${option.category} (${option.noOfItems})`}
                         onChange={(isChecked) => {
-                          handleFilter({
-                            filterClass: "category",
+                          onFilterChange({
+                            filterClass: "Category",
                             value: option.category!,
                             isChecked,
                           });
+                        }}
+                        checkboxProps={{
+                          isChecked: option.isSelected,
                         }}
                       />
                     );
@@ -268,12 +153,13 @@ export function FilterAccordion({
                         label={option.category!}
                         color={option.color}
                         onClick={(color, isSelected) => {
-                          handleFilter({
-                            filterClass: "color",
+                          onFilterChange({
+                            filterClass: "Color",
                             value: color,
                             isChecked: isSelected,
                           });
                         }}
+                        isSelectedForColor={option.isSelected}
                       />
                     );
                   } else if (item.name === "Size") {
@@ -282,8 +168,9 @@ export function FilterAccordion({
                         <ButtonBox
                           value={option.category}
                           onClick={(size, isSelected) => {
-                            handleFilter({
-                              filterClass: "size",
+                            console.log("tttttt", size, isSelected);
+                            onFilterChange({
+                              filterClass: "Size",
                               value: size as SizeTypes,
                               isChecked: isSelected!,
                             });
@@ -304,11 +191,14 @@ export function FilterAccordion({
                             : "Above"
                         }`}
                         onChange={(isChecked) => {
-                          handleFilter({
-                            filterClass: "price",
+                          onFilterChange({
+                            filterClass: "Price",
                             value: option?.price?.category!,
                             isChecked,
                           });
+                        }}
+                        checkboxProps={{
+                          isChecked: option.isSelected,
                         }}
                       />
                     );
@@ -325,11 +215,11 @@ export function FilterAccordion({
 
 export function FilterAccordionSkeleton() {
   return (
-    <Box width={"100%"} pt={"14px"}>
+    <Box width={"100%"} pt={"10px"}>
       <VStack width={"100%"} alignItems={"flex-start"}>
-        <Skeleton height="50px" />
-        <Skeleton width={"50%"} />
-        <Skeleton width={"50%"} />
+        <Skeleton height="40px" />
+        <Skeleton height="20px" width={"90%"} />
+        <Skeleton height="13px" width={"50%"} />
       </VStack>
     </Box>
   );

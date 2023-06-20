@@ -91,82 +91,116 @@ export const SearchDrawer = ({ searchDrawerDisclosure }: Props) => {
 
           <DrawerBody
             className="thinSB"
-            ml={"24px"}
+            ml={"16px"}
             pl={"4px"}
             pr={"24px"}
             py={2}
           >
-            <Box mb={"14px"}>
-              <CustomSelect
-                options={selectOptions}
-                defaultValue={{ label: "All Categories", value: "All" }}
-                onChange={(newValue) => {
-                  setSearchCategory(newValue.value);
-                  searchMutation.mutate({ category: newValue.value });
-                }}
-              />
-            </Box>
+            <Box px={"10px"}>
+              <Box mb={"14px"}>
+                <CustomSelect
+                  options={selectOptions}
+                  defaultValue={{ label: "All Categories", value: "All" }}
+                  onChange={(newValue) => {
+                    setSearchCategory(newValue.value);
+                    searchMutation.mutate({ category: newValue.value });
+                  }}
+                />
+              </Box>
 
-            <Box mb={"16px"}>
-              <FormControl>
-                <InputGroup>
-                  <Input
-                    placeholder="Search for Items"
-                    focusBorderColor={"outly.main900"}
-                    size={"lg"}
-                    onChange={(e) => {
-                      if (e.target.value.length > 2) {
-                        searchMutation.mutate({
-                          category: searchCategory,
-                          search: e.target.value,
-                        });
-                      }
-                    }}
-                  />
-                  <InputRightElement pt={"6px"} pr={"6px"}>
-                    <IconButton
-                      aria-label={"search"}
-                      icon={<FiSearch />}
-                      color={"outly.gray"}
-                      fontSize={"24px"}
-                      borderRadius={"md"}
-                      bg={"inherit"}
-                      _hover={{ bg: "outly.main900", color: "#fff" }}
+              <Box mb={"16px"}>
+                <FormControl>
+                  <InputGroup>
+                    <Input
+                      placeholder="Search for Items"
+                      focusBorderColor={"outly.main900"}
+                      size={"lg"}
+                      onChange={(e) => {
+                        if (e.target.value.length > 2) {
+                          searchMutation.mutate({
+                            category: searchCategory,
+                            search: e.target.value,
+                          });
+                        }
+                      }}
                     />
-                  </InputRightElement>
-                </InputGroup>
-              </FormControl>
-            </Box>
+                    <InputRightElement pt={"6px"} pr={"6px"}>
+                      <IconButton
+                        aria-label={"search"}
+                        icon={<FiSearch />}
+                        color={"outly.gray"}
+                        fontSize={"24px"}
+                        borderRadius={"md"}
+                        bg={"inherit"}
+                        _hover={{ bg: "outly.main900", color: "#fff" }}
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+              </Box>
 
-            <Box>
-              <HStack
-                mb={"18px"}
-                spacing={{ base: "0px", sm: "10px" }}
-                alignItems={"flex-end"}
-                flexWrap={{ base: "wrap", md: "nowrap" }}
-              >
-                <Text pr={"5px"} color={"outly.black"} fontSize={"lg"}>
-                  Quick search:
-                </Text>
+              <Box>
+                <HStack
+                  mb={"18px"}
+                  spacing={{ base: "0px", sm: "10px" }}
+                  alignItems={"flex-end"}
+                  flexWrap={{ base: "wrap", md: "nowrap" }}
+                >
+                  <Text pr={"5px"} color={"outly.black"} fontSize={"lg"}>
+                    Quick search:
+                  </Text>
 
-                <HStack>
-                  {quickSearch.map((item, index) => (
-                    <Text
-                      key={index}
-                      pb={"3px"}
-                      color={"outly.black500"}
-                      textDecoration={"underline"}
-                      textUnderlineOffset={"2px"}
-                      _hover={{ color: "outly.main900" }}
-                      className={"transition-fast"}
-                    >
-                      <Link href={item.path}>{item.label}</Link>
-                    </Text>
-                  ))}
+                  <HStack>
+                    {quickSearch.map((item, index) => (
+                      <Text
+                        key={index}
+                        pb={"3px"}
+                        color={"outly.black500"}
+                        textDecoration={"underline"}
+                        textUnderlineOffset={"2px"}
+                        _hover={{ color: "outly.main900" }}
+                        className={"transition-fast"}
+                      >
+                        <Link href={item.path}>{item.label}</Link>
+                      </Text>
+                    ))}
+                  </HStack>
                 </HStack>
-              </HStack>
 
-              {searchMutation.isError ? (
+                {searchMutation.isError ? (
+                  <>
+                    <Heading
+                      mb={"12px"}
+                      as={"h3"}
+                      fontWeight={500}
+                      fontSize={"20px"}
+                      color={"outly.black500"}
+                    >
+                      Search Result:
+                    </Heading>
+
+                    <Text w={"full"} color={"outly.black100"}>
+                      Nothing matches your search
+                    </Text>
+                  </>
+                ) : null}
+              </Box>
+
+              {searchMutation.isLoading ? (
+                <HStack mb={"52px"} w={"100%"} justifyContent={"center"}>
+                  <CircularProgress
+                    isIndeterminate
+                    color="outly.black"
+                    trackColor="outly.bg"
+                    size={"80px"}
+                    thickness={"8px"}
+                  />
+                </HStack>
+              ) : null}
+
+              {!searchMutation.isLoading &&
+              searchMutation.data &&
+              searchMutation.data.length > 0 ? (
                 <>
                   <Heading
                     mb={"12px"}
@@ -177,61 +211,27 @@ export const SearchDrawer = ({ searchDrawerDisclosure }: Props) => {
                   >
                     Search Result:
                   </Heading>
-
-                  <Text w={"full"} color={"outly.black100"}>
-                    Nothing matches your search
-                  </Text>
+                  <SimpleGrid
+                    w={"100%"}
+                    mb={"72px"}
+                    columns={2}
+                    spacingX={"24px"}
+                    spacingY={"34px"}
+                  >
+                    {searchMutation.data.map((item, index) => (
+                      <ItemCard key={index} item={item} />
+                    ))}
+                  </SimpleGrid>
                 </>
               ) : null}
-            </Box>
 
-            {searchMutation.isLoading ? (
-              <HStack mb={"52px"} w={"100%"} justifyContent={"center"}>
-                <CircularProgress
-                  isIndeterminate
-                  color="outly.black"
-                  trackColor="outly.bg"
-                  size={"80px"}
-                  thickness={"8px"}
-                />
-              </HStack>
-            ) : null}
-
-            {!searchMutation.isLoading &&
-            searchMutation.data &&
-            searchMutation.data.length > 0 ? (
-              <>
-                <Heading
-                  mb={"12px"}
-                  as={"h3"}
-                  fontWeight={500}
-                  fontSize={"20px"}
-                  color={"outly.black500"}
-                >
-                  Search Result:
-                </Heading>
-                <SimpleGrid
-                  w={"100%"}
-                  mb={"72px"}
-                  columns={2}
-                  spacingX={"24px"}
-                  spacingY={"34px"}
-                >
-                  {searchMutation.data.map((item, index) => (
-                    <ItemCard key={index} item={item} />
-                  ))}
-                </SimpleGrid>
-              </>
-            ) : null}
-
-            <Box mt={"72px"}>
-              <VStack alignItems={"flex-start"} w={"full"}>
+              <Box mt={"32px"} pb={"20px"}>
                 <YouMayAlsoLike
                   categories={["All"]}
-                  limit={4}
                   headerProps={{ textAlign: "start", fontSize: "20px" }}
-                />{" "}
-              </VStack>
+                  isDrawer
+                />
+              </Box>
             </Box>
           </DrawerBody>
         </DrawerContent>

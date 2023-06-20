@@ -8,12 +8,13 @@ import {
   TabPanel,
   HStack,
   SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
 import "swiper/css";
 import { ItemProp } from "@/utils";
 import { useEffect, useState } from "react";
 import { ItemCard } from "@/components/General/molecules";
-import { Rating } from "@/components/General/atoms";
+import Link from "next/link";
 
 export function BestSellers({ items }: { items: Array<ItemProp> }) {
   const [mensItems, setMensItems] = useState<ItemProp[]>([]);
@@ -27,18 +28,18 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
       let kids: ItemProp[] = [];
 
       for (let i = 0; i < items.length; i++) {
-        if (items[i].category === "Mens") {
-          mens.push(items[i]);
-        } else if (items[i].category === "Womens") {
-          womens.push(items[i]);
-        } else if (items[i].category === "Kids") {
+        if (items[i].category.includes("Kids")) {
           kids.push(items[i]);
+        } else if (items[i].category.includes("Womens")) {
+          womens.push(items[i]);
+        } else if (items[i].category.includes("Mens")) {
+          mens.push(items[i]);
         }
       }
 
-      setMensItems(mens);
-      setWomensItems(womens);
-      setKidsItems(kids);
+      setMensItems(mens.slice(0, 4));
+      setWomensItems(womens.slice(0, 4));
+      setKidsItems(kids.slice(0, 4));
     }
   }, [items]);
 
@@ -85,11 +86,11 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
             </Tab>
           </TabList>
 
-          <TabPanels>
+          <TabPanels px={"6px"}>
             <TabPanel px={0}>
               <SimpleGrid
-                columns={{ base: 2, md: 3, xl: 4 }}
-                spacingX={{ base: 4, sm: 6, md: 10, lg: 14 }}
+                columns={{ base: 1, sm: 2, md: 4 }}
+                spacingX={{ base: 4, sm: 5, md: 6, lg: 8 }}
                 spacingY={{ base: 5, sm: 8, md: 14, lg: 14 }}
               >
                 {mensItems.map((item, index) => (
@@ -98,12 +99,14 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
                   </Box>
                 ))}
               </SimpleGrid>
+
+              <ViewMoreLink category={"Mens"} />
             </TabPanel>
 
-            <TabPanel>
+            <TabPanel px={0}>
               <SimpleGrid
-                columns={{ base: 2, md: 3, xl: 4 }}
-                spacingX={{ base: 4, sm: 6, md: 10, lg: 14 }}
+                columns={{ base: 1, sm: 2, md: 4 }}
+                spacingX={{ base: 4, sm: 5, md: 6, lg: 8 }}
                 spacingY={{ base: 5, sm: 8, md: 14, lg: 14 }}
               >
                 {womensItems.map((item, index) => (
@@ -112,11 +115,14 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
                   </Box>
                 ))}
               </SimpleGrid>
+
+              <ViewMoreLink category={"Womens"} />
             </TabPanel>
-            <TabPanel>
+
+            <TabPanel px={0}>
               <SimpleGrid
-                columns={{ base: 2, md: 3, xl: 4 }}
-                spacingX={{ base: 4, sm: 6, md: 10, lg: 14 }}
+                columns={{ base: 1, sm: 2, md: 4 }}
+                spacingX={{ base: 4, sm: 5, md: 6, lg: 8 }}
                 spacingY={{ base: 5, sm: 8, md: 14, lg: 14 }}
               >
                 {kidsItems.map((item, index) => (
@@ -125,6 +131,8 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
                   </Box>
                 ))}
               </SimpleGrid>
+
+              <ViewMoreLink category={"Kids"} />
             </TabPanel>
           </TabPanels>
         </Tabs>
@@ -132,3 +140,19 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
     </Box>
   );
 }
+
+const ViewMoreLink = ({ category }: { category: string }) => {
+  return (
+    <HStack mt={6} w={"full"} justifyContent={"center"}>
+      <Text
+        textDecoration={"underline"}
+        textUnderlineOffset={"3px"}
+        fontWeight={500}
+        textAlign={"center"}
+        _hover={{ color: "outly.main900" }}
+      >
+        <Link href={`/category/${category}`}> View more </Link>
+      </Text>
+    </HStack>
+  );
+};

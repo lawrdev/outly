@@ -2,15 +2,9 @@ import { getCart } from "@/functions";
 import { LocalStorageItemProp } from "@/utils";
 import { atom } from "recoil";
 
-let value: LocalStorageItemProp[] | [] = [];
-if (typeof localStorage !== "undefined") {
-  if (localStorage.getItem("outlyCart") == null)
-    localStorage.setItem("outlyCart", JSON.stringify([]));
+const cart: LocalStorageItemProp[] = getCart();
 
-  value = JSON.parse(localStorage.getItem("outlyCart") as string);
-}
-
-export const cartState = atom({
-  key: "CartState",
-  default: getCart(),
+export const cartAtom = atom({
+  key: "cart",
+  default: cart,
 });

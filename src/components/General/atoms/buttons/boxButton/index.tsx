@@ -1,3 +1,4 @@
+import { a11yKeyboardClick } from "@/functions";
 import { Box, Tooltip } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 interface Props {
@@ -35,6 +36,8 @@ export function ButtonBox({
     <>
       {!isColor ? (
         <Box
+          role={"button"}
+          tabIndex={0}
           color={
             isSize && toggle && isClicked
               ? "white"
@@ -61,12 +64,22 @@ export function ButtonBox({
             }
             onClick && onClick(value!, !toggle);
           }}
+          onKeyDown={(e) => {
+            let val = a11yKeyboardClick<HTMLDivElement>(e);
+            if (val) {
+              if (value) {
+                setToggle(!toggle);
+              }
+              onClick && onClick(value!, !toggle);
+            }
+          }}
           _active={{ transform: "scale(0.95)" }}
         >
           <Tooltip label={tooltip ? tooltip : ""}>{children}</Tooltip>
         </Box>
       ) : (
         <Box
+          tabIndex={0}
           cursor={"pointer"}
           borderWidth={2}
           borderRadius={"50%"}
@@ -81,6 +94,16 @@ export function ButtonBox({
             }
 
             onClick && onClick(value!, toggle);
+          }}
+          onKeyDown={(e) => {
+            let val = a11yKeyboardClick<HTMLDivElement>(e);
+            if (val) {
+              if (value) {
+                setToggle(!toggle);
+              }
+
+              onClick && onClick(value!, toggle);
+            }
           }}
         >
           <Box p={3} bg={isColor} borderRadius={"50%"} />

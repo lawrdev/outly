@@ -71,16 +71,17 @@ export function ShopByCategory({ categoryItems }: Props) {
             >
               <Link
                 href={
-                  item.isFiltered
-                    ? {
-                        pathname: `/category/${item.isFilteredCategory}`,
-                        query: { ...router.query, filter: item.category },
-                      }
-                    : `/category/${item.category}`
+                  // item.isFiltered
+                  //   ? {
+                  //       pathname: `/category/${item.isFilteredCategory}`,
+                  //       query: { ...router.query, filter: item.category },
+                  //     }
+                  //   :
+                  `/category/${item.category}`
                 }
-                passHref={item.isFiltered}
-                shallow
-                replace={item.isFiltered}
+                // passHref={item.isFiltered}
+                // shallow
+                // replace={item.isFiltered}
               >
                 <Box
                   width="100%"

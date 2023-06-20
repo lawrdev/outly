@@ -106,14 +106,14 @@ export const CartPageYouMayAlsoLike = ({
                         </Text>
 
                         <Box
-                          display={{ base: "block", lg: "none" }}
+                          display={{ base: "block", md: "none" }}
                           pt={"12px"}
                         >
                           <CartButtons size={"sm"} item={item} showWishlist />
                         </Box>
                       </Box>
 
-                      <Box display={{ base: "none", lg: "block" }}>
+                      <Box display={{ base: "none", md: "block" }}>
                         <CartButtons item={item} showButtons showWishlist />
                       </Box>
                     </HStack>

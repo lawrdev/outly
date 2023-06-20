@@ -1,13 +1,6 @@
 import React from "react";
 import { Container } from "@/components/General/atoms";
-import {
-  Box,
-  Button,
-  Heading,
-  Skeleton,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Heading, Skeleton, useToast } from "@chakra-ui/react";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { getCategoryHero } from "@/functions/firebase/category";
@@ -52,15 +45,6 @@ export function CategoryHero({
     }
   );
 
-  // app loader
-  // React.useEffect(() => {
-  //   if (isLoading) {
-  //     setAppLoader((prev) => ({ ...prev, category: true }));
-  //   } else {
-  //     setAppLoader((prev) => ({ ...prev, category: false }));
-  //   }
-  // }, [isLoading, setAppLoader]);
-
   // filter crumbs
   React.useEffect(() => {
     if (isShop) {
@@ -72,21 +56,21 @@ export function CategoryHero({
           isCurrent: true,
         },
       ]);
-    } else if (queryFilter && queryName) {
+    } else if (!isShop && queryName) {
       setCrumbs(() => [
         { title: "Home", href: "/" },
         {
-          title: queryName as string,
-          href: `/category/${queryName}`,
+          title: "Items",
+          href: `/shop`,
         },
         {
-          title: queryFilter as string,
-          href: `/category/${queryName}?filter=${queryFilter}`,
+          title: queryName as string,
+          href: `/category/${queryName}`,
           isCurrent: true,
         },
       ]);
     }
-  }, [queryName, queryFilter, isShop]);
+  }, [queryName, isShop]);
 
   return (
     <Box position={"relative"}>
@@ -116,7 +100,7 @@ export function CategoryHero({
               <Heading
                 as="h1"
                 mb={4}
-                fontSize={{ base: "36px", xl: "42px" }}
+                fontSize={{ base: "30px", xl: "42px" }}
                 color={"outly.black"}
                 fontWeight={500}
                 lineHeight={"1.1"}

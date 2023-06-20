@@ -23,8 +23,8 @@ const reviews = [
 export function CustomerReviews() {
   return (
     <Box id="cs_review">
-      <HStack justifyContent={"center"} pb={7}>
-        <Heading as="h3" size={"xl"} fontWeight="medium">
+      <HStack justifyContent={"center"} pb={4}>
+        <Heading as="h3" size={"xl"} fontWeight={500}>
           Customers Reviews
         </Heading>
       </HStack>
@@ -44,16 +44,23 @@ export function CustomerReviews() {
         >
           {reviews?.map((obj, index: number) => (
             <SwiperSlide key={index}>
-              <Box maxWidth={"650px"} mx={"auto"} py={10} borderRadius="lg">
+              <Box
+                maxWidth={"650px"}
+                mx={"auto"}
+                pt={3}
+                pb={8}
+                borderRadius="lg"
+              >
                 <Text
                   mb={6}
+                  color={"outly.black400"}
                   textAlign={"center"}
                   fontStyle={"italic"}
                   fontSize={{ base: "lg", lg: "2xl" }}
                 >{`" ${obj.review} "`}</Text>
 
                 <Text
-                  // fontWeight={"semibold"}
+                  fontWeight={500}
                   textAlign={"center"}
                   fontSize={{ base: "lg", lg: "xl" }}
                 >

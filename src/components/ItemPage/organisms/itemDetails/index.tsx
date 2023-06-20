@@ -10,7 +10,6 @@ import {
   addItemColorToCart,
   addItemSizeToCart,
   calDiscount,
-  calRating,
   getCart,
   getSizeLabel,
 } from "@/functions";
@@ -28,6 +27,7 @@ import {
   Progress,
   Input,
   Button,
+  Stack,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -66,7 +66,7 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
   }, [cartAtomValue, item._id]);
 
   return (
-    <Box pt={"20px"} pb={"20px"}>
+    <Box pt={"20px"} pb={"20px"} width={"100%"}>
       <Text
         mb={"22px"}
         fontWeight={400}
@@ -80,7 +80,8 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
           display={"inline-flex"}
           gap={2}
           alignItems={"center"}
-          color={"outly.main900"}
+          fontWeight={500}
+          color={"#FF4154"}
         >
           {<GrOverview className="binoculars" fontSize={"20px"} />} 546 guests
         </Text>{" "}
@@ -94,9 +95,9 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
       {/* RATING */}
       {/* !item.discount && !item.hot && */}
       {item.reviews ? (
-        <Box mb={"12px"} ml={"-4px"}>
+        <Box ml={"-4px"}>
           <HStack>
-            <Rating maxWidth={110} value={item.rating || 4} />
+            <Rating maxWidth={110} value={item.rating || 4} black />
             <Link
               href={"#reviews"}
               onClick={() => setDefaultIndex && setDefaultIndex(0)}
@@ -107,7 +108,7 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
       ) : null}
 
       {/* PRICE */}
-      <Text mb={"28px"}>
+      <Text mb={"20px"}>
         {item.discount ? (
           <Text
             as={"span"}
@@ -177,12 +178,12 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
               <Text
                 mb={2}
                 fontSize={"md"}
-                color={"outly.main900"}
+                color={"#FF4154"}
                 display={"flex"}
                 gap={1.5}
                 fontWeight={500}
               >
-                <BsShop fontSize={"22px"} color={"#C8815F"} />
+                <BsShop fontSize={"22px"} color={"#FF4154"} />
                 {`${item.hot.itemsLeft} item(s) left in stock`}
               </Text>
               <Progress
@@ -191,7 +192,7 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
                 height={"8px"}
                 borderRadius={"sm"}
                 bg="outly.bg100"
-                colorScheme={"appMain"}
+                colorScheme={"appRed"}
               />
             </Box>
           ) : null}
@@ -199,7 +200,9 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
           {/* SIZE */}
           {item.sizes ? (
             <Box mb={6}>
-              <Text mb={2}>Size: {currSize}</Text>
+              <Text mb={2} color={"outly.black500"}>
+                Size: {currSize}
+              </Text>
               <HStack spacing={3}>
                 {item.sizes?.map((size, index) => (
                   <ButtonBox
@@ -226,7 +229,9 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
           {/* COLOR */}
           {item.colors ? (
             <Box mb={6}>
-              <Text mb={2}>Color: {currColor}</Text>
+              <Text mb={2} color={"outly.black500"}>
+                Color: {currColor}
+              </Text>
               <HStack spacing={3}>
                 {item.colors?.map((color, index) => (
                   <ButtonBox
@@ -249,7 +254,9 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
           {/* QUANTITY */}
           {item._id ? (
             <Box mb={6}>
-              <Text mb={2}>Quantity</Text>
+              <Text mb={2} color={"outly.black500"}>
+                Quantity
+              </Text>
 
               <Box>
                 <CartButtons item={item} showButtons showWishlist showBuynow />
@@ -261,21 +268,24 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
 
       {/* CHECKOUT */}
       <Box mb={6}>
-        <HStack
-          spacing={5}
+        <Stack
+          p={"18px"}
           bg={"outly.bg"}
-          py={"12px"}
-          px={"24px"}
+          spacing={"0px"}
+          gap={"12px"}
           borderRadius={"md"}
+          flexDirection={"row"}
+          flexWrap={"wrap"}
+          alignItems={"center"}
         >
-          <Heading
-            as={"h4"}
-            fontSize={"SM"}
-            fontWeight={400}
+          <Text
+            maxWidth={"fit-content"}
+            fontSize={"sm"}
             color={"outly.black500"}
+            flexBasis={{ base: "100%", xl: "auto" }}
           >
             Secure checkout with
-          </Heading>
+          </Text>
           <Image
             src={`https://firebasestorage.googleapis.com/v0/b/outly-ecommerce.appspot.com/o/item%2Faa.webp?alt=media&token=c124998c-d889-4947-9d7c-35c3f794d739`}
             alt="payment gateways"
@@ -283,20 +293,20 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
             height={30}
             quality={100}
           />
-        </HStack>
+        </Stack>
       </Box>
 
       <Box mb={6}>
         <HStack mb={6} spacing={4}>
           <ShippingIcon />
-          <Text fontSize={"SM"} fontWeight={400} color={"outly.black500"}>
-            Free shipping over {currencyFormatter(maxFreeShipping)}
+          <Text color={"outly.black500"}>
+            Free shipping on orders over {currencyFormatter(maxFreeShipping)}
           </Text>
         </HStack>
 
         <HStack spacing={4}>
           <DeliveryIcon />
-          <Text fontSize={"SM"} fontWeight={400} color={"outly.black500"}>
+          <Text color={"outly.black500"}>
             Delivers in: 3-7 Working Days.
             <Text
               pl={2}
@@ -322,14 +332,27 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
       >
         <Text mb={2} color={"outly.black500"}>
           Order Ref:{" "}
-          <Text as={"span"} color={"outly.black"}>
+          <Text as={"span"} color={"outly.black"} fontWeight={500}>
             BYMBA801-BLK
           </Text>
         </Text>
         <Text color={"outly.black500"}>
           Category:{" "}
-          <Text as={"span"} color={"outly.black"}>
-            {item.subCategory ? item.subCategory : item.category}
+          <Text
+            as={"span"}
+            color={"outly.black500"}
+            textDecoration={"underline"}
+            textUnderlineOffset={"3px"}
+            textDecorationThickness={"1px"}
+            _hover={{ color: "outly.main900" }}
+          >
+            <Link
+              href={`/category/${
+                item.subCategory ? item.subCategory : item.category[0]
+              }`}
+            >
+              {item.subCategory ? item.subCategory : item.category[0]}
+            </Link>
           </Text>
         </Text>
       </Box>
@@ -362,10 +385,10 @@ export function ItemDetails({ item, setDefaultIndex }: Props) {
 
 export function ItemDetailsSkelton() {
   return (
-    <VStack mt={"20px"} spacing={3} width={"100%"} alignItems={"flex-start"}>
-      <Skeleton height={"16px"} width={"40%"} />
-      <Skeleton height={"16px"} width={"70%"} />
-      <Skeleton height={"100px"} width={"90%"} />
+    <VStack mt={"20px"} spacing={2} width={"100%"} alignItems={"flex-start"}>
+      <Skeleton height={"14px"} width={"100%"} />
+      <Skeleton height={"26px"} width={"70%"} />
+      <Skeleton height={"26px"} width={"40%"} />
     </VStack>
   );
 }

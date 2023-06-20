@@ -1,13 +1,15 @@
 import {
   BagIcon,
   CartBadge,
-  CartButton,
-  Container,
   LoveIcon,
   PersonIcon,
   SearchIcon,
 } from "@/components/General/atoms";
-import { Logo, SignIn } from "@/components/General/molecules";
+import {
+  CustomDrawer,
+  CustomNavMenu,
+  Logo,
+} from "@/components/General/molecules";
 import {
   Box,
   chakra,
@@ -16,13 +18,31 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { HiMenuAlt2 } from "react-icons/hi";
+import Link from "next/link";
+import { HiMenuAlt2, HiOutlineMenuAlt2 } from "react-icons/hi";
 import { CartDrawer } from "../cart";
+import { SearchDrawer } from "../search";
+import { FeaturesDropdown } from "./categories/FeaturesDropdown";
+import { ShopDropdown } from "./categories/ShopDropdown";
+import { MobileMenu } from "./mobile";
 
-const navs = ["Home", "Shop", "Pages", "Blog", "Features"];
+const navs = [
+  { title: "Home", comp: <></>, path: "/" },
+  { title: "Shop", comp: <ShopDropdown />, path: "/shop" },
+
+  { title: "Blog", comp: <></>, path: "/" },
+  // {
+  //   title: "Contact Us",
+  //   comp: <></>,
+  //   path: "/support",
+  // },
+  { title: "Features", comp: <FeaturesDropdown />, path: "/" },
+];
 
 export function Navbar() {
   const cartDisclosure = useDisclosure();
+  const searchDisclosure = useDisclosure();
+  const menuDisclosure = useDisclosure();
 
   return (
     <>
@@ -37,11 +57,13 @@ export function Navbar() {
           <IconButton
             variant={"unstyled"}
             aria-label="menu"
-            icon={<HiMenuAlt2 size={38} />}
+            icon={<HiOutlineMenuAlt2 size={32} />}
+            onClick={() => {
+              menuDisclosure.onOpen();
+            }}
           />
         </Box>
 
-        {/* @ts-ignore */}
         <HStack spacing={10} display={{ base: "none", xl: "flex" }}>
           <Logo />
 
@@ -50,31 +72,21 @@ export function Navbar() {
               <chakra.ul display={"flex"} alignItems={"center"} gap={5}>
                 {navs.map((item, index) => (
                   <chakra.li key={index}>
-                    <Text
-                      cursor={"pointer"}
-                      listStyleType={"none"}
-                      fontSize={"lg"}
-                      fontWeight={"medium"}
-                      position="relative"
-                      _before={{
-                        content: "' '",
-                        position: "absolute",
-                        bottom: "0px",
-                        left: "0px",
-                        height: "2px",
-                        width: "0%",
-                        backgroundColor: "outly.sec",
-                        transition:
-                          "all 0.25s cubic-bezier(0.645,0.045,0.355,1)",
-                      }}
-                      _hover={{
-                        _before: { width: "100%" },
-                      }}
-                      // onMouseOver={onToggle}
-                      // onMouseLeave={onClose}
-                    >
-                      {item}
-                    </Text>
+                    {item.title === "Home" ||
+                    item.title === "Blog" ||
+                    item.title === "Contact Us" ? (
+                      <Text
+                        fontSize={"lg"}
+                        fontWeight={"medium"}
+                        className="__link"
+                      >
+                        <Link href={"/"}>{item.title}</Link>
+                      </Text>
+                    ) : (
+                      <CustomNavMenu title={item.title} path={item.path}>
+                        {item.comp}
+                      </CustomNavMenu>
+                    )}
                   </chakra.li>
                 ))}
               </chakra.ul>
@@ -82,16 +94,29 @@ export function Navbar() {
           </Box>
         </HStack>
 
-        <Box display={{ base: "block", xl: "none" }}>
+        <Box display={{ base: "block", xl: "none" }} flex={1} pl={"4px"}>
           <Logo />
         </Box>
 
         <HStack spacing={5} alignItems={"center"}>
-          <Box>{SearchIcon}</Box>
-          <Box display={{ base: "none", md: "block" }}>{PersonIcon}</Box>
-          <Box display={{ base: "none", md: "block" }}>{LoveIcon}</Box>
+          <Box
+            tabIndex={0}
+            position={"relative"}
+            onClick={() => {
+              searchDisclosure.onOpen();
+            }}
+          >
+            {SearchIcon}
+          </Box>
+          <Box tabIndex={0} display={{ base: "none", md: "block" }}>
+            {PersonIcon}
+          </Box>
+          <Box display={{ base: "none", md: "block" }}>
+            <Link href={"/wishlist"}>{LoveIcon}</Link>
+          </Box>
 
           <Box
+            tabIndex={0}
             position={"relative"}
             onClick={() => {
               cartDisclosure.onOpen();
@@ -101,6 +126,7 @@ export function Navbar() {
               position={"absolute"}
               top={0}
               className="-translate-y-3/4 translate-x-1/3"
+              aria-label="cart button"
             >
               <CartBadge />
             </Box>
@@ -113,6 +139,12 @@ export function Navbar() {
       {cartDisclosure.isOpen ? (
         <CartDrawer cartDrawerDisclosure={cartDisclosure} />
       ) : null}
+      {searchDisclosure.isOpen ? (
+        <SearchDrawer searchDrawerDisclosure={searchDisclosure} />
+      ) : null}
+
+      {/* MOBILE MENU */}
+      <MobileMenu disclosure={menuDisclosure} />
     </>
   );
 }

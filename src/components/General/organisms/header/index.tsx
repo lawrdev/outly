@@ -53,7 +53,7 @@ export function Header({ inActive }: { inActive?: boolean }) {
             ? "absolute"
             : "fixed"
         }
-        zIndex={9}
+        zIndex={105}
         bg={
           inActive
             ? "none"

@@ -1,18 +1,44 @@
-export const getCart = () => {
-  if (typeof localStorage !== "undefined") {
-    const savedValue = localStorage.getItem("cart");
+import { useEffect, useState } from "react";
+import { getUserLocationInfo } from "@/functions";
+import { UserLocationProp } from "../types";
 
-    if (savedValue != null) return JSON.parse(savedValue);
+export const FormatPrice = ({ price }: { price: number }) => {
+  const [userCountry, setUserCountry] = useState<UserLocationProp>({
+    state: "Lagos",
+    country: "Nigeria",
+    currency: "NGN",
+    countryCode: "NG",
+  });
 
-    return { quantity: 0, items: [] };
-  }
+  const CURRENCY_FORMATTER = Intl.NumberFormat(
+    `en-${userCountry.countryCode || "US"}`,
+    {
+      style: "currency",
+      currency: userCountry.currency || "USD",
+      minimumFractionDigits: 0,
+    }
+  );
+
+  useEffect(() => {
+    async () => {
+      const loc = await getUserLocationInfo();
+      setUserCountry(loc);
+    };
+  }, []);
+
+  return (
+    <span style={{ fontWeight: "inherit", fontSize: "inherit" }}>
+      {CURRENCY_FORMATTER.format(price)}
+    </span>
+  );
 };
 
-const CURRENCY_FORMATTER = Intl.NumberFormat("en-NG", {
-  style: "currency",
-  currency: "NGN",
-  minimumFractionDigits: 0,
-});
-export function formatPrice(number: number) {
-  return CURRENCY_FORMATTER.format(number);
-}
+export const currencyFormatter = (price: number): string => {
+  const CURRENCY_FORMATTER = Intl.NumberFormat(`en-NG`, {
+    style: "currency",
+    currency: "NGN",
+    minimumFractionDigits: 0,
+  });
+
+  return `${CURRENCY_FORMATTER.format(price)}`;
+};

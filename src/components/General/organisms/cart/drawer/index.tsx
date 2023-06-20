@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  CloseButton,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -13,22 +12,24 @@ import {
   Heading,
   HStack,
   Progress,
+  ScaleFade,
   Skeleton,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
 import { useRecoilState } from "recoil";
 import Link from "next/link";
 
 import { getMultipleItems } from "@/functions/firebase/item";
 import { cartAtom } from "@/recoil";
 import { currencyFormatter, ItemProp, maxFreeShipping } from "@/utils";
-import { CartButtons } from "@/components/General/molecules";
-import { calDiscount, getCart, removeItemFromCart } from "@/functions";
+import { calDiscount, removeItemFromCart } from "@/functions";
 import { useRouter } from "next/router";
-import { CartBagIcon, SlideIn } from "@/components/General/atoms";
+import { CartBagIcon, ListAnimate, SlideIn } from "@/components/General/atoms";
+import { AnimatePresence } from "framer-motion";
+import { DrawerItemCard } from "../item";
+import { YouMayAlsoLike } from "../../youmayalsoLike";
 
 interface Props {
   cartDrawerDisclosure: {
@@ -49,7 +50,6 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
   const [cartItems, setCartItems] = useState<ItemProp[]>([]);
 
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const [cartAtomValue, setCartAtomValue] = useRecoilState(cartAtom);
 
@@ -155,12 +155,14 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
         placement="right"
         onClose={cartDrawerDisclosure.onClose}
         size={"md"}
+        blockScrollOnMount={false}
+        colorScheme={"appMain"}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent maxWidth={{ base: "94vw", sm: "md" }}>
           <DrawerCloseButton />
-          <DrawerHeader pt={5} pb={4}>
-            <Heading mb={"12px"} as={"h2"} size={"md"} fontWeight={500}>
+          <DrawerHeader pt={"32px"} pb={4} mb={1}>
+            <Heading mb={"12px"} as={"h2"} fontSize={"24px"} fontWeight={500}>
               Your Cart {`(${getTotalQuantity()})`}
             </Heading>
 
@@ -168,117 +170,76 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
             <VStack spacing={"2px"} alignItems={"flex-start"}>
               {subTotal > maxFreeShipping ? (
                 <Box width={"100%"}>
-                  <Text
-                    className={subTotal > maxFreeShipping ? "track-in" : ""}
-                    fontWeight={400}
-                    color={"outly.black500"}
-                    fontSize={"sm"}
-                    mb={"6px"}
-                  >
-                    Congratulations! You have got
-                    <Text as={"span"} fontWeight={500} color={"outly.black"}>
-                      {" "}
-                      FREE Shipping
+                  <ScaleFade initialScale={0.9} in={subTotal > maxFreeShipping}>
+                    <Text
+                      fontWeight={400}
+                      color={"outly.black500"}
+                      fontSize={"sm"}
+                      mb={"6px"}
+                    >
+                      Congratulations! You have got
+                      <Text
+                        as={"span"}
+                        fontWeight={600}
+                        fontSize={"sm"}
+                        color={"outly.black500"}
+                      >
+                        {" "}
+                        FREE Shipping
+                      </Text>
                     </Text>
-                  </Text>
+                  </ScaleFade>
                 </Box>
               ) : (
-                <Text fontWeight={500} fontSize={"sm"} mb={"6px"}>
-                  Free Shipping
-                  <Text as={"span"} fontWeight={400} color={"outly.black500"}>
-                    {" "}
-                    on orders over{" "}
+                <ScaleFade initialScale={0.9} in={subTotal < maxFreeShipping}>
+                  <Text
+                    fontWeight={400}
+                    fontSize={"sm"}
+                    mb={"6px"}
+                    color={"outly.black500"}
+                  >
+                    Free Shipping on orders over{" "}
+                    <Text
+                      as={"span"}
+                      fontSize={"sm"}
+                      fontWeight={600}
+                      color={"outly.black500"}
+                    >
+                      {currencyFormatter(maxFreeShipping)}{" "}
+                    </Text>
                   </Text>
-                  {currencyFormatter(maxFreeShipping)}
-                </Text>
+                </ScaleFade>
               )}
 
               <Box width={"100%"}>
                 <Progress
                   max={maxFreeShipping}
                   value={subTotal}
-                  colorScheme={
-                    subTotal > maxFreeShipping ? "appSuccess" : "appMain"
-                  }
+                  colorScheme={subTotal > maxFreeShipping ? "green" : "appMain"}
                   borderRadius={"sm"}
-                  height={"6px"}
+                  height={"10px"}
                 />
               </Box>
             </VStack>
           </DrawerHeader>
 
-          <DrawerBody className="thinSB" px={0} py={0}>
-            {/* ITEMS */}
+          <DrawerBody className="thinSB" px={0} py={2}>
             <VStack alignContent={"flex-start"} width={"100%"} spacing={"0px"}>
               {/* ITEMS */}
               {!fetchItems.isLoading && !isLoading && cartItems.length > 0 ? (
                 <>
-                  {cartItems.map((item, index) => (
-                    <SlideIn key={index} fullWidth>
-                      <Box
-                        mb={2}
-                        bg={"outly.bg"}
-                        px={"24px"}
-                        py={"10px"}
-                        width={"100%"}
-                        position={"relative"}
-                      >
-                        <HStack width={"100%"} spacing={"28px"}>
-                          <Box>
-                            <Image
-                              alt={"cart item"}
-                              src={item?.images[0]!}
-                              width={120}
-                              height={150}
-                              quality={100}
-                            />
-                          </Box>
-
-                          <VStack
-                            alignItems={"flex-start"}
-                            justifyContent={"center"}
-                            width={"100%"}
-                          >
-                            <Text
-                              fontWeight={500}
-                              noOfLines={1}
-                              _hover={{ color: "outly.main900" }}
-                              transition={`all 0.25s cubic-bezier(0.645,0.045,0.355,1)`}
-                            >
-                              <Link href={`/item/${item?._id}`}>
-                                {item?.title}
-                              </Link>
-                            </Text>
-                            <HStack
-                              width={"100%"}
-                              justifyContent={"space-between"}
-                            >
-                              <CartButtons
-                                item={item}
-                                onClick={() => {
-                                  getItemPrice(item?._id);
-                                  getTotalQuantity();
-                                }}
-                              />
-
-                              <Text fontWeight={500} fontSize={"md"}>
-                                {currencyFormatter(getItemPrice(item?._id))}
-                              </Text>
-                            </HStack>
-                          </VStack>
-                        </HStack>
-                        <CloseButton
-                          size={"sm"}
-                          position={"absolute"}
-                          top={2}
-                          right={4}
-                          onClick={() => {
-                            handleRemoveItem(item._id);
-                          }}
+                  <AnimatePresence>
+                    {cartItems.map((item, index) => (
+                      <ListAnimate key={index}>
+                        <DrawerItemCard
+                          item={item}
+                          handleRemoveItem={handleRemoveItem}
+                          getItemPrice={getItemPrice}
+                          getTotalQuantity={getTotalQuantity}
                         />
-                      </Box>
-                    </SlideIn>
-                  ))}
+                      </ListAnimate>
+                    ))}
+                  </AnimatePresence>
                 </>
               ) : null}
 
@@ -313,7 +274,7 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
                         _hover={{ color: "outly.main900" }}
                         transition={`all 0.25s cubic-bezier(0.645,0.045,0.355,1)`}
                       >
-                        <Link href={"#"}>Add from Wishlist</Link>
+                        <Link href={"/wishlist"}>Add from Wishlist</Link>
                       </Text>
 
                       <Text
@@ -338,33 +299,32 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
                   height={"100%"}
                   px={"24px"}
                   py={"16px"}
-                  spacing={"21px"}
-                  alignItems={"center"}
+                  spacing={"10px"}
+                  alignItems={"Flex-start"}
                 >
-                  <Skeleton height={120} width={"25%"} />
+                  <Skeleton height={100} width={"35%"} />
 
                   <VStack
+                    pt={"12px"}
                     width={"100%"}
                     alignItems={"flex-start"}
                     justifyContent={"center"}
+                    spacing={"8px"}
                   >
-                    <Skeleton height={"14px"} width={"60%"} />
-                    <Skeleton height={"28px"} width={"40%"} />
+                    <Skeleton height={"20px"} width={"90%"} />
+                    <Skeleton height={"14px"} width={"80%"} />
+                    <Skeleton height={"14px"} width={"40%"} />
                   </VStack>
-
-                  <Box pt={"24px"} width={"20%"}>
-                    <Skeleton height={"16px"} />
-                  </Box>
                 </HStack>
               ) : null}
             </VStack>
           </DrawerBody>
 
-          <DrawerFooter>
+          <DrawerFooter borderBlockStart={"1px solid #ddd"}>
             {!cartItems || cartItems?.length !== 0 ? (
               <Box width={"100%"} pt={"1px"}>
                 <HStack
-                  mb={"34px"}
+                  mb={"24px"}
                   justifyContent={"space-between"}
                   width={"100%"}
                 >

@@ -10,12 +10,13 @@ export function LogoText({ color, bg }: Props) {
   return (
     <Heading
       as="h1"
-      size="xl"
-      // fontWeight="semibold"
+      // size={{ base: "xl", md: "lg" }}
+      fontSize={{ base: "28px", md: "30px" }}
       letterSpacing="wider"
       color={color}
       bg={bg}
       noOfLines={1}
+      fontWeight={600}
     >
       outly
     </Heading>

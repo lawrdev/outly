@@ -31,8 +31,9 @@ import { ItemDetails, ItemImageGallery } from "@/components/ItemPage/organisms";
 
 interface Props {
   item: ItemProp;
+  isDrawer?: boolean;
 }
-export function ItemCard({ item }: Props) {
+export function ItemCard({ item, isDrawer }: Props) {
   const [currColorImage, setCurrColorImage] = useState<string | null>(null);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const timerRef = useRef<any | null>(null);
@@ -65,10 +66,9 @@ export function ItemCard({ item }: Props) {
   return (
     <>
       <Appear>
-        <Box data-aos="fade-up">
+        <Box data-aos={isDrawer ? "" : "fade-up"}>
           <Box
-            mb={"16px"}
-            p={0.5}
+            mb={"6px"}
             position={"relative"}
             // boxShadow="inset 0px 0px 3px rgba(0, 0, 0, 0.15)"
           >
@@ -78,7 +78,7 @@ export function ItemCard({ item }: Props) {
             >
               <Box
                 bg="outtly.bg"
-                height={"100%"}
+                minHeight={"200%"}
                 width={"100%"}
                 display={"flex"}
                 flexDirection="column"
@@ -103,8 +103,8 @@ export function ItemCard({ item }: Props) {
                     src={currColorImage ? currColorImage : item.images[0]}
                     alt={item.title}
                     title={item.title}
-                    width={270}
-                    height={350}
+                    width={589}
+                    height={756}
                     style={{
                       transform: "scale(1.1)",
                       minWidth: "100%",
@@ -136,8 +136,10 @@ export function ItemCard({ item }: Props) {
                     alt={item.title}
                     title={item.title}
                     sizes={"(max-width: 1200px) 100vw, 100vw"}
-                    width={270}
-                    height={350}
+                    // width={270}
+                    // height={350}
+                    width={589}
+                    height={756}
                     quality={100}
                     style={{
                       minWidth: "100%",
@@ -366,7 +368,7 @@ export function ItemCard({ item }: Props) {
 
           <Box textAlign={"start"}>
             <Text
-              fontSize={"lg"}
+              fontSize={"md"}
               fontWeight={"medium"}
               mb={1}
               onClick={() => {
@@ -380,7 +382,7 @@ export function ItemCard({ item }: Props) {
             >
               {item.title}
             </Text>
-            <Text fontSize={"lg"} fontWeight={"medium"}>
+            <Text fontSize={"md"} fontWeight={"medium"}>
               {<FormatPrice price={item.price} />}
             </Text>
           </Box>
@@ -413,7 +415,7 @@ export function ItemCard({ item }: Props) {
       <CustomModal
         disclosure={quickViewDisclosure}
         // @ts-ignore
-        modalProps={{ size: "6xl" }}
+        modalProps={{ size: "5xl" }}
         modalOverlay={{
           bg: "blackAlpha.300",
           backdropFilter: "blur(10px) hue-rotate(90deg)",

@@ -1,7 +1,6 @@
 import React from "react";
 import { CategoryGrid, CategoryHero } from "@/components/Category/organisms";
 import { Footer, Header } from "@/components/General/organisms";
-import { Box } from "@chakra-ui/react";
 import { Container, PageWrapper } from "@/components/General/atoms";
 
 export function CategoryTemplate({ isShop }: { isShop?: boolean }) {

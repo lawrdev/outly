@@ -81,13 +81,13 @@ export function FollowUs({ socialImages }: Props) {
       </Box>
 
       {/* newsletter */}
-      <Box maxWidth={"570px"} mx={"auto"}>
+      <Box pt={5} maxWidth={"570px"} mx={"auto"}>
         <Heading
           as="h3"
           size={"sm"}
           fontWeight={"normal"}
           letterSpacing={"wider"}
-          mb={5}
+          mb={3}
           textAlign={"center"}
         >
           NEWSLETTER

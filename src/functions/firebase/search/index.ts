@@ -1,27 +1,34 @@
-import { ItemProp } from "@/utils";
+import { ItemProp, SearchCategoriesTypes } from "@/utils";
 import { db } from "../../../../firebase.config";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
+import { formatSearchString } from "@/functions/general";
 
 // test for ItemProp
 const tg = (x: any): x is ItemProp[] => true;
 
-export const getSearchItems = async (category: string, search?: string) => {
+export const getSearchItems = async ({
+  category = "All",
+  search,
+}: {
+  category: SearchCategoriesTypes;
+  search?: string;
+}) => {
   try {
     let items: ItemProp[] = [];
-    let conditions = [where("category", "==", category)];
+    let conditions = [];
 
-    if (search) {
-      conditions.push(where("search", "==", search));
+    if (category !== "All") {
+      conditions.push(where("category", "array-contains", category));
     }
 
-    const q = query(collection(db, "items"), ...conditions);
+    if (search) {
+      let whatToSearch = formatSearchString(search);
+      conditions.push(where("title", ">=", `${whatToSearch}`));
+      conditions.push(where("title", "<=", `${whatToSearch}\uf7ff`));
+    }
+
+    // FIX limit to pagination
+    const q = query(collection(db, "items"), ...conditions, limit(10));
 
     const querySnapshot = await getDocs(q);
 
@@ -35,6 +42,10 @@ export const getSearchItems = async (category: string, search?: string) => {
       throw new Error("No such item!");
     }
   } catch (error) {
-    throw new Error("No such item!");
+    console.log("issssh", error);
+    throw new Error(
+      // @ts-ignore
+      typeof error.message === "string" ? error.message : "Firebase Error"
+    );
   }
 };

@@ -7,17 +7,17 @@ import { ItemProp } from "@/utils";
 export const ItemPageBreadcrumbs = ({ item }: { item?: ItemProp }) => {
   const [crumbs, setCrumbs] = useState([
     { title: "Home", href: "/" },
-    { title: "Items", href: "/shop" },
+    { title: "Items", href: "/shop", isCurrent: false },
   ]);
 
   useEffect(() => {
-    if (item && item.subCategory) {
+    if (item && item.subCategory != undefined) {
       setCrumbs(() => [
         { title: "Home", href: "/" },
         { title: "Items", href: "/shop" },
         {
           title: item.subCategory!,
-          href: `/category/${item.category}?category=${item.subCategory}`,
+          href: `/category/${item.subCategory}`,
         },
         {
           title: item.title,
@@ -30,8 +30,8 @@ export const ItemPageBreadcrumbs = ({ item }: { item?: ItemProp }) => {
         { title: "Home", href: "/" },
         { title: "Items", href: "/shop" },
         {
-          title: item.category!,
-          href: `/category/${item.category}`,
+          title: item.category[0],
+          href: `/category/${item.category[0]}`,
         },
         {
           title: item.title,

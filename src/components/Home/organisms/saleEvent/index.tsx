@@ -1,11 +1,12 @@
 import { FormatPrice } from "@/utils";
 import { Box, Button, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function SaleEvent() {
   return (
     <Box>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacingY={2}>
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacingY={0}>
         <Box width="100%" position={"relative"} overflow={"hidden"}>
           <Image
             src={
@@ -24,36 +25,33 @@ export function SaleEvent() {
 
         <Box
           bg="outly.main"
-          py={12}
+          py={{ base: "72px", md: 0 }}
           display={"flex"}
           flexDirection={"column"}
           justifyContent={"center"}
           alignItems={"center"}
           textAlign={"center"}
         >
-          <Box mb={4}>
-            <Heading as="h4" fontWeight={"medium"} size="sm">
+          <Box mb={1}>
+            <Text color={"outly.black500"} fontWeight={500} fontSize={"sm"}>
               SALE EVENT
-            </Heading>
+            </Text>
           </Box>
-          <Box mb={2}>
-            <Heading
-              as="h3"
-              fontWeight={"semibold"}
-              size={"lg"}
-              lineHeight={1.4}
-            >
+          <Box mb={7}>
+            <Heading as="h3" fontWeight={600} size={"lg"} lineHeight={1.4}>
               Summer Shirt
               <br />
               Limited Offer - {<FormatPrice price={999} />}
             </Heading>
           </Box>
-          <Box mb={6}>
-            <Text>Until 30/12/23. Use code FESTIVE at checkout</Text>
+          <Box mb={3}>
+            <Text color={"outly.black500"}>
+              Until 30/12/23. Use code FESTIVE at checkout
+            </Text>
           </Box>
 
-          <Button px={8} py={6}>
-            Shop now
+          <Button px={12} py={6}>
+            <Link href={"/shop"}>Shop now</Link>
           </Button>
         </Box>
       </SimpleGrid>

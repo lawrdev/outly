@@ -110,7 +110,7 @@ export function Footer() {
               <ListHeader>Company</ListHeader>
               <Link href={"#"}>About us</Link>
               <Link href={"#"}>Outly Prime</Link>
-              <Link href={"#"}>Contact us</Link>
+              <Link href={"/support"}>Contact us</Link>
             </Stack>
 
             <Stack align={"flex-start"}>

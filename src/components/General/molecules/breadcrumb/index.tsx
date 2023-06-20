@@ -18,6 +18,10 @@ export function Breadcrumbs({ crumbs }: Props) {
       fontSize="md"
       fontWeight="medium"
       color={"outly.black500"}
+      listProps={{
+        flexWrap: { base: "wrap", md: "nowrap" },
+        gap: "0px",
+      }}
     >
       {crumbs.map((crumb, index) => (
         <BreadcrumbItem key={index} isCurrentPage={crumb.isCurrent}>

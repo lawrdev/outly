@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Rating as Rater, Star } from "@smastrom/react-rating";
+import { ItemStyles, Rating as Rater, ThinStar } from "@smastrom/react-rating";
 
 interface RatingProps {
   value?: number;
@@ -11,10 +11,21 @@ interface RatingProps {
   onChange?: (value: number) => void;
 }
 
-const myStyles = {
-  itemShapes: Star,
+const myStyles: ItemStyles = {
+  itemShapes: ThinStar,
   activeFillColor: "#C8815F",
-  inactiveFillColor: "#c7c7c780",
+  inactiveFillColor: "#00000001",
+  inactiveStrokeColor: "#C8815F",
+  activeStrokeColor: "#C8815F",
+  itemStrokeWidth: 1.5,
+};
+const myStyles2: ItemStyles = {
+  itemShapes: ThinStar,
+  activeFillColor: "#111",
+  inactiveFillColor: "#f1f1f1",
+  inactiveStrokeColor: "#111",
+  activeStrokeColor: "#111",
+  itemStrokeWidth: 1.5,
 };
 
 export function Rating({
@@ -23,6 +34,7 @@ export function Rating({
   maxWidth = 120,
   height = "22px",
   isEditable,
+  black,
   onChange,
 }: RatingProps) {
   const [rating, setRating] = useState(0);
@@ -31,6 +43,7 @@ export function Rating({
     return (
       <Rater
         style={{ maxWidth, fontSize: "12px", height }}
+        itemStyles={black ? myStyles2 : myStyles}
         value={rating}
         onChange={(val: number) => {
           setRating(val);
@@ -44,7 +57,7 @@ export function Rating({
         style={{ maxWidth, fontSize: "12px", height }}
         value={value}
         readOnly={readOnly}
-        itemStyles={myStyles}
+        itemStyles={black ? myStyles2 : myStyles}
       />
     );
   }

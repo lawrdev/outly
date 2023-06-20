@@ -7,6 +7,7 @@ import {
   Heading,
   HStack,
   SimpleGrid,
+  Text,
   TextProps,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
@@ -15,22 +16,23 @@ import { ItemCard, ItemCardSkeleton } from "../../molecules";
 import { getSuggestionsRandom } from "@/functions/firebase/category";
 import { useRouter } from "next/router";
 import { getAllItems } from "@/functions";
+import Link from "next/link";
 
 export const YouMayAlsoLike = ({
   currItemID,
   categories,
   limit,
   headerProps,
+  isDrawer,
 }: {
   categories: SearchCategoriesTypes[];
   currItemID?: string;
   isLoading?: boolean;
   headerProps?: TextProps;
   limit?: number;
+  isDrawer?: boolean;
 }) => {
   const [data, setData] = useState<ItemProp[]>();
-
-  const router = useRouter();
 
   const getCategorySuggestions = useQuery(
     ["get_category_suggestions"],
@@ -43,7 +45,12 @@ export const YouMayAlsoLike = ({
     },
     {
       onSuccess: (res) => {
-        setData(res as ItemProp[]);
+        if (currItemID) {
+          let op = res.filter((x) => x._id !== currItemID).slice(0, 4);
+          setData(op);
+        } else {
+          setData(res.slice(0, 4));
+        }
       },
       onError: (err) => {
         setData([]);
@@ -56,7 +63,7 @@ export const YouMayAlsoLike = ({
   return (
     <Box w={"100%"}>
       <Heading
-        mb={"21px"}
+        mb={{ base: "32px", md: "47px" }}
         as="h2"
         size={"lg"}
         fontWeight={500}
@@ -68,33 +75,27 @@ export const YouMayAlsoLike = ({
 
       {!getCategorySuggestions.isLoading && data && data.length > 0 ? (
         <Box pb={"32px"}>
-          <Grid
-            mb={"28px"}
-            templateColumns="repeat(12, 1fr)"
-            rowGap={8}
-            columnGap={2}
+          <SimpleGrid
+            mb={"38px"}
+            columns={{ base: 1, sm: 2, md: isDrawer ? 2 : 4 }}
+            spacing={{ base: 8, sm: 4, md: isDrawer ? 6 : 10 }}
           >
-            {data
-              // .filter((op) => (currItemID ? op._id !== currItemID : true))
-              .map((item, index) => (
-                <GridItem key={index} colSpan={{ base: 12, sm: 6 }}>
-                  <ItemCard item={item} />
-                </GridItem>
-              ))}
-          </Grid>
+            {data.map((item, index) => (
+              <Box key={index}>
+                <ItemCard item={item} isDrawer={isDrawer} />
+              </Box>
+            ))}
+          </SimpleGrid>
 
           <HStack w={"full"} justifyContent={"center"}>
-            <Button
-              variant={"link"}
-              _hover={{ color: "outly.main900" }}
-              textDecoration={"underline"}
-              textUnderlineOffset={"2px"}
-              onClick={() => {
-                router.push(`/shop`);
-              }}
+            <Text
+              className={"__link"}
+              fontWeight={500}
+              color={"outly.black500"}
+              fontSize={{ base: "md", md: "lg" }}
             >
-              View More
-            </Button>
+              <Link href={`/shop`}>View More</Link>
+            </Text>
           </HStack>
         </Box>
       ) : null}

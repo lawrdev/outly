@@ -1,8 +1,12 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { BoxLoader } from "@/components/General/atoms";
 import { CartButtons } from "@/components/General/molecules";
-import { getSuggestions } from "@/functions";
-import { currencyFormatter, ItemProp, LocalStorageItemProp } from "@/utils";
+import {
+  currencyFormatter,
+  ItemProp,
+  LocalStorageItemProp,
+  SearchCategoriesTypes,
+} from "@/utils";
 import {
   Box,
   Button,
@@ -21,21 +25,22 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { GiShoppingCart } from "react-icons/gi";
+import { getCartPageSuggestions } from "@/functions/firebase/category";
 
 export function CartItemList({
   loading,
   items,
-  getItemPrice,
   refetch,
+  getItemPrice,
   removeItem,
   itemInCartFn,
 }: {
   loading: boolean;
   items: ItemProp[];
+  refetch: any;
   removeItem: (id: string) => void;
   getItemPrice: (id: string) => number;
   itemInCartFn: (id: string) => LocalStorageItemProp | undefined;
-  refetch: any;
 }) {
   const timerRef = useRef<any | null>(null);
   const toast = useToast();
@@ -197,33 +202,11 @@ export function CartItemList({
           Update Cart
         </Button>
       </HStack>
-
-      {items.length > 0 ? (
-        <section>
-          <Box
-            mt={"50px"}
-            pb={6}
-            border={"1px solid transparent"}
-            borderBlockEndColor={"outly.gray100"}
-          >
-            <Heading as={"h2"} fontSize={"2xl"} fontWeight={500}>
-              You May Also Like
-            </Heading>
-          </Box>
-
-          {items && items.length > 0 ? (
-            <CartPageYouMayAlsoLike
-              itemCategory={items[0]?.category}
-              idArray={items.map((item) => item._id)}
-            />
-          ) : null}
-        </section>
-      ) : null}
     </Box>
   );
 }
 
-const YourCartSkeleton = () => {
+export const YourCartSkeleton = () => {
   return (
     <Box width={"100%"}>
       <HStack
@@ -249,106 +232,6 @@ const YourCartSkeleton = () => {
           <Skeleton height={"16px"} />
         </Box>
       </HStack>
-    </Box>
-  );
-};
-
-const CartPageYouMayAlsoLike = ({
-  itemCategory,
-  idArray,
-}: {
-  itemCategory: string;
-  idArray: string[];
-}) => {
-  const toast = useToast();
-  const { data, isLoading } = useQuery(
-    ["get_cart_suggestions"],
-    () => {
-      return getSuggestions(itemCategory, idArray);
-    },
-    {
-      onError: () => {
-        toast({
-          status: "error",
-          title: "Something went wrong",
-        });
-      },
-    }
-  );
-
-  return (
-    <Box width={"full"}>
-      <VStack alignItems={"flex-start"} width={"full"}>
-        {isLoading || !data ? (
-          <Box width={"100%"}>
-            <YourCartSkeleton />
-          </Box>
-        ) : null}
-
-        {data && data?.length > 0 ? (
-          <Box width={"full"}>
-            {data.map((item, index) => (
-              <HStack
-                key={index}
-                py={6}
-                border={"1px solid transparent"}
-                borderBlockEndColor={"outly.gray100"}
-                alignItems={"center"}
-                spacing={8}
-              >
-                <Box>
-                  <Image
-                    alt={item.title}
-                    src={item.images[0]}
-                    width={120}
-                    height={150}
-                    quality={100}
-                  />
-                </Box>
-
-                <Box width={"full"}>
-                  <HStack width={"full"} justifyContent={"space-between"}>
-                    <Box>
-                      <Text
-                        fontWeight={500}
-                        fontSize={"lg"}
-                        _hover={{ color: "outly.main900" }}
-                      >
-                        <Link href={`/item/${item._id}`}>{item.title}</Link>
-                      </Text>
-                      <Text
-                        fontWeight={400}
-                        fontSize={"lg"}
-                        color={"outly.black500"}
-                      >
-                        {currencyFormatter(item.price)}
-                      </Text>
-                    </Box>
-
-                    <CartButtons item={item} showButtons showWishlist />
-                  </HStack>
-                </Box>
-              </HStack>
-            ))}
-          </Box>
-        ) : null}
-
-        {data && data.length === 0 ? (
-          <Text mt={8} mb={5} color={"outly.black100"}>
-            Nothing to show here.{" "}
-            <Link href={"/shop"}>
-              <Text
-                as={"span"}
-                textDecoration={"underline"}
-                textUnderlineOffset={"4px"}
-                _hover={{ color: "outly.main900" }}
-              >
-                View Shop
-              </Text>
-            </Link>
-          </Text>
-        ) : null}
-      </VStack>
     </Box>
   );
 };
