@@ -1,10 +1,32 @@
-import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
+import { checkbox } from "../components/checkbox";
+import {
+  extendTheme,
+  withDefaultColorScheme,
+  ComponentStyleConfig,
+} from "@chakra-ui/react";
+import { skeleton } from "../components/skeleton";
+import { input } from "../components/input";
+
+const Button: ComponentStyleConfig = {
+  baseStyle: {
+    // bgGradient: "linear(to-r, brand.500, brand.900)",
+    borderRadius: "sm",
+    fontWeight: "medium",
+    _active: { transform: "scale(0.95)", color: "white" },
+    transition: "all 0.25s cubic-bezier(0.645,0.045,0.355,1)",
+  },
+  defaultProps: {},
+};
 
 export const chakraTheme = extendTheme(
   {
     fonts: {
-      heading: `'Open Sans', sans-serif`,
-      body: `'Raleway', sans-serif`,
+      heading: `"Jost", 'Open Sans', sans-serif`,
+      body: `"Jost", 'Raleway', sans-serif`,
+    },
+
+    transition: {
+      fast: "all 0.25s cubic-bezier(0.645,0.045,0.355,1)",
     },
     colors: {
       main: {
@@ -35,7 +57,7 @@ export const chakraTheme = extendTheme(
       sec: {
         1: "#010101",
         2: "#DBD6C490",
-        3: "linear(to-r, brand.500, brand.900)",
+        3: "linear(to-r, brand.800, brand.700)",
       },
       backgrounds: {
         0: "#FFEAEE",
@@ -45,25 +67,72 @@ export const chakraTheme = extendTheme(
         4: "#F8F9FA",
         5: "#e9d1c8",
       },
-    },
-    components: {
-      Button: {
-        baseStyle: {
-          // bgGradient: "linear(to-r, brand.500, brand.900)",
-        },
+      outly: {
+        black: "#111111",
+        black100: "#999",
+        black400: "#515151",
+        black500: "#555",
+        main: "#F6E6CF", // light brown
+        main100: "#FAF0E8",
+        main500: "#C8815F50",
+        main900: "#C8815F",
+        sec: "#c8815f",
+        bg: "#F6F6F6",
+        bg100: "#c7c7c780",
+        red: "#ed0006",
+        green: "#20D756",
+        gray: "#BCBCBC",
+        gray100: "#ddd",
+        yellow: "#FFAA4A",
+        blue: "#00AFF0",
       },
+      blacks: {
+        100: "#000",
+        500: "#111111",
+      },
+      appMain: {
+        100: "#F6E6CF",
+        500: "#C8815F",
+      },
+      appSuccess: {
+        100: "#00800030",
+        500: "#008000",
+      },
+      appGray: {
+        100: "#F6F6F6",
+        500: "#F6F6F6",
+      },
+      appRed: {
+        100: "#ed000650",
+        500: "#FF4154",
+      },
+    },
+
+    components: {
+      Button,
       Text: {
         baseStyle: {
-          fontSize: { base: "sm", md: "md" },
+          fontSize: "md",
+          fontWeight: 400,
         },
       },
+      Tooltip: {
+        baseStyle: {
+          bg: "outly.black",
+          color: "#fff",
+          fontWeight: 400,
+        },
+      },
+      Checkbox: checkbox,
+      Skeleton: skeleton,
+      Input: input,
     },
 
     styles: {
       global: {
         body: {
-          bg: "backgrounds.4", // TODO
-          color: "sec.1",
+          bg: "outly.bg", // TODO
+          color: "outly.black",
           fontSize: "16px",
         },
         a: {
@@ -80,6 +149,6 @@ export const chakraTheme = extendTheme(
   },
 
   withDefaultColorScheme({
-    colorScheme: "main",
+    colorScheme: "blacks",
   })
 );
