@@ -1,4 +1,5 @@
 import { Head } from "@/components/General/organisms";
+import { Box } from "@chakra-ui/react";
 
 export default function SignIn() {
   return (
@@ -6,6 +7,7 @@ export default function SignIn() {
       <Head pageTitle="SignIn | OutlyStore" />
 
       {/* <WishlistTemplate /> */}
+      <Box>Sign In</Box>
     </>
   );
 }
