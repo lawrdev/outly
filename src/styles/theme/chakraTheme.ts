@@ -1,13 +1,22 @@
 import { checkbox } from "../components/checkbox";
 import {
   extendTheme,
+  defineStyle,
   withDefaultColorScheme,
   ComponentStyleConfig,
 } from "@chakra-ui/react";
 import { skeleton } from "../components/skeleton";
 import { input } from "../components/input";
 
+const outline = defineStyle({
+  _hover: {
+    bg: "blackAlpha.100",
+  },
+  _active: { bg: "blackAlpha.100" },
+});
+
 const Button: ComponentStyleConfig = {
+  variants: { outline },
   baseStyle: {
     // bgGradient: "linear(to-r, brand.500, brand.900)",
     borderRadius: "sm",
