@@ -18,12 +18,14 @@ interface Props {
   children: ReactNode;
   placement?: "right" | "left";
   blockScrollOnMount?: boolean;
+  hideCloseButton?: boolean;
 }
 export function CustomDrawer({
   disclosure,
   placement = "left",
   blockScrollOnMount = true,
   children,
+  hideCloseButton,
 }: Props) {
   return (
     <Drawer
@@ -34,7 +36,7 @@ export function CustomDrawer({
     >
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerCloseButton />
+        {!hideCloseButton ? <DrawerCloseButton /> : null}
 
         <DrawerBody className="thinSB">{children}</DrawerBody>
       </DrawerContent>
