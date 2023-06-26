@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import { useSpring, animated, config } from "@react-spring/web";
-import { Box } from "@chakra-ui/react";
 
 export function SlideIn({
   children,
@@ -75,6 +74,36 @@ export function ListAnimate({
       }
       animate={direction === "up" ? { opacity: 1, y: 0 } : { opacity: 1, x: 0 }}
       exit={direction === "up" ? { opacity: 0, y: 50 } : { opacity: 0, x: 50 }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+
+        duration: duration,
+        delay: delay,
+      }}
+      style={{
+        width: "100%",
+        transitionTimingFunction: "cubic-bezier(0.645,0.045,0.355,1)",
+        ...style,
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export function ListInAnimate({
+  children,
+  style,
+  delay = 0,
+  duration = 0.1,
+}: Props) {
+  return (
+    <motion.div
+      initial={{ opacity: 0.5, x: 60 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 60 }}
       transition={{
         type: "spring",
         stiffness: 260,
