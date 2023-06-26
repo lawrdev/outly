@@ -165,3 +165,4 @@ export function CartItemRemoveButton({ onClick }: { onClick: () => void }) {
 
 export * from "./dropdown";
 export * from "./boxButton";
+export * from "./back";
