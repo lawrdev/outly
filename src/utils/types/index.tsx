@@ -64,6 +64,7 @@ export type ColorTypes =
   | "Navy"
   | "Pink"
   | "White"
+  | "Brown"
   | "Gold";
 
 export type SizeTypes = "L" | "S" | "M" | "XL" | "XXL" | "XXXL";
@@ -108,6 +109,7 @@ export interface CategoryProp {
   category: string;
   quantity: number;
   images: Array<string>;
+  timestamp?: any;
 }
 export interface SelectOptionsType {
   label: string;
