@@ -39,7 +39,7 @@ export const getSocialImgs = async () => {
 
 export const getCategories = async () => {
   let categories: CategoryProp[] = [];
-  const q = query(collection(db, "categoryItems"), orderBy("category"));
+  const q = query(collection(db, "categoryItems"), orderBy("timestamp"));
 
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
@@ -79,7 +79,7 @@ export const getAllItems = async (limitBy?: number): Promise<ItemProp[]> => {
 
   const q = query(
     collection(db, "items"),
-    orderBy("timestamp"),
+    orderBy("timestamp", "desc"),
     limit(limitBy || 30)
   );
   const querySnapshot = await getDocs(q);
