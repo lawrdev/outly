@@ -1,4 +1,3 @@
-import { getSocialImgs } from "@/functions";
 import { SocialImageProp } from "@/utils";
 import {
   Box,
@@ -9,9 +8,6 @@ import {
   SimpleGrid,
   Text,
   FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
   Button,
 } from "@chakra-ui/react";
@@ -32,7 +28,7 @@ export function FollowUs({ socialImages }: Props) {
 
       {/* image grid */}
       <Box mb={"50px"}>
-        <SimpleGrid columns={{ base: 2, md: 5 }} spacing={2}>
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 3, xl: 5 }} spacing={2}>
           {socialImages?.map((obj, index) => (
             <Box
               key={index}
@@ -48,18 +44,24 @@ export function FollowUs({ socialImages }: Props) {
                 _groupHover={{
                   transform: "scale(1.1)",
                 }}
+                position={"relative"}
+                height={{ base: "310px", lg: "219px" }}
               >
                 <Image
                   title="Instagram @outly"
                   src={obj.img}
-                  width={273}
-                  height={273}
+                  // width={273}
+                  // height={273}
                   alt="outly instagram"
                   sizes="(max-width: 1200px) 100vw, 100vw"
                   style={{
                     minWidth: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center",
                   }}
                   quality={100}
+                  priority
+                  fill
                 />
               </Box>
               <Box

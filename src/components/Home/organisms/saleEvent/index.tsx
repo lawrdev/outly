@@ -1,60 +1,82 @@
+import { Container } from "@/components/General/atoms";
 import { FormatPrice } from "@/utils";
-import { Box, Button, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  SimpleGrid,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import dayjs from "dayjs";
 import Image from "next/image";
 import Link from "next/link";
+import { SalesTimer } from "../../molecules";
 
 export function SaleEvent() {
   return (
-    <Box>
-      <SimpleGrid columns={{ base: 1, md: 2 }} spacingY={0}>
-        <Box width="100%" position={"relative"} overflow={"hidden"}>
-          <Image
-            src={
-              "https://firebasestorage.googleapis.com/v0/b/outly-ecommerce.appspot.com/o/hero%2FsaleEvent.jpg?alt=media&token=8a5e93cf-dcd3-4651-b5ef-6a84c8313efb"
-            }
-            width={441}
-            height={372}
-            alt="sale event"
-            sizes="(max-width: 1200px) 100vw, 100vw"
-            style={{
-              minWidth: "100%",
-            }}
-            quality={100}
-          />
-        </Box>
-
-        <Box
-          bg="outly.main"
-          py={{ base: "72px", md: 0 }}
-          display={"flex"}
-          flexDirection={"column"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          textAlign={"center"}
-        >
-          <Box mb={1}>
-            <Text color={"outly.black500"} fontWeight={500} fontSize={"sm"}>
-              SALE EVENT
-            </Text>
-          </Box>
-          <Box mb={7}>
-            <Heading as="h3" fontWeight={600} size={"lg"} lineHeight={1.4}>
-              Summer Shirt
-              <br />
-              Limited Offer - {<FormatPrice price={999} />}
-            </Heading>
-          </Box>
-          <Box mb={3}>
-            <Text color={"outly.black500"}>
-              Until 30/12/23. Use code FESTIVE at checkout
-            </Text>
+    <Box bg={"#f8f4f1"}>
+      <Container>
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacingY={10}>
+          <Box
+            pt={{ base: "60px", xl: "0px" }}
+            pr={{ base: "0vw", md: "4vw", xl: "8vw" }}
+            width="100%"
+            position={"relative"}
+            overflow={"hidden"}
+          >
+            <Box
+              ml={{ base: "-47px", md: "-50px" }}
+              transform={{ base: "scale(1.2)", md: "scale(1)" }}
+            >
+              <Image
+                src={
+                  "https://firebasestorage.googleapis.com/v0/b/outly-ecommerce.appspot.com/o/others%2Faa.png?alt=media&token=7c8ca8e4-3d02-46d5-b6a6-267ed753eebb"
+                }
+                width={512}
+                height={550}
+                alt="sales event"
+                sizes="(max-width: 1200px) 100vw, 100vw"
+                style={{
+                  minWidth: "100%",
+                }}
+                quality={100}
+                priority
+              />
+            </Box>
           </Box>
 
-          <Button px={12} py={6}>
-            <Link href={"/shop"}>Shop now</Link>
-          </Button>
-        </Box>
-      </SimpleGrid>
+          <VStack
+            pb={{ base: "72px", md: 0 }}
+            justifyContent={"center"}
+            alignItems={"flex-start"}
+          >
+            <Box>
+              <Text mb={2} color={"outly.red"} fontWeight={500} fontSize={"md"}>
+                SALE UPTO 60%
+              </Text>
+
+              <Heading
+                mb={5}
+                as="h2"
+                fontWeight={500}
+                fontSize={"3xl"}
+                letterSpacing={"tight"}
+              >
+                Blue classic long sleeves shirt
+              </Heading>
+
+              <Box mb={6}>
+                <SalesTimer />
+              </Box>
+
+              <Button as={Link} href={"/shop"} fontSize={"lg"} px={12} py={6}>
+                Shop now
+              </Button>
+            </Box>
+          </VStack>
+        </SimpleGrid>
+      </Container>
     </Box>
   );
 }
