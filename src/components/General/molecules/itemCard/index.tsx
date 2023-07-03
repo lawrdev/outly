@@ -106,7 +106,7 @@ export function ItemCard({ item, isDrawer }: Props) {
                     width={589}
                     height={756}
                     style={{
-                      transform: "scale(1.1)",
+                      // transform: "scale(1.1)",
                       minWidth: "100%",
                     }}
                     sizes={"(max-width: 1200px) 100vw, 100vw"}
