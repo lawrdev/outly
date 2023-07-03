@@ -202,7 +202,7 @@ img {
 #cs_review div.swiper-pagination {
   width: 100%;
   margin: 0 auto;
-  bottom: 0px;
+  bottom: -6px;
 }
 #cs_review span.swiper-pagination-bullet {
   background-color: #ddd;
