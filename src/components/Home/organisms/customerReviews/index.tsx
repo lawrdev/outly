@@ -8,34 +8,42 @@ import { Rating } from "@/components/General/atoms";
 
 const reviews = [
   {
-    review: `I recently discovered Outly and I'm so glad I did! It has quickly become my go-to website for fashion. The selection is great, the prices are affordable, and the quality of the items is amazing.`,
-    person: "May Adeola",
-    img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416038/Outly/socialImages/pexels-wayne-fotografias-13729705_wue2dq.jpg",
+    cards: [
+      {
+        review: `Outly is a game-changer in eCommerce. With a sleek interface and diverse products, it's a shopper's paradise. Quick customer support, secure checkout, and fast shipping make it my go-to online destination.`,
+        person: "May Adeola",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416038/Outly/socialImages/pexels-wayne-fotografias-13729705_wue2dq.jpg",
+      },
+      {
+        review: `Outly exceeds expectations in eCommerce. User-friendly interface, vast product selection, and attentive customer service make shopping a breeze. Secure checkout and swift shipping ensure a seamless experience.`,
+        person: "Stanley Uko",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416034/Outly/socialImages/pexels-cottonbro-studio-6626876_dkqck1.jpg",
+      },
+      {
+        review: `"Outly revolutionizes online shopping. Sleek design, comprehensive products, and excellent customer service make it my preferred choice. Secure checkout and efficient shipping guarantee a hassle-free experience.`,
+        person: "Ella Lee",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688422177/Outly/socialImages/pexels-arina-krasnikova-7752570_nbdalz.jpg",
+      },
+    ],
   },
   {
-    review: `Outly's shipping is fast and easy  to setup as well. Outly offers an unbeatable shopping experience all around! I'm also a big fan of their customer service. Prices are great as well, I highly recommend`,
-    person: "Stanley Uko",
-    img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416034/Outly/socialImages/pexels-cottonbro-studio-6626876_dkqck1.jpg",
-  },
-  {
-    review: `As a fashion enthusiast, Outly has been my go-to for all my shopping needs. The website is incredibly easy to navigate, the prices are unbeatable, and I always find something new every time I visit.`,
-    person: "Ella Lee",
-    img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688422177/Outly/socialImages/pexels-arina-krasnikova-7752570_nbdalz.jpg",
-  },
-  {
-    review: `I recently discovered Outly and I'm so glad I did! It has quickly become my go-to website for fashion. The selection is great, the prices are affordable, and the quality of the items is amazing.`,
-    person: "May Adeola",
-    img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416038/Outly/socialImages/pexels-wayne-fotografias-13729705_wue2dq.jpg",
-  },
-  {
-    review: `Outly's shipping is fast and easy  to setup as well. Outly offers an unbeatable shopping experience all around! I'm also a big fan of their customer service. Prices are great as well, I highly recommend`,
-    person: "Stanley Uko",
-    img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416034/Outly/socialImages/pexels-cottonbro-studio-6626876_dkqck1.jpg",
-  },
-  {
-    review: `As a fashion enthusiast, Outly has been my go-to for all my shopping needs. The website is incredibly easy to navigate, the prices are unbeatable, and I always find something new every time I visit.`,
-    person: "Ella Lee",
-    img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688422177/Outly/socialImages/pexels-arina-krasnikova-7752570_nbdalz.jpg",
+    cards: [
+      {
+        review: `"Outly revolutionizes online shopping. Sleek design, comprehensive products, and excellent customer service make it my preferred choice. Secure checkout and efficient shipping guarantee a hassle-free experience.`,
+        person: "Ella Lee",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688422177/Outly/socialImages/pexels-arina-krasnikova-7752570_nbdalz.jpg",
+      },
+      {
+        review: `Outly exceeds expectations in eCommerce. User-friendly interface, vast product selection, and attentive customer service make shopping a breeze. Secure checkout and swift shipping ensure a seamless experience.`,
+        person: "Stanley Uko",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416034/Outly/socialImages/pexels-cottonbro-studio-6626876_dkqck1.jpg",
+      },
+      {
+        review: `Outly is a game-changer in eCommerce. With a sleek interface and diverse products, it's a shopper's paradise. Quick customer support, secure checkout, and fast shipping make it my go-to online destination.`,
+        person: "May Adeola",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416038/Outly/socialImages/pexels-wayne-fotografias-13729705_wue2dq.jpg",
+      },
+    ],
   },
 ];
 
@@ -50,8 +58,9 @@ export function CustomerReviews() {
 
       <Box>
         <Swiper
-          slidesPerView={3}
+          slidesPerView={1}
           spaceBetween={30}
+          centeredSlides={true}
           pagination={{
             clickable: true,
           }}
@@ -60,33 +69,54 @@ export function CustomerReviews() {
             disableOnInteraction: false,
           }}
           modules={[Autoplay, Pagination]}
-          style={{ paddingBottom: "40px", paddingRight: "6px" }}
+          style={{ paddingBottom: "40px" }}
         >
           {reviews?.map((obj, index: number) => (
             <SwiperSlide key={index}>
-              <Box
-                width={"360px"}
-                p={"40px"}
-                border={"1px solid #ddd"}
-                borderRadius="lg"
-                // boxShadow={"md"}
+              <HStack
+                spacing={10}
+                justifyContent={"center"}
+                alignItems={"flex-start"}
               >
-                <Box mb={6}>
-                  <Rating value={5} />
-                </Box>
+                {obj.cards.map((card, i: number) => (
+                  <Box
+                    key={i}
+                    display={{
+                      base: i === 0 ? "block" : "none",
+                      md: i === 2 ? "none" : "block",
+                      xl: "block",
+                    }}
+                    maxWidth={"360px"}
+                    minWidth={"312px"}
+                    flex={1}
+                    p={"40px"}
+                    borderTop={"1px solid #eee"}
+                    borderRadius="lg"
+                    boxShadow={"md"}
+                  >
+                    <Box mb={6}>
+                      <Rating value={5} />
+                    </Box>
 
-                <Text mb={6} fontSize={"lg"} color={"outly.black400"}>
-                  {obj.review}
-                </Text>
+                    <Text
+                      mb={6}
+                      fontSize={"lg"}
+                      color={"outly.black400"}
+                      noOfLines={6}
+                    >
+                      {card.review}
+                    </Text>
 
-                <HStack>
-                  <Avatar src={obj.img} name={obj.person} />
+                    <HStack>
+                      <Avatar src={card.img} name={card.person} />
 
-                  <Text fontSize={"sm"} fontWeight={500}>
-                    {obj.person}
-                  </Text>
-                </HStack>
-              </Box>
+                      <Text fontSize={"sm"} fontWeight={500}>
+                        {card.person}
+                      </Text>
+                    </HStack>
+                  </Box>
+                ))}
+              </HStack>
             </SwiperSlide>
           ))}
         </Swiper>
