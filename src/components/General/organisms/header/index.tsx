@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import { Box, IconButton } from "@chakra-ui/react";
+import { Box, IconButton, useDisclosure } from "@chakra-ui/react";
 import { Navbar } from "../navbar";
 import { Container, SlideUp } from "@/components/General/atoms";
 import { LocationNav } from "./locationNav";
-import { BsChevronUp } from "react-icons/bs";
 import { FaChevronUp } from "react-icons/fa";
+import { BottomNav } from "../navbar/bottomNav";
 
 export function Header({ inActive }: { inActive?: boolean }) {
   const [scrollDirection, setScrollDirectione] = useState("top");
   const [hide, setHide] = useState(false);
+  const searchDisclosure = useDisclosure();
 
   useEffect(() => {
     let lastVal = 0;
@@ -94,7 +95,7 @@ export function Header({ inActive }: { inActive?: boolean }) {
           transition="all 0.35s cubic-bezier(0.645,0.045,0.355,1) 0s"
         >
           <Container>
-            <Navbar />
+            <Navbar searchDisclosure={searchDisclosure} />
           </Container>
         </Box>
       </Box>
@@ -114,6 +115,11 @@ export function Header({ inActive }: { inActive?: boolean }) {
           </SlideUp>
         </Box>
       ) : null}
+
+      {/* Bottom navigation */}
+      <Box display={{ base: "block", md: "none" }}>
+        <BottomNav searchDisclosure={searchDisclosure} />
+      </Box>
     </>
   );
 }
