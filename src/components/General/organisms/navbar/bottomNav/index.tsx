@@ -46,7 +46,8 @@ export function BottomNav({
       bottom={0}
       right={0}
       left={0}
-      bg={"white"}
+      bg={"rgba(255,255,255,0.8)"}
+      backdropFilter={"blur(8px)"}
     >
       <SimpleGrid columns={4}>
         {tabs.map((op, index) => (
