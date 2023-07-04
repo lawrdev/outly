@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
-import { cartState } from "@/recoil/atoms";
 
 export function useLocalStorage<T>(
   storageKey: string,
   initialValue: T | (() => T)
 ) {
-  const [cartStateValue, setCartStateValue] = useRecoilState(cartState);
   const [storedValue, setStoredValue] = useState<T>(() => {
     const jsonValue = localStorage.getItem(storageKey);
 
