@@ -74,6 +74,7 @@ export function CustomerReviews() {
           {reviews?.map((obj, index: number) => (
             <SwiperSlide key={index}>
               <HStack
+                px={4}
                 spacing={10}
                 justifyContent={"center"}
                 alignItems={"flex-start"}

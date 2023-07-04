@@ -1,6 +1,11 @@
 import dayjs from "dayjs";
 import { CiFacebook, CiTwitter, CiInstagram, CiYoutube } from "react-icons/ci";
 
+export const BASE_URL =
+  typeof window !== "undefined"
+    ? window.location.origin
+    : "https://outly.vercal.app";
+
 export const TRANSITION_FAST = "all 0.25s cubic-bezier(0.645,0.045,0.355,1)";
 
 export const maxFreeShipping = 50000;
