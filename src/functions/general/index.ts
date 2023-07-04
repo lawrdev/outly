@@ -1,23 +1,28 @@
 import { ItemProp, UserLocationProp } from "@/utils";
 
-export const getUserLocationInfo = async () => {
+export const getUserLocationInfo = () => {
   let user: UserLocationProp = {
     state: "Lagos",
     country: "Nigeria",
     currency: "NGN",
     countryCode: "NG",
   };
-  await fetch("http://ip-api.com/json/")
+
+  fetch(
+    "https://api.geoapify.com/v1/ipinfo?apiKey=3af953e6b2c047bda897bb48d619897d"
+  )
     .then((response) => response.json())
     .then((data) => {
+      // You can now access the location data in the "data" object
+      // console.log("pppp", data);
       user = {
         ...user,
-        state: data.regionName,
-        country: data.country,
-        currency: data.currency,
-        countryCode: data.countryCode,
+        state: data.city.name,
+        currency: data.country.currency,
+        countryCode: data.country.iso_code,
       };
     });
+
   return user;
 };
 
