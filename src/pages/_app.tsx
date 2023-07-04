@@ -30,6 +30,7 @@ import NextNprogress from "nextjs-progressbar";
 // import { Loader } from "@/components/General/atoms";
 import { CustomToastComponent } from "@/components/General/molecules";
 import { ProgressLoader } from "@/components/General/atoms";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [ready, setReady] = useState(false);
@@ -105,6 +106,10 @@ export default function App({ Component, pageProps }: AppProps) {
             motionVariants: motionVariants,
           }}
         >
+          <Head>
+            <link rel="icon" href="/favicon-32.png" />
+          </Head>
+
           <NextNprogress color="#C8815F" height={2.5} />
           <Component {...pageProps} />
           {ready ? <ProgressLoader /> : null}
