@@ -50,6 +50,30 @@ export function Appear({
     </animated.div>
   );
 }
+export function SlideUp({
+  children,
+  fullWidth,
+}: {
+  children: React.ReactNode;
+  fullWidth?: boolean;
+}) {
+  const springStyles = useSpring({
+    from: { opacity: 0, y: 90 },
+    to: { opacity: 1, y: 0 },
+
+    delay: 0,
+
+    config: config.wobbly,
+  });
+
+  return (
+    <animated.div
+      style={{ minWidth: fullWidth ? "100%" : "fit-content", ...springStyles }}
+    >
+      {children}
+    </animated.div>
+  );
+}
 
 // framer-motion
 
