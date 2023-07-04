@@ -5,11 +5,7 @@ import {
   PersonIcon,
   SearchIcon,
 } from "@/components/General/atoms";
-import {
-  CustomDrawer,
-  CustomNavMenu,
-  Logo,
-} from "@/components/General/molecules";
+import { CustomNavMenu, Logo } from "@/components/General/molecules";
 import {
   Box,
   chakra,
@@ -19,7 +15,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { HiMenuAlt2, HiOutlineMenuAlt2 } from "react-icons/hi";
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { CartDrawer } from "../cart";
 import { SearchDrawer } from "../search";
 import { FeaturesDropdown } from "./categories/FeaturesDropdown";
@@ -39,9 +35,20 @@ const navs = [
   { title: "Features", comp: <FeaturesDropdown />, path: "/" },
 ];
 
-export function Navbar() {
+export function Navbar({
+  searchDisclosure,
+}: {
+  searchDisclosure: {
+    isOpen: boolean;
+    onOpen: () => void;
+    onClose: () => void;
+    onToggle: () => void;
+    isControlled: boolean;
+    getButtonProps: (props?: any) => any;
+    getDisclosureProps: (props?: any) => any;
+  };
+}) {
   const cartDisclosure = useDisclosure();
-  const searchDisclosure = useDisclosure();
   const menuDisclosure = useDisclosure();
 
   return (
@@ -95,7 +102,9 @@ export function Navbar() {
         </HStack>
 
         <Box display={{ base: "block", xl: "none" }} flex={1} pl={"4px"}>
-          <Logo />
+          <Box w={"fit-content"} mx={"auto"}>
+            <Logo />
+          </Box>
         </Box>
 
         <HStack spacing={5} alignItems={"center"}>

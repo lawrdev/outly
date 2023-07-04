@@ -32,7 +32,7 @@ export function LocationNav() {
       <Box display={{ base: "none", md: "inline-block" }}>
         <Text fontSize="xs">
           <Link href="/">Order Tracking</Link> | Shipping to{" "}
-          <Text as="span" color="brand.500" fontSize="xs" cursor="pointer">
+          <Text as="span" color="outly.main900" fontSize="xs" cursor="pointer">
             {userCountry}
           </Text>
         </Text>

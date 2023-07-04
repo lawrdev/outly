@@ -25,6 +25,15 @@ export const getStaticProps: GetStaticProps<{
   const items = await getAllItems();
   const socialImages = await getSocialImgs();
 
+  let newCat = [...categories].map((x) => {
+    return {
+      ...x,
+      timestamp: x.timestamp
+        ? x.timestamp?.toDate().toDateString()
+        : new Date().toDateString(),
+    };
+  });
+
   if (!heroImgs || !categories || !items) return { notFound: true };
 
   let newItems = [...items].map((item) => ({
@@ -33,7 +42,7 @@ export const getStaticProps: GetStaticProps<{
   }));
 
   return {
-    props: { heroImgs, categories, items: newItems, socialImages },
+    props: { heroImgs, categories: newCat, items: newItems, socialImages },
   };
 };
 

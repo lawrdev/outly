@@ -52,9 +52,7 @@ export function HomeTemplate({
         </section>
 
         <section style={{ marginBlockEnd: "100px" }}>
-          <Container>
-            <SaleEvent />
-          </Container>
+          <SaleEvent />
         </section>
 
         <section style={{ marginBlockEnd: "100px" }}>

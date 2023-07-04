@@ -12,8 +12,8 @@ export const SupportGrid = () => {
         <Box
           flexBasis={"70%"}
           pl={"42px"}
-          borderInlineStart={"1px solid"}
-          borderColor={"#ddd"}
+          // borderInlineStart={"1px solid"}
+          // borderColor={"#ddd"}
         >
           <SupportForm />
         </Box>

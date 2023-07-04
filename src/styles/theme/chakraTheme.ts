@@ -33,10 +33,6 @@ export const chakraTheme = extendTheme(
       heading: `"Jost", 'Open Sans', sans-serif`,
       body: `"Jost", 'Raleway', sans-serif`,
     },
-
-    transition: {
-      fast: "all 0.25s cubic-bezier(0.645,0.045,0.355,1)",
-    },
     colors: {
       main: {
         50: "#FFDBEA",
@@ -81,11 +77,12 @@ export const chakraTheme = extendTheme(
         black100: "#999",
         black400: "#515151",
         black500: "#555",
-        main: "#F6E6CF", // light brown
+        main: "#F6E6CF", // light brown, 50: #f8f4f1
         main100: "#FAF0E8",
         main500: "#C8815F50",
         main900: "#C8815F",
         sec: "#c8815f",
+        sec100: "#F6E5CD",
         bg: "#F6F6F6",
         bg100: "#c7c7c780",
         red: "#ed0006",

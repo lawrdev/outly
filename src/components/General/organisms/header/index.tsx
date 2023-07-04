@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, IconButton, useDisclosure } from "@chakra-ui/react";
 import { Navbar } from "../navbar";
-import { Container } from "@/components/General/atoms";
+import { Container, SlideUp } from "@/components/General/atoms";
 import { LocationNav } from "./locationNav";
+import { FaChevronUp } from "react-icons/fa";
+import { BottomNav } from "../navbar/bottomNav";
 
 export function Header({ inActive }: { inActive?: boolean }) {
   const [scrollDirection, setScrollDirectione] = useState("top");
   const [hide, setHide] = useState(false);
+  const searchDisclosure = useDisclosure();
 
   useEffect(() => {
     let lastVal = 0;
@@ -32,68 +35,91 @@ export function Header({ inActive }: { inActive?: boolean }) {
   }, []);
 
   return (
-    <Box position={"relative"}>
-      <Box bg="outly.black" color={"gray.200"}>
-        <Container>
-          <LocationNav />
-        </Container>
+    <>
+      <Box position={"relative"}>
+        <Box bg="outly.black" color={"gray.200"}>
+          <Container>
+            <LocationNav />
+          </Container>
+        </Box>
+
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          height={"76px"}
+          // minHeight={"100px"}
+          width={"100%"}
+          opacity={inActive ? 1 : hide ? 0 : 1}
+          position={
+            inActive
+              ? "relative"
+              : scrollDirection === "top"
+              ? "absolute"
+              : "fixed"
+          }
+          zIndex={501}
+          bg={
+            inActive
+              ? "none"
+              : scrollDirection === "top"
+              ? "none"
+              : scrollDirection === "down"
+              ? "white"
+              : scrollDirection === "up"
+              ? "white"
+              : "outly.main"
+          }
+          top={
+            inActive
+              ? 0
+              : scrollDirection === "top"
+              ? "34px"
+              : scrollDirection === "down"
+              ? "-76px"
+              : scrollDirection === "up"
+              ? "0px"
+              : 0
+          }
+          userSelect="none"
+          boxShadow={
+            inActive
+              ? "none"
+              : scrollDirection === "top"
+              ? "none"
+              : scrollDirection === "down"
+              ? "0px 0px 5px #0D253F50"
+              : scrollDirection === "up"
+              ? "0px 0px 5px #0D253F50"
+              : "none"
+          }
+          transition="all 0.35s cubic-bezier(0.645,0.045,0.355,1) 0s"
+        >
+          <Container>
+            <Navbar searchDisclosure={searchDisclosure} />
+          </Container>
+        </Box>
       </Box>
 
-      <Box
-        display={"flex"}
-        alignItems={"center"}
-        height={"76px"}
-        // minHeight={"100px"}
-        width={"100%"}
-        opacity={inActive ? 1 : hide ? 0 : 1}
-        position={
-          inActive
-            ? "relative"
-            : scrollDirection === "top"
-            ? "absolute"
-            : "fixed"
-        }
-        zIndex={105}
-        bg={
-          inActive
-            ? "none"
-            : scrollDirection === "top"
-            ? "none"
-            : scrollDirection === "down"
-            ? "white"
-            : scrollDirection === "up"
-            ? "white"
-            : "outly.main"
-        }
-        top={
-          inActive
-            ? 0
-            : scrollDirection === "top"
-            ? "34px"
-            : scrollDirection === "down"
-            ? "-76px"
-            : scrollDirection === "up"
-            ? "0px"
-            : 0
-        }
-        userSelect="none"
-        boxShadow={
-          inActive
-            ? "none"
-            : scrollDirection === "top"
-            ? "none"
-            : scrollDirection === "down"
-            ? "0px 0px 5px #0D253F50"
-            : scrollDirection === "up"
-            ? "0px 0px 5px #0D253F50"
-            : "none"
-        }
-        transition="all 0.35s cubic-bezier(0.645,0.045,0.355,1) 0s"
-      >
-        <Container>
-          <Navbar />
-        </Container>
+      {inActive && scrollDirection === "up" ? (
+        <Box position={"fixed"} bottom={"60px"} right={"20px"} zIndex={502}>
+          <SlideUp>
+            <IconButton
+              colorScheme={"appMain"}
+              borderRadius={"full"}
+              size={"lg"}
+              icon={<FaChevronUp fontSize={"20px"} />}
+              aria-label={"scroll to the top"}
+              boxShadow={"xl"}
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            />
+          </SlideUp>
+        </Box>
+      ) : null}
+
+      {/* Bottom navigation */}
+      <Box display={{ base: "block", md: "none" }}>
+        <BottomNav searchDisclosure={searchDisclosure} />
       </Box>
-    </Box>
+    </>
   );
 }

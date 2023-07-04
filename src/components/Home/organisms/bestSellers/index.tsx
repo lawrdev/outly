@@ -9,6 +9,7 @@ import {
   HStack,
   SimpleGrid,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import "swiper/css";
 import { ItemProp } from "@/utils";
@@ -37,9 +38,9 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
         }
       }
 
-      setMensItems(mens.slice(0, 4));
-      setWomensItems(womens.slice(0, 4));
-      setKidsItems(kids.slice(0, 4));
+      setMensItems(mens.slice(0, 8));
+      setWomensItems(womens.slice(0, 8));
+      setKidsItems(kids.slice(0, 8));
     }
   }, [items]);
 
@@ -52,7 +53,7 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
       </HStack>
 
       <Box>
-        <Tabs variant={""} align={"center"} size={"lg"}>
+        <Tabs variant={""} defaultIndex={0} align={"center"} size={"lg"}>
           <TabList mb={4}>
             <Tab
               _selected={{
@@ -143,16 +144,16 @@ export function BestSellers({ items }: { items: Array<ItemProp> }) {
 
 const ViewMoreLink = ({ category }: { category: string }) => {
   return (
-    <HStack mt={6} w={"full"} justifyContent={"center"}>
-      <Text
-        textDecoration={"underline"}
-        textUnderlineOffset={"3px"}
-        fontWeight={500}
-        textAlign={"center"}
-        _hover={{ color: "outly.main900" }}
-      >
-        <Link href={`/category/${category}`}> View more </Link>
-      </Text>
-    </HStack>
+    <Button
+      mt={8}
+      px={8}
+      as={Link}
+      href={`/category/${category}`}
+      variant={"outline"}
+      fontWeight={500}
+      borderRadius={"sm"}
+    >
+      View more
+    </Button>
   );
 };

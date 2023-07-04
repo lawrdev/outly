@@ -28,11 +28,11 @@ export function CartBadge() {
   return (
     <Box bg="outly.black" borderRadius="50%" px={2} py={1}>
       <Text
-        fontSize="sm"
-        fontWeight="semibold"
+        fontSize={"xs"}
+        fontWeight={500}
         color="white"
-        lineHeight="4"
-        minWidth={"18px"}
+        lineHeight={1}
+        minWidth={"16px"}
         textAlign={"center"}
       >
         {count}
