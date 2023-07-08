@@ -31,7 +31,7 @@ export function SaleEvent() {
             >
               <Image
                 src={
-                  "https://firebasestorage.googleapis.com/v0/b/outly-ecommerce.appspot.com/o/others%2Faa.png?alt=media&token=7c8ca8e4-3d02-46d5-b6a6-267ed753eebb"
+                  "https://res.cloudinary.com/dqveipmsp/image/upload/v1688827188/Outly/socialImages/aa_yitz9d.png"
                 }
                 width={512}
                 height={550}

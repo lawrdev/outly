@@ -79,7 +79,7 @@ export function CategoryHero({
           <Image
             src={
               heroImage ||
-              "https://firebasestorage.googleapis.com/v0/b/outly-ecommerce.appspot.com/o/categories%2FcategoryHero.jpg?alt=media&token=819664e6-0c47-4882-928f-1576dd806157"
+              "https://res.cloudinary.com/dqveipmsp/image/upload/v1688824160/Outly/heros/categoryHero_ayhwso.jpg"
             }
             alt="category"
             sizes="(max-width: 1200px) 100vw,

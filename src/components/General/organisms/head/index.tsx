@@ -11,7 +11,7 @@ export function HeadComponent({ pageTitle = "Outly Store" }: HeadProps) {
     <NextSeo
       title={pageTitle}
       description="Outly online store for daily shopping deals and fast shipping"
-      canonical="https://www.canonical.ie/"
+      canonical={BASE_URL}
       openGraph={{
         url: BASE_URL,
         title: "Outly Store",
