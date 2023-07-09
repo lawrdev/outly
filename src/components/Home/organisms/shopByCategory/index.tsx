@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Box, Heading, HStack, IconButton } from "@chakra-ui/react";
+import { Box, Heading, HStack, IconButton, Skeleton } from "@chakra-ui/react";
 import { GrFormPrevious, GrFormNext } from "react-icons/gr";
 import {
   Swiper as SwiperType,
@@ -101,19 +101,30 @@ export function ShopByCategory({ categoryItems }: Props) {
                     transition={"all 0.6s ease 0s"}
                     // transition={"all 0.8s cubic-bezier(0.645,0.045,0.355,1) 0s"}
                   >
-                    <Image
-                      src={item.images[0]}
-                      alt="outly"
-                      sizes="(max-width: 1200px) 100vw,
+                    {item.images[0] ? (
+                      <Image
+                        src={item.images[0]}
+                        alt="outly"
+                        sizes="(max-width: 1200px) 100vw,
             100vw"
-                      priority
-                      fill
-                      style={{
-                        objectFit: "cover",
-                        objectPosition: "top left",
-                      }}
-                      quality={100}
-                    />
+                        priority
+                        fill
+                        style={{
+                          objectFit: "cover",
+                          objectPosition: "top left",
+                        }}
+                        quality={100}
+                      />
+                    ) : (
+                      <Skeleton
+                        position={"absolute"}
+                        height={"420px"}
+                        top={0}
+                        bottom={0}
+                        left={0}
+                        right={0}
+                      />
+                    )}
                   </Box>
 
                   <Box
@@ -127,7 +138,7 @@ export function ShopByCategory({ categoryItems }: Props) {
                     alignItems={"center"}
                   >
                     <Heading
-                      as={"h5"}
+                      as={"h3"}
                       width={"150px"}
                       size={"md"}
                       bg={"gray.50"}
