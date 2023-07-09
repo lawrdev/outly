@@ -32,6 +32,7 @@ body {
   margin: 0;
   line-height: 1.6;
   font-size: 16px !important;
+  position: relative;
   /* max-width: 100vw;
   overflow-x: hidden; */
 }
