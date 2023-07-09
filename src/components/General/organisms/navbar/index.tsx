@@ -121,7 +121,9 @@ export function Navbar({
             {PersonIcon}
           </Box>
           <Box display={{ base: "none", md: "block" }}>
-            <Link href={"/wishlist"}>{LoveIcon}</Link>
+            <Link href={"/wishlist"} title={"Whislist"}>
+              {LoveIcon}
+            </Link>
           </Box>
 
           <Box
