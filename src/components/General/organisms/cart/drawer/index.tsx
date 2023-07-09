@@ -213,6 +213,7 @@ export function CartDrawer({ cartDrawerDisclosure }: Props) {
 
               <Box width={"100%"}>
                 <Progress
+                  aria-label="free shipping counter"
                   max={maxFreeShipping}
                   value={subTotal}
                   colorScheme={subTotal > maxFreeShipping ? "green" : "appMain"}

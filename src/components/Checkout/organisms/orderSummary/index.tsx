@@ -313,7 +313,7 @@ const SummaryHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Heading
       mb={4}
-      as={"h5"}
+      as={"h3"}
       fontSize={"sm"}
       fontWeight={500}
       color={"outly.black100"}

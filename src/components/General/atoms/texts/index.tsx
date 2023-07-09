@@ -99,7 +99,7 @@ export function AppHeader4({
 }) {
   return (
     <Heading
-      as={"h5"}
+      as={"h4"}
       fontSize={"md"}
       fontWeight={500}
       textAlign={isCentered ? "center" : "start"}

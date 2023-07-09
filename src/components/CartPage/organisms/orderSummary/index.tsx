@@ -55,7 +55,7 @@ export function OrderSummary({
         <Box>
           <Heading
             mb={3}
-            as={"h5"}
+            as={"h3"}
             size={"sm"}
             fontWeight={400}
             letterSpacing={"widest"}

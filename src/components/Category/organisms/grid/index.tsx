@@ -546,7 +546,7 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
 
   const filterBar = (
     <aside>
-      <Heading as={"h5"} fontWeight={500} fontSize={"22px"} mb={"18px"}>
+      <Heading as={"h2"} fontWeight={500} fontSize={"22px"} mb={"18px"}>
         Filter
       </Heading>
 
@@ -578,7 +578,7 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
                 <HStack>
                   <GiSettingsKnobs fontSize={"26px"} />
                   <Heading
-                    as={"h5"}
+                    as={"h2"}
                     fontWeight={500}
                     fontSize={"20px"}
                     mb={"18px"}

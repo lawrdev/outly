@@ -19,6 +19,7 @@ export const ProgressLoader = () => {
     >
       {/* @ts-ignore */}
       <CircularProgress
+        aria-label="progress"
         isIndeterminate
         size={"20px"}
         color="outly.black500"

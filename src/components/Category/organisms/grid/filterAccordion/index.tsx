@@ -28,7 +28,7 @@ export function FilterAccordion({
       <Accordion defaultIndex={[0, 1, 2, 3, 4]} allowMultiple>
         {shopFilter.map((item, index) => (
           <AccordionItem key={index}>
-            <Heading as={"h5"}>
+            <Heading as={"h3"}>
               <AccordionButton
                 fontWeight={500}
                 fontSize={"18px"}

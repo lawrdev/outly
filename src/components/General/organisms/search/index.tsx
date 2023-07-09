@@ -190,6 +190,7 @@ export const SearchDrawer = ({ searchDrawerDisclosure }: Props) => {
                 <HStack mb={"52px"} w={"100%"} justifyContent={"center"}>
                   <CircularProgress
                     isIndeterminate
+                    aria-label="progress"
                     color="outly.black"
                     trackColor="outly.bg"
                     size={"80px"}
