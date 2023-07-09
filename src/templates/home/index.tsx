@@ -34,9 +34,7 @@ export function HomeTemplate({
         <Header />
       </header>
 
-      <Box>
-        <Hero heroImages={heroImages} />
-      </Box>
+      <Hero heroImages={heroImages} />
 
       <main>
         <section style={{ marginBlockEnd: "100px" }}>
