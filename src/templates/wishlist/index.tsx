@@ -10,14 +10,7 @@ import {
   WishListComponentListsSkeleton,
   WishlistLink,
 } from "@/components/Wishlist";
-import {
-  Box,
-  Button,
-  SlideFade,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { getMultipleItems } from "@/functions/firebase/item";
 import { DATE_NOW, ItemProp, LocalStorageWishlistProp } from "@/utils";
@@ -44,7 +37,7 @@ export function WishlistTemplate() {
   const [wishlistAtomValue, setWishlistAtomValue] =
     useRecoilState(wishlistAtom);
 
-  useQuery(
+  const { isLoading } = useQuery(
     ["get_wishlist_items"],
     () => {
       return getMultipleItems(getWishlist().map((x) => x.id));
@@ -63,7 +56,6 @@ export function WishlistTemplate() {
         } else {
           setData([]);
         }
-        setDataReady(false);
       },
     }
   );
@@ -95,7 +87,7 @@ export function WishlistTemplate() {
         <main>
           <Container>
             <AnimatePresence>
-              {dataReady && !data ? (
+              {dataReady && isLoading ? (
                 // LOADING
                 <ListAnimate>
                   <Box my={"2rem"} width={"full"}>
@@ -111,7 +103,7 @@ export function WishlistTemplate() {
                 </Box>
               ) : null}
 
-              {!dataReady && data && data.length === 0 ? (
+              {!dataReady || (data && data.length === 0) ? (
                 // EMPTY WISHLIST
                 <ListAnimate>
                   <VStack pt={"5rem"} spacing={"16px"} w={"full"} mb={"99px"}>
