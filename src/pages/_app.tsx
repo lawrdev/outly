@@ -28,7 +28,10 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import NextNprogress from "nextjs-progressbar";
 // import { Loader } from "@/components/General/atoms";
-import { CustomToastComponent } from "@/components/General/molecules";
+import {
+  CustomToastComponent,
+  MainLoader,
+} from "@/components/General/molecules";
 import { ProgressLoader } from "@/components/General/atoms";
 import Head from "next/head";
 
@@ -36,6 +39,9 @@ export default function App({ Component, pageProps }: AppProps) {
   const [ready, setReady] = useState(false);
   const router = useRouter();
   const toast = useToast();
+
+  const isHome = router.pathname === "/";
+  const [isLoading, setIsLoading] = useState(isHome);
 
   if (typeof window !== "undefined") {
     AOS.init({
@@ -109,6 +115,10 @@ export default function App({ Component, pageProps }: AppProps) {
           <Head>
             <link rel="icon" href="/favicon-32.png" />
           </Head>
+
+          {isLoading && isHome ? (
+            <MainLoader cancelLoading={() => setIsLoading(false)} />
+          ) : null}
 
           <NextNprogress color="#C8815F" height={2.5} />
           <Component {...pageProps} />
