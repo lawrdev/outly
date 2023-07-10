@@ -20,7 +20,6 @@ interface Props {
 }
 export function ShopByCategory({ categoryItems }: Props) {
   const swiperRef = useRef<SwiperType>();
-  const router = useRouter();
 
   return (
     <Box>
@@ -113,7 +112,7 @@ export function ShopByCategory({ categoryItems }: Props) {
                           objectFit: "cover",
                           objectPosition: "top left",
                         }}
-                        quality={100}
+                        quality={70}
                       />
                     ) : (
                       <Skeleton
@@ -132,7 +131,7 @@ export function ShopByCategory({ categoryItems }: Props) {
                     bottom={0}
                     left={"50%"}
                     transform={"translateX(-50%)"}
-                    my={10}
+                    mb={7}
                     display={"flex"}
                     justifyContent={"center"}
                     alignItems={"center"}
@@ -142,7 +141,7 @@ export function ShopByCategory({ categoryItems }: Props) {
                       width={"150px"}
                       size={"md"}
                       bg={"gray.50"}
-                      py={3}
+                      py={2.5}
                       cursor={"pointer"}
                       borderRadius={"md"}
                       fontWeight={"medium"}
