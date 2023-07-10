@@ -57,7 +57,7 @@ export function FollowUs({ socialImages }: Props) {
                   style={{
                     minWidth: "100%",
                     objectFit: "cover",
-                    objectPosition: "center",
+                    objectPosition: "top center",
                   }}
                   quality={100}
                   priority
