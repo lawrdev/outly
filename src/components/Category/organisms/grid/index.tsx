@@ -88,32 +88,36 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
   const resetShopFilter = useResetRecoilState(shopFiltersAtom);
 
   const handleSelectedFilterChange = (xFilter: FilterValueProp) => {
+    // console.log("x fil issssss", xFilter, currFilter);
     let op: CurrFilterProp[] = [];
 
     if (xFilter.brand.length > 0) {
       xFilter.brand.forEach((x) => {
         op.push({ category: "Brand", value: x });
       });
-    } else if (xFilter.categories.length > 0) {
+    }
+    if (xFilter.categories.length > 0) {
       xFilter.categories.forEach((x) => {
         op.push({ category: "Category", value: x });
       });
-    } else if (xFilter.color.length > 0) {
+    }
+    if (xFilter.color.length > 0) {
       xFilter.color.forEach((x) => {
         op.push({ category: "Color", value: x });
       });
-    } else if (xFilter.price.length > 0) {
+    }
+    if (xFilter.price.length > 0) {
       xFilter.price.forEach((x) => {
         op.push({ category: "Price", value: x });
       });
-    } else if (xFilter.size.length > 0) {
+    }
+    if (xFilter.size.length > 0) {
       xFilter.size.forEach((x) => {
         op.push({ category: "Size", value: x });
       });
     }
 
     setCurrFilter(op);
-    // console.log("fireeeddddd", op, op.length);
     if (op.length > 0) {
       setHasFilter(true);
     } else {
@@ -330,9 +334,9 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
     timerRef.current = setTimeout(() => {
       setLoading(false);
       setItemsCountMsg(
-        newItems.length > 0
+        newItems.length > 1
           ? `Showing all ${newItems.length} results`
-          : "Showing the single"
+          : `Showing ${newItems.length} result`
       );
       // console.log("fireddd");
     }, 1000);
@@ -569,23 +573,17 @@ export function CategoryGrid({ isShop }: { isShop?: boolean }) {
           <GridItem colSpan={{ base: 12, lg: 9 }} pl={{ base: 0, lg: "52px" }}>
             <HStack justifyContent={"space-between"} spacing={"0px"}>
               <Button
-                display={{ base: "block", lg: "none" }}
+                leftIcon={<GiSettingsKnobs fontSize={"26px"} />}
+                display={{ base: "flex", lg: "none" }}
+                alignItems={"center"}
                 variant={"unstyled"}
                 onClick={() => {
                   filterDrawerDisclosure.onOpen();
                 }}
               >
-                <HStack>
-                  <GiSettingsKnobs fontSize={"26px"} />
-                  <Heading
-                    as={"h2"}
-                    fontWeight={500}
-                    fontSize={"20px"}
-                    mb={"18px"}
-                  >
-                    Filter
-                  </Heading>
-                </HStack>
+                <Heading as={"h3"} fontWeight={500} fontSize={"20px"}>
+                  Filter
+                </Heading>
               </Button>
 
               <Text
