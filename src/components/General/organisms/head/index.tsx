@@ -1,6 +1,5 @@
 import { BASE_URL } from "@/utils";
 import { NextSeo } from "next-seo";
-import Head from "next/head";
 
 interface HeadProps {
   pageTitle: string;
@@ -19,21 +18,21 @@ export function HeadComponent({ pageTitle = "Outly Store" }: HeadProps) {
           "Outly online store for daily shopping deals and fast shipping",
         images: [
           {
-            url: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688485684/Outly/seo/outly800_600_wwkuly.png",
+            url: "https://res.cloudinary.com/dqveipmsp/image/upload/v1689002419/Outly/seo/800_600_podvre.jpg",
             width: 800,
             height: 600,
             alt: "Outly Store",
             type: "image/png",
           },
           {
-            url: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688485686/Outly/seo/outly900_800_ajjp2o.png",
+            url: "https://res.cloudinary.com/dqveipmsp/image/upload/v1689002419/Outly/seo/800_900_po5mbg.jpg",
             width: 900,
             height: 800,
             alt: "Outly Store",
             type: "image/png",
           },
           {
-            url: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688485687/Outly/seo/outly_uyknk2.png",
+            url: "https://res.cloudinary.com/dqveipmsp/image/upload/v1689002419/Outly/seo/800_900_po5mbg.jpg",
           },
         ],
         siteName: "Outly",

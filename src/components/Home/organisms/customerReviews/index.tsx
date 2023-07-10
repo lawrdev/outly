@@ -12,17 +12,17 @@ const reviews = [
       {
         review: `Outly is a game-changer in eCommerce. With a sleek interface and diverse products, it's a shopper's paradise. Quick customer support, secure checkout, and fast shipping make it my go-to online destination.`,
         person: "May Adeola",
-        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416038/Outly/socialImages/pexels-wayne-fotografias-13729705_wue2dq.jpg",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688988186/Outly/socialImages/imageedit_22_6625632709_mp4rw3.webp",
       },
       {
         review: `Outly exceeds expectations in eCommerce. User-friendly interface, vast product selection, and attentive customer service make shopping a breeze. Secure checkout and swift shipping ensure a seamless experience.`,
         person: "Stanley Uko",
-        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416034/Outly/socialImages/pexels-cottonbro-studio-6626876_dkqck1.jpg",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688988185/Outly/socialImages/imageedit_1_4536595666_cltjlc.webp",
       },
       {
         review: `"Outly revolutionizes online shopping. Sleek design, comprehensive products, and excellent customer service make it my preferred choice. Secure checkout and efficient shipping guarantee a hassle-free experience.`,
         person: "Ella Lee",
-        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688422177/Outly/socialImages/pexels-arina-krasnikova-7752570_nbdalz.jpg",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688988185/Outly/socialImages/imageedit_18_6983074375_ralqal.webp",
       },
     ],
   },
@@ -31,17 +31,17 @@ const reviews = [
       {
         review: `"Outly revolutionizes online shopping. Sleek design, comprehensive products, and excellent customer service make it my preferred choice. Secure checkout and efficient shipping guarantee a hassle-free experience.`,
         person: "Ella Lee",
-        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688422177/Outly/socialImages/pexels-arina-krasnikova-7752570_nbdalz.jpg",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688988185/Outly/socialImages/imageedit_18_6983074375_ralqal.webp",
       },
       {
         review: `Outly exceeds expectations in eCommerce. User-friendly interface, vast product selection, and attentive customer service make shopping a breeze. Secure checkout and swift shipping ensure a seamless experience.`,
         person: "Stanley Uko",
-        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416034/Outly/socialImages/pexels-cottonbro-studio-6626876_dkqck1.jpg",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688988185/Outly/socialImages/imageedit_1_4536595666_cltjlc.webp",
       },
       {
         review: `Outly is a game-changer in eCommerce. With a sleek interface and diverse products, it's a shopper's paradise. Quick customer support, secure checkout, and fast shipping make it my go-to online destination.`,
         person: "May Adeola",
-        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688416038/Outly/socialImages/pexels-wayne-fotografias-13729705_wue2dq.jpg",
+        img: "https://res.cloudinary.com/dqveipmsp/image/upload/v1688988186/Outly/socialImages/imageedit_22_6625632709_mp4rw3.webp",
       },
     ],
   },
