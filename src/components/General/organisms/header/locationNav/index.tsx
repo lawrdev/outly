@@ -24,27 +24,25 @@ export function LocationNav() {
       justifyContent={{ base: "center", md: "space-between" }}
       py={2}
     >
-      <Text fontSize="xs">
+      <Text fontSize="xs" display={{ base: "none", md: "inline-block" }}>
         We now ship to 100 locations worldwide.{" "}
         <Link href="/" className="!underline">
           Details
         </Link>
       </Text>
 
-      <Box display={{ base: "none", md: "inline-block" }}>
-        <Text fontSize="xs">
-          <Link href="/">Order Tracking</Link> | Shipping to{" "}
-          <Text
-            as="span"
-            fontWeight={500}
-            color="outly.main900"
-            fontSize="xs"
-            cursor="pointer"
-          >
-            {userCity}
-          </Text>
+      <Text fontSize="xs">
+        <Link href="/">Order Tracking</Link> | Shipping to{" "}
+        <Text
+          as="span"
+          fontWeight={500}
+          color="outly.main900"
+          fontSize="xs"
+          cursor="pointer"
+        >
+          {userCity}
         </Text>
-      </Box>
+      </Text>
     </Box>
   );
 }
