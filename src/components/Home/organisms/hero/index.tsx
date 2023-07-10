@@ -8,6 +8,7 @@ import { HeroImagesProp } from "@/utils";
 import { Container } from "@/components/General/atoms";
 import { useTrail, animated, config } from "@react-spring/web";
 import { useState, useRef } from "react";
+import { useRouter } from "next/router";
 
 interface Props {
   heroImages: HeroImagesProp[];
@@ -16,6 +17,8 @@ interface Props {
 export function Hero({ heroImages }: Props) {
   const [curr, setCurr] = useState(false);
   const swiperRef = useRef<SwiperType>();
+  const router = useRouter();
+
   const [trails, api] = useTrail(
     4,
     () => ({
@@ -120,7 +123,12 @@ export function Hero({ heroImages }: Props) {
                         </animated.div>
 
                         <animated.div style={trails[3]}>
-                          <Button size={"lg"}>View Collection</Button>
+                          <Button
+                            size={"lg"}
+                            onClick={() => router.push(`/shop`)}
+                          >
+                            View Collection
+                          </Button>
                         </animated.div>
                       </Box>
                     </Container>
