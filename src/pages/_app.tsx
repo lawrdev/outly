@@ -40,8 +40,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const toast = useToast();
 
-  const isHome = router.pathname === "/";
-  const [isLoading, setIsLoading] = useState(isHome);
+  // const isHome = router.pathname === "/";
+  // const [isLoading, setIsLoading] = useState(isHome);
 
   if (typeof window !== "undefined") {
     AOS.init({
@@ -116,9 +116,9 @@ export default function App({ Component, pageProps }: AppProps) {
             <link rel="icon" href="/favicon-32.png" />
           </Head>
 
-          {isLoading && isHome ? (
+          {/* {isLoading && isHome ? (
             <MainLoader cancelLoading={() => setIsLoading(false)} />
-          ) : null}
+          ) : null} */}
 
           <NextNprogress color="#C8815F" height={2.5} />
           <Component {...pageProps} />
