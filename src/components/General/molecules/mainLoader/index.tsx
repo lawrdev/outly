@@ -1,101 +1,100 @@
-import { Box } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { animated, useSpring, config } from "@react-spring/web";
 
 export function MainLoader({ cancelLoading }: { cancelLoading: () => void }) {
+  const boxStyles = useSpring({
+    from: {
+      height: "100vh",
+    },
+    to: {
+      height: "0vh",
+    },
+
+    delay: 3000,
+    config: config.slow,
+  });
+
+  const textContainer = useSpring({
+    from: {
+      opacity: 1,
+    },
+    to: {
+      opacity: 0,
+    },
+
+    delay: 2750,
+    config: {
+      duration: 250,
+    },
+  });
+
+  const text = useSpring({
+    from: {
+      y: 40,
+    },
+    to: {
+      y: 90,
+    },
+
+    config: {
+      duration: 1000,
+    },
+  });
+
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      document.body.classList.add("overflow-hidden");
+    }
     const timeout = setTimeout(() => {
-      cancelLoading();
-    }, 4000);
+      // cancelLoading();
+    }, 3000);
 
     return () => {
+      document.body.classList.remove("overflow-hidden");
       clearTimeout(timeout);
     };
   }, [cancelLoading]);
 
-  const blackBox = {
-    initial: {
-      height: "100vh",
-      bottom: 0,
-    },
-    animate: {
-      height: 0,
-      transition: {
-        when: "afterChildren",
-        duration: 1.5,
-        ease: [0.87, 0, 0.13, 1],
-      },
-    },
-  };
-  const textContainer = {
-    initial: {
-      opacity: 1,
-    },
-    animate: {
-      opacity: 0,
-      transition: {
-        duration: 0.25,
-        when: "afterChildren",
-      },
-    },
-  };
-  const text = {
-    initial: {
-      y: 40,
-    },
-    animate: {
-      y: 80,
-      transition: {
-        duration: 1.5,
-        ease: [0.87, 0, 0.13, 1],
-      },
-    },
-  };
-
   return (
-    <Box className="absolute inset-0 flex items-end justify-center">
-      <Box
-        as={motion.div}
-        zIndex={601}
-        // bg={"#C8815F"}
-        className="relative w-full bg-black flex flex-col items-center justify-center"
-        initial="initial"
-        animate="animate"
-        variants={blackBox}
-        onAnimationStart={() => document.body.classList.add("overflow-hidden")}
-        onAnimationComplete={() =>
-          document.body.classList.remove("overflow-hidden")
-        }
+    <VStack
+      w={"100%"}
+      maxHeight={"100vh"}
+      justifyContent={"flex-end"}
+      position={"fixed"}
+      zIndex={700}
+      inset={0}
+    >
+      {/*bg={"rgb(200, 129, 95)"} */}
+      <animated.div
+        style={boxStyles}
+        className="relative w-full bg-black flex items-center justify-center"
       >
-        <motion.svg
-          variants={textContainer}
-          className="absolute flex w-full items-center justify-center"
-          style={{ zIndex: 660 }}
-        >
+        <animated.svg style={textContainer} className="absolute z-50 flex">
           <pattern
             id="pattern"
             patternUnits="userSpaceOnUse"
-            width={250}
-            height={400}
-            className=" text-gray-200"
+            width={750}
+            height={800}
+            className="text-white"
           >
             <rect className="w-full h-full fill-current" />
-            <motion.rect
-              variants={text}
-              className="w-full h-full text-gray-700 fill-current"
+            <animated.rect
+              style={text}
+              className="w-full h-full text-gray-600 fill-current"
             />
           </pattern>
           <text
-            className="text-4xl font-bold tracking-wide"
-            textAnchor="middle"
+            className="text-4xl font-bold"
+            text-anchor="middle"
             x="50%"
             y="50%"
             style={{ fill: "url(#pattern)" }}
           >
-            outly
+            outlystore
           </text>
-        </motion.svg>
-      </Box>
-    </Box>
+        </animated.svg>
+      </animated.div>
+    </VStack>
   );
 }
