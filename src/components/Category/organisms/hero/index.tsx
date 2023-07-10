@@ -27,9 +27,6 @@ export function CategoryHero({
     { title: queryName as string, href: `/category/${queryName}` },
   ]);
 
-  const setAppLoader = useSetRecoilState(appLoader);
-  const toast = useToast();
-
   const { isLoading } = useQuery(
     ["get_category_hero"],
     () => {
@@ -40,7 +37,7 @@ export function CategoryHero({
         setHeroImage(data?.hero.image || "");
       },
       onError: (err) => {
-        console.log("errrrror is", err);
+        // console.log("errrrror is", err);
       },
     }
   );
@@ -79,7 +76,7 @@ export function CategoryHero({
           <Image
             src={
               heroImage ||
-              "https://res.cloudinary.com/dqveipmsp/image/upload/v1688824160/Outly/heros/categoryHero_ayhwso.jpg"
+              "https://res.cloudinary.com/dqveipmsp/image/upload/v1688987651/Outly/heros/categoryHero_k2zyph.webp"
             }
             alt="category"
             sizes="(max-width: 1200px) 100vw,
