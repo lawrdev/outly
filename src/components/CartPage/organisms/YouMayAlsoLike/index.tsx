@@ -32,7 +32,7 @@ export const CartPageYouMayAlsoLike = ({
             newItems = newItems.filter((item) => item._id !== idArray[i]);
           }
 
-          setDataToShow(newItems);
+          setDataToShow(newItems.slice(0, 4));
         } else {
           setDataToShow([]);
         }
