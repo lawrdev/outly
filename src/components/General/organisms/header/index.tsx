@@ -102,7 +102,7 @@ export function Header({ inActive }: { inActive?: boolean }) {
 
       {inActive && scrollDirection === "up" ? (
         <Box position={"fixed"} bottom={"60px"} right={"20px"} zIndex={502}>
-          <SlideUp>
+          <SlideUp fullWidth>
             <IconButton
               colorScheme={"appMain"}
               borderRadius={"full"}
