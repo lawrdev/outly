@@ -8,6 +8,7 @@ import {
   Heading,
   HStack,
   Input,
+  Stack,
   Text,
   Textarea,
 } from "@chakra-ui/react";
@@ -58,6 +59,7 @@ export const SupportForm = () => {
               <FormLabel color={"outly.black500"}>Name *</FormLabel>
               <Input
                 type="text"
+                size={"lg"}
                 focusBorderColor={"outly.main900"}
                 placeholder="Kakashi Hatake"
                 onChange={(e) => {}}
@@ -68,6 +70,7 @@ export const SupportForm = () => {
               <FormLabel>Email *</FormLabel>
               <Input
                 type="email"
+                size={"lg"}
                 focusBorderColor={"outly.main900"}
                 placeholder="name@example.com"
                 onChange={(e) => {}}
@@ -81,6 +84,7 @@ export const SupportForm = () => {
               <FormLabel color={"outly.black500"}>Phone Number </FormLabel>
               <Input
                 type={"tel"}
+                size={"lg"}
                 focusBorderColor={"outly.main900"}
                 placeholder="+234 905 XXX XXXX"
                 onChange={(e) => {}}
@@ -116,11 +120,17 @@ export const SupportForm = () => {
           </Box>
 
           {reason === "payment" ? (
-            <HStack mb={6} spacing={8} w={"full"}>
+            <Stack
+              mb={6}
+              flexDirection={{ base: "column", lg: "row" }}
+              gap={{ base: 3, lg: 5 }}
+              w={"full"}
+            >
               <Box flexBasis={"50%"}>
                 <FormControl>
                   <FormLabel color={"outly.black500"}>Order Ref/ID *</FormLabel>
                   <Input
+                    size={"lg"}
                     focusBorderColor={"outly.main900"}
                     placeholder="9I6Y7230531"
                     onChange={(e) => {}}
@@ -138,7 +148,7 @@ export const SupportForm = () => {
                   />
                 </FormControl>
               </Box>
-            </HStack>
+            </Stack>
           ) : null}
 
           <Box>
