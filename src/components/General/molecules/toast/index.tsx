@@ -28,6 +28,7 @@ export const CustomToastComponent = ({
 }) => {
   return (
     <Box
+      mx={"2vw"}
       mt={"5vh"}
       boxShadow={"md"}
       bg={status === "success" ? "#C1F8D1" : "white"}
